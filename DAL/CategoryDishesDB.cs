@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-  class CategoryDishesDB : ICategoryDishesDB
+  public class CategoryDishesDB : ICategoryDishesDB
   {
     private IConfiguration Configuration { get; }
 

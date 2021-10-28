@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-  interface IOrdersDB
+  public interface IOrdersDB
   {
     Orders AddOrder(Orders order);
     List<Orders> GetAllOrders();

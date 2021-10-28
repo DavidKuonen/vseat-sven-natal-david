@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-  class Order_DishesDB : IOrder_DishesDB
+  public class Order_DishesDB : IOrder_DishesDB
   {
     private IConfiguration Configuration { get; }
 
