@@ -1,12 +1,22 @@
-﻿using System;
+﻿using DAL;
+using DTO;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
     class CategoryRestaurantsManager
     {
+        private ICategoryRestaurantsDB CategoryRestaurantsDb { get; }
+
+        public CategoryRestaurantsManager(IConfiguration conf)
+        {
+            CategoryRestaurantsDb = new CategoryRestaurantsDB(conf);
+        }
+
+        public List<CategoryRestaurants> GetAllCateegoryRestautants()
+        {
+            return CategoryRestaurantsDb.GetAllCategoryRestaurants();
+        }
     }
 }

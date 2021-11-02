@@ -1,12 +1,22 @@
-﻿using System;
+﻿using DAL;
+using DTO;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
-    class DistrictsManager
+    public class DistrictsManager
     {
+        private IDistrictsDB DistrictsDb { get; }
+
+        public DistrictsManager (IConfiguration conf)
+        {
+            DistrictsDb = new DistrictsDB(conf);
+        }
+
+        public List <Districts> GetAllDistricts()
+        {
+            return DistrictsDb.GetAllDistricts();
+        }
     }
 }
