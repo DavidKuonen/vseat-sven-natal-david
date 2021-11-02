@@ -56,7 +56,7 @@ namespace BLL
 
     //SQL Befehle bis hier
 
-    public void TotalPrice(Orders order)
+    public void UpdateTotalPrice(Orders order)
     {
       int quant = 0;
       float preis = 0;
