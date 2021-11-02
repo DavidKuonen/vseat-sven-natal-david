@@ -45,22 +45,22 @@ namespace DAL
 
               order.idOrders = (int)dr["idOrder"];
 
-              if (dr["OrderTime"] != null)
+              if (dr["orderTime"] != null)
                 order.OrderTime = (DateTime)dr["orderTime"];
 
-              if (dr["DeliveryTime"] != null)
+              if (dr["deliveryTime"] != null)
                 order.DeliveryTime = (DateTime)dr["deliveryTime"];
 
-              if (dr["TotalPrice"] != DBNull.Value)
+              if (dr["totalPrice"] != DBNull.Value)
                 order.TotalPrice = (float)dr["totalPrice"];
 
-              if (dr["FK_Customers"] != DBNull.Value)
+              if (dr["idCustomer"] != DBNull.Value)
                 order.FK_Customers = (int)dr["idCustomer"];
 
-              if (dr["FK_OrderStatus"] != DBNull.Value)
+              if (dr["idOrderStatus"] != DBNull.Value)
                 order.FK_OrderStatus = (int)dr["idOrderStatus"];
 
-              if (dr["FK_Staff"] != DBNull.Value)
+              if (dr["idEmployee"] != DBNull.Value)
                 order.FK_Staff = (int)dr["idEmployee"];
 
               results.Add(order);
