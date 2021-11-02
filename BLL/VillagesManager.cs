@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    class VillagesManager
+    public class VillagesManager
     {
         private IVillagesDB VillagesDb { get; }
 

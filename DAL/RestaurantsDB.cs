@@ -273,5 +273,67 @@ namespace DAL
 
             return results;
         }
+
+        public Restaurants AddRestaurant(Restaurants restaurant)
+        {
+            int results = 0;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Restaurants(name, address, phoneNumber, idVillage, idDistrict, idCategoryRestaurant)" +
+                                   "values (@name, @address, @phoneNumber, @idVillage, @idDistrict, @idCategoryRestaurant) ";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                 
+                    cmd.Parameters.AddWithValue("@name", restaurant.name);
+                    cmd.Parameters.AddWithValue("@address", restaurant.address);
+                    cmd.Parameters.AddWithValue("@phoneNumber", restaurant.phoneNumber);
+                    cmd.Parameters.AddWithValue("@idVillage", restaurant.idVillage);
+                    cmd.Parameters.AddWithValue("@idDistrict", restaurant.idDistrict);
+                    cmd.Parameters.AddWithValue("@idCategoryRestaurant", restaurant.idCategoryRestaurant);
+                    cn.Open();
+
+                    results = cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return restaurant;
+        }
+
+        public int DeleteRestaurant(int id)
+        {
+            int result = 0;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE FROM Restaurants WHERE RestaurantID = @id";
+
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }

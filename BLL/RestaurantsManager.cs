@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    class RestaurantsManager
+    public class RestaurantsManager
     {
         private IRestaurantsDB RestaurantsDb { get; }
 
@@ -35,5 +35,17 @@ namespace BLL
         {
             return RestaurantsDb.GetRestaurantsByVillage(idVillage);
         }
+
+        public Restaurants AddRestaurant(Restaurants restaurant)
+        {
+            return RestaurantsDb.AddRestaurant(restaurant);
+        }
+        public int DeleteRestaurant(int id)
+        {
+            return RestaurantsDb.DeleteRestaurant(id);
+        }
+
+
+
     }
 }
