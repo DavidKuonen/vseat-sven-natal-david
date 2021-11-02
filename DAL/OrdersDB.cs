@@ -228,6 +228,37 @@ namespace DAL
       return result;
     }
 
+    public void UpdateOrderPrice(Orders order,float price)
+    {
+      int result = 0;
+
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "UPDATE Orders " +
+            "SET totalPrice = (totalPrice+@totalPrice)" +
+            "WHERE idOrder = @idOrder";
+          SqlCommand cmd = new SqlCommand(query, cn);
+
+          cmd.Parameters.AddWithValue("@totalPrice", price);
+          cmd.Parameters.AddWithValue("@idOrder", order.idOrders);
+
+
+          cn.Open();
+
+          result = cmd.ExecuteNonQuery();
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+    }
+
 
     public Orders AddOrder(Orders order)
     {

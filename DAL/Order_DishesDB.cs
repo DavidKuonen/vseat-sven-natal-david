@@ -67,6 +67,51 @@ namespace DAL
       return results;
     }
 
+    public List<Order_Dishes> GetOrderDishesByOrderId(int id)
+    {
+      List<Order_Dishes> results = null;
+      Order_Dishes result = null;
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Select * from Order_Dishes WHERE idOrder=@id";
+          SqlCommand cmd = new SqlCommand(query, cn);
+          cmd.Parameters.AddWithValue("@id", id);
+
+          cn.Open();
+
+          using (SqlDataReader dr = cmd.ExecuteReader())
+          {
+            if (dr.Read())
+            {
+
+              result = new Order_Dishes();
+
+              result.idOrder_Dishes = (int)dr["idOrder_Dish"];
+
+              result.Quantity = (int)dr["quantity"];
+
+              result.FK_Dishes = (int)dr["idDish"];
+
+              result.FK_Orders = (int)dr["idOrder"];
+
+              results.Add(result);
+            }
+          }
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+      return results;
+    }
+
     public Order_Dishes GetOrderDishesById(int id)
     {
       Order_Dishes result = null;

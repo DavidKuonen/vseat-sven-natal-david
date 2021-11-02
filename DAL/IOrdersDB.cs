@@ -10,5 +10,6 @@ namespace DAL
     Orders GetOrdersById(int id);
     Orders GetOrdersByStaffId(int id);
     Orders GetOrdersByCustomerId(int id);
+    void UpdateOrderPrice(Orders order, float price);
   }
 }
