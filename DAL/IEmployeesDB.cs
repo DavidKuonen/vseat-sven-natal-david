@@ -10,7 +10,7 @@ namespace DAL
         List<Employee> GetAllEmployees();
 
         Employee GetEmployeeByDistrict(int idDistrict);
-        
+
         Employee GetEmployee(string email, string password);
     }
 }

@@ -35,5 +35,10 @@ namespace BLL
             return EmployeesDB.GetEmployee(email, password);
         }
 
+        public Employee GetEmployeeByDistrictAndIsFree(int idDistrict)
+        {
+            return GetEmployeeByDistrictAndIsFree(idDistrict);
+        }
+
     }
 }

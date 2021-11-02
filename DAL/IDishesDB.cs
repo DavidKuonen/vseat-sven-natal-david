@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-  interface IDishesDB
+  public interface IDishesDB
   {
     List<Dishes> GetAllDishes();
     Dishes GetDishesByName(string name);

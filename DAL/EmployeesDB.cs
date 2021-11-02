@@ -124,6 +124,59 @@ namespace DAL
             return employee;
         }
 
+        public Employee GetEmployeeByDistrictAndIsFree(int idDistrict)
+        {
+            Employee employee = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT TOP 1 * FROM Employee WHERE idDistrict = @idDistrict AND openOrders < 5";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
+
+                    sqlConn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            employee = new Employee();
+
+                            employee.IdEmployee = (int)reader["idCustomer"];
+
+                            employee.Lastname = (string)reader["lastname"];
+
+                            employee.Firstname = (string)reader["firstname"];
+
+                            employee.Address = (string)reader["address"];
+
+                            if (reader["phoneNumber"] != null)
+                                employee.PhoneNumber = (string)reader["phoneNumber"];
+
+                            employee.Email = (string)reader["email"];
+
+                            employee.Password = (string)reader["password"];
+
+                            employee.IdVillage = (int)reader["idVillage"];
+
+                            employee.IdDistrict = (int)reader["idDistrict"];
+
+                            employee.IdUserRole = (int)reader["idUserRole"];
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return employee;
+        }
+
         public Employee GetEmployee(string email, string password)
         {
             Employee employee = null;

@@ -70,7 +70,7 @@ namespace DAL
             return allCustomers;
         }
 
-        public Customer GetCustomerByVillage(int idVillage)
+        public Customer GetCustomerByDistrict(int idDistrict)
         {
             Customer customer = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -79,9 +79,9 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Customer WHERE idVillage = @idVillage";
+                    string query = "SELECT * FROM Customer WHERE idDistrict = @idDistrict";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@idVillage", idVillage);
+                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
 
                     sqlConn.Open();
 
@@ -208,6 +208,8 @@ namespace DAL
 
             return customer;
         }
+
+
 
     }
 }
