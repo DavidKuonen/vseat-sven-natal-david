@@ -77,9 +77,9 @@ namespace DAL
       return results;
     }
 
-    public Orders GetOrdersByStaffId(int id)
+    public List<Orders> GetOrdersByStaffId(int id)
     {
-      Orders result = null;
+      List<Orders> results = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
       //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
@@ -98,7 +98,7 @@ namespace DAL
             if (dr.Read())
             {
 
-              result = new Orders();
+              Orders result = new Orders();
 
               result.idOrders = (int)dr["idOrder"];
 
@@ -114,6 +114,8 @@ namespace DAL
 
               result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
+              results.Add(result);
+
 
             }
           }
@@ -124,12 +126,12 @@ namespace DAL
         throw;
       }
 
-      return result;
+      return results;
     }
 
-    public Orders GetOrdersByCustomerId(int id)
+    public List<Orders> GetOrdersByCustomerId(int id)
     {
-      Orders result = null;
+      List<Orders> results = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
       //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
@@ -148,7 +150,7 @@ namespace DAL
             if (dr.Read())
             {
 
-              result = new Orders();
+              Orders result = new Orders();
 
               result.idOrders = (int)dr["idOrder"];
 
@@ -164,7 +166,7 @@ namespace DAL
 
               result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
-
+              results.Add(result);
             }
           }
         }
@@ -174,7 +176,7 @@ namespace DAL
         throw;
       }
 
-      return result;
+      return results;
     }
 
 
