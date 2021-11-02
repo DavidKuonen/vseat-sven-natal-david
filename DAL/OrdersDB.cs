@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-  class OrdersDB : IOrdersDB
+ public class OrdersDB : IOrdersDB
   {
     private IConfiguration Configuration { get; }
 
@@ -43,25 +43,25 @@ namespace DAL
 
               Orders order = new Orders();
 
-              order.idOrders = (int)dr["idOrders"];
+              order.idOrders = (int)dr["idOrder"];
 
-              if (dr["OrderTime"] != null)
-                order.OrderTime = (DateTime)dr["OrderTime"];
+              if (dr["orderTime"] != null)
+                order.OrderTime = (DateTime)dr["orderTime"];
 
-              if (dr["DeliveryTime"] != null)
-                order.DeliveryTime = (DateTime)dr["DeliveryTime"];
+              if (dr["deliveryTime"] != null)
+                order.DeliveryTime = (DateTime)dr["deliveryTime"];
 
-              if (dr["TotalPrice"] != DBNull.Value)
-                order.TotalPrice = (float)dr["TotalPrice"];
+              if (dr["totalPrice"] != DBNull.Value)
+                order.TotalPrice = (float)dr["totalPrice"];
 
-              if (dr["FK_Customers"] != DBNull.Value)
-                order.FK_Customers = (int)dr["FK_Customers"];
+              if (dr["idCustomer"] != DBNull.Value)
+                order.FK_Customers = (int)dr["idCustomer"];
 
-              if (dr["FK_OrderStatus"] != DBNull.Value)
-                order.FK_OrderStatus = (int)dr["FK_OrderStatus"];
+              if (dr["idOrderStatus"] != DBNull.Value)
+                order.FK_OrderStatus = (int)dr["idOrderStatus"];
 
-              if (dr["FK_Staff"] != DBNull.Value)
-                order.FK_Staff = (int)dr["FK_Staff"];
+              if (dr["idEmployee"] != DBNull.Value)
+                order.FK_Staff = (int)dr["idEmployee"];
 
               results.Add(order);
 
@@ -76,6 +76,107 @@ namespace DAL
 
       return results;
     }
+
+    public Orders GetOrdersByStaffId(int id)
+    {
+      Orders result = null;
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Select * from Orders WHERE idEmployee=@id";
+          SqlCommand cmd = new SqlCommand(query, cn);
+          cmd.Parameters.AddWithValue("@id", id);
+
+          cn.Open();
+
+          using (SqlDataReader dr = cmd.ExecuteReader())
+          {
+            if (dr.Read())
+            {
+
+              result = new Orders();
+
+              result.idOrders = (int)dr["idOrder"];
+
+              result.OrderTime = (DateTime)dr["orderTime"];
+
+              result.DeliveryTime = (DateTime)dr["deliveryTime"];
+
+              result.TotalPrice = (float)dr["totalPrice"];
+
+              result.FK_Customers = (int)dr["idCustomer"];
+
+              result.FK_Staff = (int)dr["idEmployee"];
+
+              result.FK_OrderStatus = (int)dr["idOrderStatus"];
+
+
+            }
+          }
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+      return result;
+    }
+
+    public Orders GetOrdersByCustomerId(int id)
+    {
+      Orders result = null;
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Select * from Orders WHERE idCustomer=@id";
+          SqlCommand cmd = new SqlCommand(query, cn);
+          cmd.Parameters.AddWithValue("@id", id);
+
+          cn.Open();
+
+          using (SqlDataReader dr = cmd.ExecuteReader())
+          {
+            if (dr.Read())
+            {
+
+              result = new Orders();
+
+              result.idOrders = (int)dr["idOrder"];
+
+              result.OrderTime = (DateTime)dr["orderTime"];
+
+              result.DeliveryTime = (DateTime)dr["deliveryTime"];
+
+              result.TotalPrice = (float)dr["totalPrice"];
+
+              result.FK_Customers = (int)dr["idCustomer"];
+
+              result.FK_Staff = (int)dr["idEmployee"];
+
+              result.FK_OrderStatus = (int)dr["idOrderStatus"];
+
+
+            }
+          }
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+      return result;
+    }
+
 
     public Orders GetOrdersById(int id)
     {
@@ -100,19 +201,19 @@ namespace DAL
 
               result = new Orders();
 
-              result.idOrders = (int)dr["idOrders"];
+              result.idOrders = (int)dr["idOrder"];
 
-              result.OrderTime = (DateTime)dr["OrderTime"];
+              result.OrderTime = (DateTime)dr["orderTime"];
 
-              result.DeliveryTime = (DateTime)dr["DeliveryTime"];
+              result.DeliveryTime = (DateTime)dr["deliveryTime"];
 
-              result.TotalPrice = (float)dr["TotalPrice"];
+              result.TotalPrice = (float)dr["totalPrice"];
 
-              result.FK_Customers = (int)dr["FK_Customers"];
+              result.FK_Customers = (int)dr["idCustomer"];
 
-              result.FK_Staff = (int)dr["FK_Staff"];
+              result.FK_Staff = (int)dr["idEmployee"];
 
-              result.FK_OrderStatus = (int)dr["FK_OrderStatus"];
+              result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
 
             }
@@ -127,6 +228,37 @@ namespace DAL
       return result;
     }
 
+    public void UpdateOrderPrice(Orders order,float price)
+    {
+      int result = 0;
+
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "UPDATE Orders " +
+            "SET totalPrice = (totalPrice+@totalPrice)" +
+            "WHERE idOrder = @idOrder";
+          SqlCommand cmd = new SqlCommand(query, cn);
+
+          cmd.Parameters.AddWithValue("@totalPrice", price);
+          cmd.Parameters.AddWithValue("@idOrder", order.idOrders);
+
+
+          cn.Open();
+
+          result = cmd.ExecuteNonQuery();
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+    }
+
 
     public Orders AddOrder(Orders order)
     {
@@ -138,10 +270,10 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Insert into Orders(idOrders,OrderTime, DeliveryTime, [Total Price], FK_Customers, FK_Staff, FK_OrderStatus) " +
-            "values(@idOrders,@OrderTime, @DeliveryTime, @totalprice, @FK_Customers, @FK_Staff, @FK_OrderStatus)";
+          string query = "Insert into Orders(orderTime, deliveryTime, totalPrice, idCustomer, idEmployee, idOrderStatus) " +
+            "values(@OrderTime, @DeliveryTime, @totalprice, @FK_Customers, @FK_Staff, @FK_OrderStatus)";
           SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@idOrders", order.idOrders);
+          
           cmd.Parameters.AddWithValue("@OrderTime", order.OrderTime);
           cmd.Parameters.AddWithValue("@DeliveryTime", order.DeliveryTime);
           cmd.Parameters.AddWithValue("@totalprice", order.TotalPrice);

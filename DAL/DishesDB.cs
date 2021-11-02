@@ -42,7 +42,7 @@ namespace DAL
 
               Dishes dish = new Dishes();
 
-              dish.idDishes = (int)dr["idDishes"];
+              dish.idDishes = (int)dr["idDish"];
 
               if (dr["name"] != null)
                 dish.name = (string)dr["name"];
@@ -53,14 +53,14 @@ namespace DAL
               if (dr["calories"] != DBNull.Value)
                 dish.calories = (int)dr["calories"];
 
-              if (dr["Image"] != DBNull.Value)
-                dish.Image = (string)dr["Image"];
+              if (dr["image"] != DBNull.Value)
+                dish.Image = (string)dr["image"];
 
-              if (dr["FK_CategoryDishes"] != DBNull.Value)
-                dish.FK_CategoryDishes = (int)dr["FK_CategoryDishes"];
+              if (dr["idCategoryDish"] != DBNull.Value)
+                dish.FK_CategoryDishes = (int)dr["idCategoryDish"];
 
-              if (dr["FK_Restaurant"] != DBNull.Value)
-                dish.FK_Restaurant = (int)dr["FK_Restaurant"];
+              if (dr["idRestaurant"] != DBNull.Value)
+                dish.FK_Restaurant = (int)dr["idRestaurant"];
 
               results.Add(dish);
 
@@ -74,6 +74,55 @@ namespace DAL
       }
 
       return results;
+    }
+
+    public Dishes GetDishesById(int id)
+    {
+      Dishes result = null;
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Select * from Dishes WHERE idDish=@id";
+          SqlCommand cmd = new SqlCommand(query, cn);
+          cmd.Parameters.AddWithValue("@id", id);
+
+          cn.Open();
+
+          using (SqlDataReader dr = cmd.ExecuteReader())
+          {
+            if (dr.Read())
+            {
+
+              result = new Dishes();
+
+              result.idDishes = (int)dr["idDish"];
+
+              result.name = (string)dr["name"];
+
+              result.price = (float)dr["price"];
+
+              result.calories = (int)dr["calories"];
+
+              result.Image = (string)dr["image"];
+
+              result.FK_CategoryDishes = (int)dr["FidCategoryDish"];
+
+              result.FK_Restaurant = (int)dr["idRestaurant"];
+
+            }
+          }
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+      return result;
     }
 
     public Dishes GetDishesByName(string name)
@@ -99,7 +148,7 @@ namespace DAL
 
               result = new Dishes();
 
-              result.idDishes = (int)dr["idDishes"];
+              result.idDishes = (int)dr["idDish"];
 
               result.name = (string)dr["name"];
 
@@ -107,11 +156,11 @@ namespace DAL
 
               result.calories = (int)dr["calories"];
 
-              result.Image = (string)dr["Image"];
+              result.Image = (string)dr["image"];
 
-              result.FK_CategoryDishes = (int)dr["FK_CategoryDishes"];
+              result.FK_CategoryDishes = (int)dr["FidCategoryDish"];
 
-              result.FK_Restaurant = (int)dr["FK_Restaurant"];
+              result.FK_Restaurant = (int)dr["idRestaurant"];
 
             }
           }
@@ -125,6 +174,40 @@ namespace DAL
       return result;
     }
 
+    public Dishes AddDish(Dishes dish)
+    {
+      int result = 0;
 
-  }
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Insert into Dish(name,price,calories,image,idRestaurant,idCategoryDish) " +
+            "values(@name, @price, @calories, @image, @idRestaurant, @idCategoryDish)";
+          SqlCommand cmd = new SqlCommand(query, cn);
+
+          cmd.Parameters.AddWithValue("@name", dish.name);
+          cmd.Parameters.AddWithValue("@price", dish.price);
+          cmd.Parameters.AddWithValue("@calories", dish.calories);
+          cmd.Parameters.AddWithValue("@image", dish.Image);
+          cmd.Parameters.AddWithValue("@idRestaurant", dish.FK_Restaurant);
+          cmd.Parameters.AddWithValue("@idCategoryDish", dish.FK_CategoryDishes);
+
+          cn.Open();
+
+          result = cmd.ExecuteNonQuery();
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+      return dish;
+    }
+
+  
+
+}
 }
