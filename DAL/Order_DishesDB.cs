@@ -42,16 +42,16 @@ namespace DAL
 
               Order_Dishes order_dish = new Order_Dishes();
 
-              order_dish.idOrder_Dishes = (int)dr["idOrder_Dishes"];
+              order_dish.idOrder_Dishes = (int)dr["idOrder_Dish"];
 
-              if (dr["Quantity"] != null)
-                order_dish.Quantity = (int)dr["Quantity"];
+              if (dr["quantity"] != null)
+                order_dish.Quantity = (int)dr["quantity"];
 
-              if (dr["FK_Dishes"] != null)
-                order_dish.FK_Dishes = (int)dr["FK_Dishes"];
+              if (dr["idDish"] != null)
+                order_dish.FK_Dishes = (int)dr["idDish"];
 
-              if (dr["FK_Orders"] != DBNull.Value)
-                order_dish.FK_Orders = (int)dr["FK_Orders"];
+              if (dr["idOrder"] != DBNull.Value)
+                order_dish.FK_Orders = (int)dr["idOrder"];
 
               results.Add(order_dish);
 
@@ -77,7 +77,7 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Select * from Order_Dishes WHERE idOrder_Dishes=@id";
+          string query = "Select * from Order_Dishes WHERE idOrder_Dish=@id";
           SqlCommand cmd = new SqlCommand(query, cn);
           cmd.Parameters.AddWithValue("@id", id);
 
@@ -90,13 +90,13 @@ namespace DAL
 
               result = new Order_Dishes();
 
-              result.idOrder_Dishes = (int)dr["idOrder_Dishes"];
+              result.idOrder_Dishes = (int)dr["idOrder_Dish"];
 
-              result.Quantity = (int)dr["Quantity"];
+              result.Quantity = (int)dr["quantity"];
 
-              result.FK_Dishes = (int)dr["FK_Dishes"];
+              result.FK_Dishes = (int)dr["idDish"];
 
-              result.FK_Orders = (int)dr["FK_Orders"];
+              result.FK_Orders = (int)dr["idOrder"];
 
             }
           }
@@ -120,10 +120,10 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Insert into Order_Dishes(idOrder_Dishes, Quantity, FK_Dishes, FK_Orders) " +
-            "values(@idOrder_Dishes, @Quantity, @FK_Dishes, @FK_Orders)";
+          string query = "Insert into Order_Dishes(quantity, idDish, idOrder) " +
+            "values( @Quantity, @FK_Dishes, @FK_Orders)";
           SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@idOrder_Dishes", orderdishes.idOrder_Dishes);
+          
           cmd.Parameters.AddWithValue("@Quantity", orderdishes.Quantity);
           cmd.Parameters.AddWithValue("@FK_Dishes", orderdishes.FK_Dishes);
           cmd.Parameters.AddWithValue("@FK_Orders", orderdishes.FK_Orders);

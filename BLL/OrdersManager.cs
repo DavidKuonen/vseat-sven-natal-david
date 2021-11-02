@@ -34,6 +34,19 @@ namespace BLL
     {
       return OrdersDb.GetOrdersById(id);
     }
+
+    public Orders GetOrdersByCustomerId(int id)
+    {
+      return OrdersDb.GetOrdersByCustomerId(id);
+    }
+
+    public Orders GetOrdersByStaffId(int id)
+    {
+      return OrdersDb.GetOrdersByStaffId(id);
+    }
+
+
+
     //SQL Befehle bis hier
 
 

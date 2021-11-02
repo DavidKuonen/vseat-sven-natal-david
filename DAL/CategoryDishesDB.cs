@@ -42,7 +42,7 @@ namespace DAL
 
               CategoryDishes categorydish = new CategoryDishes();
 
-              categorydish.idCategorie = (int)dr["idCategorie"];
+              categorydish.idCategorie = (int)dr["idCategoryDish"];
 
               if (dr["name"] != null)
                 categorydish.name = (string)dr["name"];
@@ -84,7 +84,7 @@ namespace DAL
 
               result = new CategoryDishes();
 
-              result.idCategorie = (int)dr["idCategorie"];
+              result.idCategorie = (int)dr["idCategoryDish"];
 
               result.name = (string)dr["name"];
 

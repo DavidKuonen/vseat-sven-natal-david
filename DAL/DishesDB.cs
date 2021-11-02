@@ -42,7 +42,7 @@ namespace DAL
 
               Dishes dish = new Dishes();
 
-              dish.idDishes = (int)dr["idDishes"];
+              dish.idDishes = (int)dr["idDish"];
 
               if (dr["name"] != null)
                 dish.name = (string)dr["name"];
@@ -53,14 +53,14 @@ namespace DAL
               if (dr["calories"] != DBNull.Value)
                 dish.calories = (int)dr["calories"];
 
-              if (dr["Image"] != DBNull.Value)
-                dish.Image = (string)dr["Image"];
+              if (dr["image"] != DBNull.Value)
+                dish.Image = (string)dr["image"];
 
-              if (dr["FK_CategoryDishes"] != DBNull.Value)
-                dish.FK_CategoryDishes = (int)dr["FK_CategoryDishes"];
+              if (dr["idCategoryDish"] != DBNull.Value)
+                dish.FK_CategoryDishes = (int)dr["idCategoryDish"];
 
-              if (dr["FK_Restaurant"] != DBNull.Value)
-                dish.FK_Restaurant = (int)dr["FK_Restaurant"];
+              if (dr["idRestaurant"] != DBNull.Value)
+                dish.FK_Restaurant = (int)dr["idRestaurant"];
 
               results.Add(dish);
 
@@ -99,7 +99,7 @@ namespace DAL
 
               result = new Dishes();
 
-              result.idDishes = (int)dr["idDishes"];
+              result.idDishes = (int)dr["idDish"];
 
               result.name = (string)dr["name"];
 
@@ -107,11 +107,11 @@ namespace DAL
 
               result.calories = (int)dr["calories"];
 
-              result.Image = (string)dr["Image"];
+              result.Image = (string)dr["image"];
 
-              result.FK_CategoryDishes = (int)dr["FK_CategoryDishes"];
+              result.FK_CategoryDishes = (int)dr["FidCategoryDish"];
 
-              result.FK_Restaurant = (int)dr["FK_Restaurant"];
+              result.FK_Restaurant = (int)dr["idRestaurant"];
 
             }
           }
