@@ -14,6 +14,7 @@ namespace BLL
             RestaurantsDb = new RestaurantsDB(conf);
         }
 
+        //SQL Befehle der DAL Klasse
         public List<Restaurants> GetAllRestaurants()
         {
             return RestaurantsDb.GetAllRestaurants();
@@ -44,8 +45,6 @@ namespace BLL
         {
             return RestaurantsDb.DeleteRestaurant(id);
         }
-
-
-
+        //SQL Befehle bis hier
     }
 }

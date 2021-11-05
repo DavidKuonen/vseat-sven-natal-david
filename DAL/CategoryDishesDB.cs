@@ -100,8 +100,5 @@ namespace DAL
       return result;
     }
 
-
-
-
   }
 }

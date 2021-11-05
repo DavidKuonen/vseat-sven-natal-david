@@ -19,14 +19,28 @@ namespace VSEAT
             //var memberDb = new MemberDB(Configuration);
             CustomersManager customerManager = new CustomersManager(Configuration);
 
-            //Exercise List of all members
-            Console.WriteLine("Exercise List of all members");
+            EmployeesManager employeesManager = new EmployeesManager(Configuration);
 
-            List<Customer> customers = customerManager.GetAllCustomers();
+
+
+            //List of all customers
+            //Console.WriteLine("List of all customers");
+
+            /*List<Customer> customers = customerManager.GetAllCustomers();
 
             foreach (Customer c in customers)
             {
                 Console.WriteLine(c.ToString());
+            }*/
+
+            //List of all customers where the courrier should deliver
+            Console.WriteLine("List of all customers where the courrier should deliver");
+
+            List<Customer> orderCustomers = employeesManager.GetOrdersCustomers(1);
+
+            foreach (var oC in orderCustomers)
+            {
+                Console.WriteLine(oC);
             }
         }
     }

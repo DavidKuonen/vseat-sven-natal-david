@@ -14,9 +14,11 @@ namespace BLL
             DistrictsDb = new DistrictsDB(conf);
         }
 
+        //SQL Befehle der DAL Klasse
         public List <Districts> GetAllDistricts()
         {
             return DistrictsDb.GetAllDistricts();
         }
+        //SQL Befehle bis hier
     }
 }

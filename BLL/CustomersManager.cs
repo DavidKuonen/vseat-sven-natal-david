@@ -15,6 +15,7 @@ namespace BLL
             CustomersDB = new CustomersDB(conf);
         }
 
+        //SQL Befehle der DAL Klasse
         public Customer GetCustomers()
         {
             return CustomersDB.GetCustomer("natal", "pwd");
@@ -24,5 +25,6 @@ namespace BLL
         {
             return CustomersDB.GetAllCustomers();
         }
+        //SQL Befehle bis hier
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  class DishesManager
+  public class DishesManager
   {
     private IDishesDB DishesDb { get; }
 
@@ -19,7 +19,6 @@ namespace BLL
     }
 
     //SQL Befehle der DAL Klasse werden untenstehend geholt
-
     public List<Dishes> GetAllDishes()
     {
       return DishesDb.GetAllDishes();
@@ -29,8 +28,6 @@ namespace BLL
     {
       return DishesDb.GetDishesByName(name);
     }
-
-
     //SQL Befehle bis hier
 
   }

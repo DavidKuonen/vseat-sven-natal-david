@@ -9,6 +9,8 @@ namespace DAL
         
         List<Customer> GetAllCustomers();
 
+        Customer GetCustomerById(int idCustomer);
+
         Customer GetCustomerByDistrict(int idDistrict);
 
         Customer GetCustomer(string email, string password);

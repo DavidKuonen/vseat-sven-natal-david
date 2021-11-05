@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  class Order_DishesManager
+  public class Order_DishesManager
   {
     private IOrder_DishesDB Order_DishesDb { get; }
   
@@ -17,8 +17,7 @@ namespace BLL
       Order_DishesDb = new Order_DishesDB(conf);
     }
 
-    //SQL Befehle der DAL Klasse werden untenstehend geholt
-
+    //SQL Befehle der DAL Klasse
     public Order_Dishes AddOrderDishes(Order_Dishes orderdishes)
     {
      return Order_DishesDb.AddOrderDishes(orderdishes);
@@ -33,16 +32,6 @@ namespace BLL
     {
       return Order_DishesDb.GetOrderDishesById(id);
     }
-
     //SQL Befehle bis hier
-
-
-
-
-
-
-
-
-
   }
 }

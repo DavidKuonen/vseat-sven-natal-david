@@ -14,9 +14,11 @@ namespace BLL
             CategoryRestaurantsDb = new CategoryRestaurantsDB(conf);
         }
 
+        //SQL Befehle der DAL Klasse
         public List<CategoryRestaurants> GetAllCateegoryRestautants()
         {
             return CategoryRestaurantsDb.GetAllCategoryRestaurants();
         }
+        //SQL Befehle bis hier
     }
 }

@@ -70,6 +70,61 @@ namespace DAL
             return allCustomers;
         }
 
+        public Customer GetCustomerById(int idCustomer)
+        {
+            Customer customer = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Customers where idCustomer = @idCustomer";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idCustomer", idCustomer);
+
+                    cn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            customer = new Customer();
+
+                            customer.IdCustomer = (int)reader["idCustomer"];
+
+                            customer.Lastname = (string)reader["lastname"];
+
+                            customer.Firstname = (string)reader["firstname"];
+
+                            customer.Address = (string)reader["address"];
+
+                            customer.PhoneNumber = (string)reader["phoneNumber"];
+
+                            customer.Email = (string)reader["email"];
+
+                            customer.Password = (string)reader["password"];
+
+                            customer.Registered = (DateTime)reader["registered"];
+
+                            customer.IdVillage = (int)reader["idVillage"];
+
+                            customer.IdDistrict = (int)reader["idDistrict"];
+
+                            customer.IdUserRole = (int)reader["idUserRole"];
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return customer;
+        }
+
         public Customer GetCustomerByDistrict(int idDistrict)
         {
             Customer customer = null;
@@ -104,6 +159,8 @@ namespace DAL
                             customer.Email = (string)reader["email"];
 
                             customer.Password = (string)reader["password"];
+
+                            customer.Registered = (DateTime)reader["registered"];
 
                             customer.IdVillage = (int)reader["idVillage"];
 

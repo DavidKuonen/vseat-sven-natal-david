@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  class CategoryDishesManager
+  public class CategoryDishesManager
   {
     private ICategoryDishesDB CategoryDishesDb { get; }
 
@@ -19,7 +19,7 @@ namespace BLL
     }
 
 
-    //SQL Befehle der DAL Klasse werden untenstehend geholt
+    //SQL Befehle der DAL Klasse
     public List<CategoryDishes> GetAllCategoryDishes()
     {
       return CategoryDishesDb.GetAllCategoryDishes();

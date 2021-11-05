@@ -77,9 +77,9 @@ namespace DAL
       return results;
     }
 
-    public Orders GetOrdersByStaffId(int id)
+    public List<Orders> GetOrdersByStaffId(int id)
     {
-      Orders result = null;
+      List<Orders> results = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
       //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
@@ -87,7 +87,7 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Select * from Orders WHERE idEmployee=@id";
+          string query = "Select * from Orders WHERE idEmployee = @id";
           SqlCommand cmd = new SqlCommand(query, cn);
           cmd.Parameters.AddWithValue("@id", id);
 
@@ -98,7 +98,10 @@ namespace DAL
             if (dr.Read())
             {
 
-              result = new Orders();
+              if (results == null)
+                results = new List<Orders>();
+
+              Orders result = new Orders();
 
               result.idOrders = (int)dr["idOrder"];
 
@@ -106,7 +109,7 @@ namespace DAL
 
               result.DeliveryTime = (DateTime)dr["deliveryTime"];
 
-              result.TotalPrice = (float)dr["totalPrice"];
+              result.TotalPrice = (Double)dr["totalPrice"];
 
               result.FK_Customers = (int)dr["idCustomer"];
 
@@ -114,6 +117,7 @@ namespace DAL
 
               result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
+              results.Add(result);
 
             }
           }
@@ -124,12 +128,12 @@ namespace DAL
         throw;
       }
 
-      return result;
+      return results;
     }
 
-    public Orders GetOrdersByCustomerId(int id)
+    public List<Orders> GetOrdersByCustomerId(int id)
     {
-      Orders result = null;
+      List<Orders> results = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
       //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
@@ -148,7 +152,7 @@ namespace DAL
             if (dr.Read())
             {
 
-              result = new Orders();
+              Orders result = new Orders();
 
               result.idOrders = (int)dr["idOrder"];
 
@@ -164,7 +168,7 @@ namespace DAL
 
               result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
-
+              results.Add(result);
             }
           }
         }
@@ -174,7 +178,7 @@ namespace DAL
         throw;
       }
 
-      return result;
+      return results;
     }
 
 

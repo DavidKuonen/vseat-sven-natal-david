@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  class OrdersManager
+  public class OrdersManager
   {
     private IOrdersDB OrdersDb { get; }
     private IOrder_DishesDB Order_DishesDb { get; }
@@ -23,7 +23,7 @@ namespace BLL
       DishesDb = new DishesDB(conf);
     }
 
-    //SQL Befehle der DAL Klasse werden untenstehend geholt
+    //SQL Befehle der DAL Klasse
     public Orders AddOrder(Orders order)
     {
       return OrdersDb.AddOrder(order);
@@ -39,12 +39,12 @@ namespace BLL
       return OrdersDb.GetOrdersById(id);
     }
 
-    public Orders GetOrdersByCustomerId(int id)
+    public List<Orders> GetOrdersByCustomerId(int id)
     {
       return OrdersDb.GetOrdersByCustomerId(id);
     }
 
-    public Orders GetOrdersByStaffId(int id)
+    public List<Orders> GetOrdersByStaffId(int id)
     {
       return OrdersDb.GetOrdersByStaffId(id);
     }
@@ -53,7 +53,6 @@ namespace BLL
     {
       OrdersDb.UpdateOrderPrice(order, price);
     }
-
     //SQL Befehle bis hier
 
     public void UpdateTotalPrice(Orders order)
@@ -77,8 +76,6 @@ namespace BLL
       }
 
     }
-
-
 
   }
 }
