@@ -76,56 +76,54 @@ namespace DAL
       return results;
     }
 
-    public Dishes GetDishesById(int id)
-    {
-      Dishes result = null;
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
+        public Dishes GetDishesById(int idDish)
         {
-          string query = "Select * from Dishes WHERE idDish=@id";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@id", id);
+            Dishes dish = null;
 
-          cn.Open();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-          using (SqlDataReader dr = cmd.ExecuteReader())
-          {
-            if (dr.Read())
+            try
             {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Dishes where idDish = @idDish";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idDish", idDish);
 
-              result = new Dishes();
+                    cn.Open();
 
-              result.idDishes = (int)dr["idDish"];
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            dish = new Dishes();
 
-              result.name = (string)dr["name"];
+                            dish.idDishes = (int)reader["idDish"];
 
-              result.price = (float)dr["price"];
+                            dish.name = (string)reader["name"];
 
-              result.calories = (int)dr["calories"];
+                            //dish.price = (float)reader["price"];
 
-              result.Image = (string)dr["image"];
+                            //dish.calories = (int)reader["calories"];
 
-              result.FK_CategoryDishes = (int)dr["FidCategoryDish"];
+                            //dish.Image = (string)reader["image"];
 
-              result.FK_Restaurant = (int)dr["idRestaurant"];
+                            dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
 
+                            dish.FK_Restaurant = (int)reader["idRestaurant"];
+                        }
+                    }
+                }
             }
-          }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return dish;
         }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
 
-      return result;
-    }
-
-    public Dishes GetDishesByName(string name)
+        public Dishes GetDishesByName(string name)
     {
       Dishes result = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");

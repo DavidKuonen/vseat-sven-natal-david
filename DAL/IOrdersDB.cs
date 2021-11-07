@@ -9,7 +9,9 @@ namespace DAL
     List<Orders> GetAllOrders();
     Orders GetOrdersById(int id);
     List<Orders> GetOrdersByStaffId(int id);
+    List<Orders> GetOrdersByStaffIdAndCustomerId(int idStaff, int idEmployee);
     List<Orders> GetOrdersByCustomerId(int id);
     void UpdateOrderPrice(Orders order, float price);
-  }
+    int GetOrderIdByCustomerId(int idCustomer, int idEmployee);
+    }
 }

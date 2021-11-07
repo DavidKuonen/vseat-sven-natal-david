@@ -70,7 +70,6 @@ namespace DAL
     public List<Order_Dishes> GetOrderDishesByOrderId(int id)
     {
       List<Order_Dishes> results = null;
-      Order_Dishes result = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
       //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
@@ -78,7 +77,7 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Select * from Order_Dishes WHERE idOrder=@id";
+          string query = "Select * from Orders_Dishes WHERE idOrder=@id";
           SqlCommand cmd = new SqlCommand(query, cn);
           cmd.Parameters.AddWithValue("@id", id);
 
@@ -89,7 +88,10 @@ namespace DAL
             if (dr.Read())
             {
 
-              result = new Order_Dishes();
+             if (results == null)
+                results = new List<Order_Dishes>();
+
+              Order_Dishes result = new Order_Dishes();
 
               result.idOrder_Dishes = (int)dr["idOrder_Dish"];
 

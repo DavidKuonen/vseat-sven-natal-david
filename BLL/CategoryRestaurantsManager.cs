@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-   public class CategoryRestaurantsManager
+    public class CategoryRestaurantsManager : ICategoryRestaurantsManager
     {
         private ICategoryRestaurantsDB CategoryRestaurantsDb { get; }
 

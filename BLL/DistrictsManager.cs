@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    public class DistrictsManager
+    public class DistrictsManager : IDistrictsManager
     {
         private IDistrictsDB DistrictsDb { get; }
 
-        public DistrictsManager (IConfiguration conf)
+        public DistrictsManager(IConfiguration conf)
         {
             DistrictsDb = new DistrictsDB(conf);
         }
 
         //SQL Befehle der DAL Klasse
-        public List <Districts> GetAllDistricts()
+        public List<Districts> GetAllDistricts()
         {
             return DistrictsDb.GetAllDistricts();
         }

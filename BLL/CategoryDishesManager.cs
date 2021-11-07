@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  public class CategoryDishesManager
-  {
-    private ICategoryDishesDB CategoryDishesDb { get; }
-
-    public CategoryDishesManager(IConfiguration conf)
+    public class CategoryDishesManager : ICategoryDishesManager
     {
-      CategoryDishesDb = new CategoryDishesDB(conf);
+        private ICategoryDishesDB CategoryDishesDb { get; }
+
+        public CategoryDishesManager(IConfiguration conf)
+        {
+            CategoryDishesDb = new CategoryDishesDB(conf);
+        }
+
+
+        //SQL Befehle der DAL Klasse
+        public List<CategoryDishes> GetAllCategoryDishes()
+        {
+            return CategoryDishesDb.GetAllCategoryDishes();
+        }
+
+        public CategoryDishes GetCategoryDishesByName(string name)
+        {
+            return CategoryDishesDb.GetCategoryDishesByName(name);
+        }
+        //SQL Befehle bis hier
+
     }
-
-
-    //SQL Befehle der DAL Klasse
-    public List<CategoryDishes> GetAllCategoryDishes()
-    {
-      return CategoryDishesDb.GetAllCategoryDishes();
-    }
-
-    public CategoryDishes GetCategoryDishesByName(string name)
-    {
-      return CategoryDishesDb.GetCategoryDishesByName(name);
-    }
-    //SQL Befehle bis hier
-
-  }
 }

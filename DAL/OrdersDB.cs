@@ -77,7 +77,58 @@ namespace DAL
       return results;
     }
 
-    public List<Orders> GetOrdersByStaffId(int id)
+        public List<Orders> GetOrdersByStaffId(int idEmployee)
+        {
+            List<Orders> orders = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Orders WHERE idEmployee = @idEmployee";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
+
+                    sqlConn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (orders == null)
+                                orders = new List<Orders>();
+
+                            Orders order = new Orders();
+
+                            order.idOrders = (int)reader["idOrder"];
+
+                            order.OrderTime = (DateTime)reader["orderTime"];
+
+                            order.DeliveryTime = (DateTime)reader["deliveryTime"];
+
+                            order.TotalPrice = (Double)reader["totalPrice"];
+
+                            order.FK_Customers = (int)reader["idCustomer"];
+
+                            order.FK_Staff = (int)reader["idEmployee"];
+
+                            order.FK_OrderStatus = (int)reader["idOrderStatus"];
+
+                            orders.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return orders;
+        }
+
+    public List<Orders> GetOrdersByStaffIdAndCustomerId(int idStaff, int idEmployee)
     {
       List<Orders> results = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -87,9 +138,10 @@ namespace DAL
       {
         using (SqlConnection cn = new SqlConnection(connectionString))
         {
-          string query = "Select * from Orders WHERE idEmployee = @id";
+          string query = "Select * from Orders WHERE idEmployee = @idStaff AND idCustomer = @idCustomer";
           SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@id", id);
+          cmd.Parameters.AddWithValue("@idStaff", idStaff);
+          cmd.Parameters.AddWithValue("@idCustomer", idEmployee);
 
           cn.Open();
 
@@ -219,6 +271,42 @@ namespace DAL
 
               result.FK_OrderStatus = (int)dr["idOrderStatus"];
 
+
+            }
+          }
+        }
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+      return result;
+    }
+
+    public int GetOrderIdByCustomerId(int idCustomer, int idEmployee)
+    {
+      int result = 0;
+      string connectionString = Configuration.GetConnectionString("DefaultConnection");
+      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+      try
+      {
+        using (SqlConnection cn = new SqlConnection(connectionString))
+        {
+          string query = "Select * from Orders WHERE idCustomer = @idCustomer AND idEmployee = @idEmployee";
+          SqlCommand cmd = new SqlCommand(query, cn);
+          cmd.Parameters.AddWithValue("@idCustomer", idCustomer);
+          cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
+
+          cn.Open();
+
+          using (SqlDataReader dr = cmd.ExecuteReader())
+          {
+            if (dr.Read())
+            {
+
+              result= (int)dr["idOrder"];
 
             }
           }

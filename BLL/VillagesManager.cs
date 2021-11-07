@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    public class VillagesManager
+    public class VillagesManager : IVillagesManager
     {
         private IVillagesDB VillagesDb { get; }
 
         public VillagesManager(IConfiguration conf)
         {
-           VillagesDb = new VillagesDB(conf);
+            VillagesDb = new VillagesDB(conf);
         }
 
         //SQL Befehle der DAL Klasse

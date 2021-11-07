@@ -8,30 +8,30 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-  public class Order_DishesManager
-  {
-    private IOrder_DishesDB Order_DishesDb { get; }
-  
-    public Order_DishesManager(IConfiguration conf)
+    public class Order_DishesManager : IOrder_DishesManager
     {
-      Order_DishesDb = new Order_DishesDB(conf);
-    }
+        private IOrder_DishesDB Order_DishesDb { get; }
 
-    //SQL Befehle der DAL Klasse
-    public Order_Dishes AddOrderDishes(Order_Dishes orderdishes)
-    {
-     return Order_DishesDb.AddOrderDishes(orderdishes);
-    }
+        public Order_DishesManager(IConfiguration conf)
+        {
+            Order_DishesDb = new Order_DishesDB(conf);
+        }
 
-    public List<Order_Dishes> GetAllOrder_Dishes()
-    {
-      return Order_DishesDb.GetAllOrder_Dishes();
-    }
+        //SQL Befehle der DAL Klasse
+        public Order_Dishes AddOrderDishes(Order_Dishes orderdishes)
+        {
+            return Order_DishesDb.AddOrderDishes(orderdishes);
+        }
 
-    public Order_Dishes GetOrderDishesById(int id)
-    {
-      return Order_DishesDb.GetOrderDishesById(id);
+        public List<Order_Dishes> GetAllOrder_Dishes()
+        {
+            return Order_DishesDb.GetAllOrder_Dishes();
+        }
+
+        public Order_Dishes GetOrderDishesById(int id)
+        {
+            return Order_DishesDb.GetOrderDishesById(id);
+        }
+        //SQL Befehle bis hier
     }
-    //SQL Befehle bis hier
-  }
 }

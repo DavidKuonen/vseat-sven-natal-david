@@ -21,12 +21,22 @@ namespace VSEAT
 
             EmployeesManager employeesManager = new EmployeesManager(Configuration);
 
+            RestaurantsManager restaurantsManager = new RestaurantsManager(Configuration);
+
+            OrdersManager ordersManager = new OrdersManager(Configuration);
+
+            /*var order = ordersManager.GetOrdersByStaffId(1);
+
+            foreach (var o in order)
+            {
+                Console.WriteLine(o.ToString());
+            }*/
 
 
             //List of all customers
             //Console.WriteLine("List of all customers");
 
-            /*List<Customer> customers = customerManager.GetAllCustomers();
+            /*var customers = customerManager.GetAllCustomers();
 
             foreach (Customer c in customers)
             {
@@ -36,12 +46,19 @@ namespace VSEAT
             //List of all customers where the courrier should deliver
             Console.WriteLine("List of all customers where the courrier should deliver");
 
-            List<Customer> orderCustomers = employeesManager.GetOrdersCustomers(1);
+            var orderCustomers = employeesManager.GetOrdersCustomers(1);
 
             foreach (var oC in orderCustomers)
             {
                 Console.WriteLine(oC);
+                Console.WriteLine("------------------------------------------------------------------");
             }
+
+
+
+            //restaurantsManager.AddRestaurant(new Restaurants { name = "Test", address = "Test", phoneNumber = "Test", idVillage = 6, idDistrict = 6, idCategoryRestaurant = 1 });
+
+            //restaurantsManager.DeleteRestaurant(15);
         }
     }
 }

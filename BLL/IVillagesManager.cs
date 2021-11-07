@@ -1,12 +1,11 @@
 ﻿using DTO;
 using System.Collections.Generic;
 
-namespace DAL
+namespace BLL
 {
-    public interface IVillagesDB
+    public interface IVillagesManager
     {
         List<Villages> GetAllVillages();
-        Villages GetVillageById(int idVillage);
         List<Villages> GetVillagesByDistrict(int idDistrict);
     }
 }

@@ -1,19 +1,16 @@
 ﻿using DTO;
 using System.Collections.Generic;
 
-namespace DAL
+namespace BLL
 {
-    public interface IRestaurantsDB
+    public interface IRestaurantsManager
     {
+        Restaurants AddRestaurant(Restaurants restaurant);
+        int DeleteRestaurant(int id);
         List<Restaurants> GetAllRestaurants();
-        public Restaurants GetRestaurantById(int idRestaurant);
         List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant);
         List<Restaurants> GetRestaurantsByDistrict(int idDistrict);
         List<Restaurants> GetRestaurantsByName(string name);
         List<Restaurants> GetRestaurantsByVillage(int idVillage);
-
-        Restaurants AddRestaurant(Restaurants restaurant);
-        int DeleteRestaurant(int idRestaurant);
-
     }
 }

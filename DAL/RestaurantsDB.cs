@@ -66,6 +66,54 @@ namespace DAL
             return results;
         }
 
+        public Restaurants GetRestaurantById(int idRestaurant)
+        {
+            Restaurants restaurant = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Restaurants where idRestaurant = @idRestaurant";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idRestaurant", idRestaurant);
+
+                    cn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            restaurant = new Restaurants();
+
+                            restaurant.idRestaurant = (int)reader["idRestaurant"];
+
+                            restaurant.name = (string)reader["name"];
+
+                            restaurant.address = (string)reader["address"];
+
+                            restaurant.phoneNumber = (string)reader["phoneNumber"];
+
+                            restaurant.idVillage = (int)reader["idVillage"];
+
+                            restaurant.idDistrict = (int)reader["idDistrict"];
+
+                            restaurant.idCategoryRestaurant = (int)reader["idCategoryRestaurant"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return restaurant;
+        }
+
         public List<Restaurants> GetRestaurantsByName(string name)
         {
             List<Restaurants> results = null;
@@ -317,7 +365,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "DELETE FROM Restaurants WHERE RestaurantID = @id";
+                    string query = "DELETE FROM Restaurants WHERE idRestaurant = @id";
 
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", id);
