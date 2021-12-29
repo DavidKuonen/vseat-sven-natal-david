@@ -34,6 +34,11 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("IdCustomer") == null)
+            {
+                return RedirectToAction("index", "Login");
+            }
+
             List<Models.RestaurantVM> restaurants = new List<Models.RestaurantVM>();
 
             for (int i = 0; i < RestaurantsManager.GetAllRestaurants().Count; i++)

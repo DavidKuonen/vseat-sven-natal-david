@@ -177,7 +177,7 @@ namespace DAL
             return employee;
         }
 
-        public Employee GetEmployee(string email, string password)
+        public Employee GetEmployee(string Email, string Password)
         {
             Employee employee = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -186,10 +186,10 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Employee WHERE email = @email AND password = @password";
+                    string query = "SELECT * FROM Employees WHERE email = @email AND password = @password";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@password", password);
+                    cmd.Parameters.AddWithValue("@email", Email);
+                    cmd.Parameters.AddWithValue("@password", Password);
 
                     sqlConn.Open();
 
@@ -199,7 +199,7 @@ namespace DAL
                         {
                             employee = new Employee();
 
-                            employee.IdEmployee = (int)reader["idCustomer"];
+                            employee.IdEmployee = (int)reader["idEmployee"];
 
                             employee.Lastname = (string)reader["lastname"];
 
@@ -207,8 +207,7 @@ namespace DAL
 
                             employee.Address = (string)reader["address"];
 
-                            if (reader["phoneNumber"] != null)
-                                employee.PhoneNumber = (string)reader["phoneNumber"];
+                            employee.PhoneNumber = (string)reader["phoneNumber"];
 
                             employee.Email = (string)reader["email"];
 
