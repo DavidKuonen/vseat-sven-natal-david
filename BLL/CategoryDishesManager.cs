@@ -25,6 +25,11 @@ namespace BLL
             return CategoryDishesDb.GetAllCategoryDishes();
         }
 
+        public CategoryDishes GetCategoryById(int id)
+        {
+            return CategoryDishesDb.GetCategoryById(id);
+        }
+
         public CategoryDishes GetCategoryDishesByName(string name)
         {
             return CategoryDishesDb.GetCategoryDishesByName(name);

@@ -19,6 +19,11 @@ namespace BLL
         {
             return DistrictsDb.GetAllDistricts();
         }
+
+        public Districts GetDistrictsById(int id)
+        {
+            return DistrictsDb.GetDistrictsById(id);
+        }
         //SQL Befehle bis hier
     }
 }

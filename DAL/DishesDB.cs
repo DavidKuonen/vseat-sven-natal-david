@@ -19,62 +19,69 @@ namespace DAL
 
     }
 
-    public List<Dishes> GetAllDishes()
-    {
-      List<Dishes> results = null;
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
 
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
+        public List<Dishes> GetAllDishes()
         {
-          string query = "Select * from Dishes";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          cn.Open();
+            List<Dishes> allDishes = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-          using (SqlDataReader dr = cmd.ExecuteReader())
-          {
-            while (dr.Read())
+            try
             {
-              if (results == null)
-                results = new List<Dishes>();
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Dishes";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
 
-              Dishes dish = new Dishes();
+                    sqlConn.Open();
 
-              dish.idDishes = (int)dr["idDish"];
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (allDishes == null)
+                                allDishes = new List<Dishes>();
 
-              if (dr["name"] != null)
-                dish.name = (string)dr["name"];
+                            Dishes dish = new Dishes();
 
-              if (dr["price"] != null)
-                dish.price = (float)dr["price"];
+                            dish.idDishes = (int)reader["idDish"];
+                            
+                            if(reader["name"] != null)
+                            {
+                                dish.name = (string)reader["name"];
+                            }
 
-              if (dr["calories"] != DBNull.Value)
-                dish.calories = (int)dr["calories"];
+                            if (reader["price"] != DBNull.Value)
+                            {
+                                dish.price = Convert.ToSingle(reader["price"]);
+                            }
 
-              if (dr["image"] != DBNull.Value)
-                dish.Image = (string)dr["image"];
+                            if (reader["calories"] != DBNull.Value)
+                            {
+                                dish.calories = (int)reader["calories"];
+                            }
 
-              if (dr["idCategoryDish"] != DBNull.Value)
-                dish.FK_CategoryDishes = (int)dr["idCategoryDish"];
+                            if (reader["idRestaurant"] != DBNull.Value)
+                            {
+                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                            }
 
-              if (dr["idRestaurant"] != DBNull.Value)
-                dish.FK_Restaurant = (int)dr["idRestaurant"];
+                            if (reader["idCategoryDish"] != DBNull.Value)
+                            {
+                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                            }
 
-              results.Add(dish);
-
+                            allDishes.Add(dish);
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
+            catch (Exception)
+            {
+                throw;
+            }
 
-      return results;
-    }
+            return allDishes;
+        }
 
         public Dishes GetDishesById(int idDish)
         {
@@ -121,6 +128,70 @@ namespace DAL
             }
 
             return dish;
+        }
+
+        public List<Dishes> GetDishesByRestaurantId(int idRestaurant)
+        {
+            List<Dishes> dishesByRestaurantId = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Dishes WHERE idRestaurant=@idRestaurant";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idRestaurant", idRestaurant);
+
+                    sqlConn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (dishesByRestaurantId == null)
+                                dishesByRestaurantId = new List<Dishes>();
+
+                            Dishes dish = new Dishes();
+
+                            dish.idDishes = (int)reader["idDish"];
+
+                            if (reader["name"] != null)
+                            {
+                                dish.name = (string)reader["name"];
+                            }
+
+                            if (reader["price"] != DBNull.Value)
+                            {
+                                dish.price = Convert.ToSingle(reader["price"]);
+                            }
+
+                            if (reader["calories"] != DBNull.Value)
+                            {
+                                dish.calories = (int)reader["calories"];
+                            }
+
+                            if (reader["idRestaurant"] != DBNull.Value)
+                            {
+                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                            }
+
+                            if (reader["idCategoryDish"] != DBNull.Value)
+                            {
+                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                            }
+
+                            dishesByRestaurantId.Add(dish);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return dishesByRestaurantId;
         }
 
         public Dishes GetDishesByName(string name)

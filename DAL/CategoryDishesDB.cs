@@ -100,5 +100,44 @@ namespace DAL
       return result;
     }
 
-  }
+        public CategoryDishes GetCategoryById(int id)
+        {
+            CategoryDishes result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from CategoryDishes WHERE idCategoryDish=@id";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+
+                            result = new CategoryDishes();
+
+                            result.idCategorie = (int)dr["idCategoryDish"];
+
+                            result.name = (string)dr["name"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+    }
 }

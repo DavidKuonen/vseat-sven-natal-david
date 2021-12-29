@@ -15,6 +15,11 @@ namespace BLL
         }
 
         //SQL Befehle der DAL Klasse
+       public CategoryRestaurants GetCategoryRestaurantsById(int id)
+        {
+            return CategoryRestaurantsDb.GetCategoryRestaurantsById(id);
+        }
+
         public List<CategoryRestaurants> GetAllCateegoryRestautants()
         {
             return CategoryRestaurantsDb.GetAllCategoryRestaurants();

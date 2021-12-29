@@ -20,6 +20,11 @@ namespace BLL
             return VillagesDb.GetAllVillages();
         }
 
+        public Villages GetVillagesById(int id)
+        {
+            return VillagesDb.GetVillageById(id);
+        }
+
         public List<Villages> GetVillagesByDistrict(int idDistrict)
         {
             return VillagesDb.GetVillagesByDistrict(idDistrict);

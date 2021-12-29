@@ -55,5 +55,44 @@ namespace DAL
 
             return results;
         }
+
+        public Districts GetDistrictsById(int id)
+        {
+            Districts result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Districts WHERE idDistrict=@id";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+
+                            result = new Districts();
+
+                            result.idDistrict = (int)dr["idDistrict"];
+
+                            result.name = (string)dr["name"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }

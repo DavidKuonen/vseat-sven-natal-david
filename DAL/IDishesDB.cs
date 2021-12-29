@@ -7,6 +7,7 @@ namespace DAL
   {
     List<Dishes> GetAllDishes();
     Dishes GetDishesById(int id);
+    List<Dishes> GetDishesByRestaurantId(int idRestaurant);
     Dishes GetDishesByName(string name);
     Dishes AddDish(Dishes dish);
 

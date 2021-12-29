@@ -24,6 +24,16 @@ namespace BLL
             return DishesDb.GetAllDishes();
         }
 
+        public List<Dishes> GetDishesByRestaurantId(int idRestaurant)
+        {
+            return DishesDb.GetDishesByRestaurantId(idRestaurant);
+        }
+
+        public Dishes GetDishesById(int idDish)
+        {
+            return DishesDb.GetDishesById(idDish);
+        }
+
         public Dishes GetDishesByName(string name)
         {
             return DishesDb.GetDishesByName(name);

@@ -13,6 +13,6 @@ namespace DAL
 
         Customer GetCustomerByDistrict(int idDistrict);
 
-        Customer GetCustomer(string email, string password);
+        Customer GetCustomer(string Email, string Password);
     }
 }

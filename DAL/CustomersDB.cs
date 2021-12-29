@@ -179,7 +179,7 @@ namespace DAL
             return customer;
         }
 
-        public Customer GetCustomer(string email, string password)
+        public Customer GetCustomer(string Email, string Password)
         {
             Customer customer = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -190,8 +190,8 @@ namespace DAL
                 {
                     string query = "SELECT * FROM Customers WHERE email = @email AND password = @password";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@password", password);
+                    cmd.Parameters.AddWithValue("@email", Email);
+                    cmd.Parameters.AddWithValue("@password", Password);
 
                     sqlConn.Open();
 

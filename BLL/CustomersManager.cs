@@ -16,9 +16,9 @@ namespace BLL
         }
 
         //SQL Befehle der DAL Klasse
-        public Customer GetCustomers()
+        public Customer GetCustomers(string Email, string Password)
         {
-            return CustomersDB.GetCustomer("natal", "pwd");
+            return CustomersDB.GetCustomer(Email, Password);
         }
 
         public List<Customer> GetAllCustomers()
