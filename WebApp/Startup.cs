@@ -33,8 +33,9 @@ namespace WebApp
             services.AddScoped<IVillagesManager, VillagesManager>();
             services.AddScoped<IRestaurantsManager, RestaurantsManager>();
             services.AddScoped<IDishesManager, DishesManager>();
-            services.AddControllersWithViews();
+            
             services.AddSession();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +53,8 @@ namespace WebApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
