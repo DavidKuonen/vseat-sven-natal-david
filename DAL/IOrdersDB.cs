@@ -11,7 +11,8 @@ namespace DAL
     List<Orders> GetOrdersByStaffId(int id);
     List<Orders> GetOrdersByStaffIdAndCustomerId(int idStaff, int idEmployee);
     List<Orders> GetOrdersByCustomerId(int id);
-    void UpdateOrderPrice(Orders order, float price);
+    void UpdateOrderPrice(int orderId, float price);
     int GetOrderIdByCustomerId(int idCustomer, int idEmployee);
+    public int GetLastID();
     }
 }

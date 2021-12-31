@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DTO;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -157,36 +158,33 @@ namespace DAL
       return result;
     }
 
-    public Order_Dishes AddOrderDishes(Order_Dishes orderdishes)
-    {
-      int result = 0;
-
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
+        public Order_Dishes AddOrderDishes(Order_Dishes orderdishes)
         {
-          string query = "Insert into Order_Dishes(quantity, idDish, idOrder) " +
-            "values( @Quantity, @FK_Dishes, @FK_Orders)";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          
-          cmd.Parameters.AddWithValue("@Quantity", orderdishes.Quantity);
-          cmd.Parameters.AddWithValue("@FK_Dishes", orderdishes.FK_Dishes);
-          cmd.Parameters.AddWithValue("@FK_Orders", orderdishes.FK_Orders);
+            int result = 0;
 
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-          cn.Open();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Orders_Dishes(quantity, idDish, idOrder) values(@Quantity, @idDish, @idOrder); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@quantity", orderdishes.Quantity);
+                    cmd.Parameters.AddWithValue("@idDish", orderdishes.FK_Dishes);
+                    cmd.Parameters.AddWithValue("@idOrder", orderdishes.FK_Orders);
 
-          result = cmd.ExecuteNonQuery();
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return orderdishes;
         }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
-      return orderdishes;
-    }
-
   }
 }

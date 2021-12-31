@@ -1,0 +1,85 @@
+﻿@model CollectionDataModell
+
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h1>Confirmation</h1>
+
+<div>
+    <h4>Personal Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.personalDetails.NameCustomer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.personalDetails.NameCustomer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.personalDetails.AddressCustomer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.personalDetails.AddressCustomer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.personalDetails.CityCustomer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.personalDetails.CityCustomer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.personalDetails.DistrictCustomer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.personalDetails.DistrictCustomer)
+        </dd>
+    </dl>
+    <h4>Order Details</h4>
+    <hr />
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Dish Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.shoppingCartVMs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </td>
+                    <td class="total">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Summe: </td>
+                <td id="sum"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<form asp-action="Order">
+    <div class="form-group">
+        <input type="submit" value="Order" class="btn btn-primary" />
+    </div>
+</form>

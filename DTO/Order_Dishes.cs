@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace DTO
 {
-  public class Order_Dishes
+  public  class Order_Dishes
   {
     public int idOrder_Dishes { get; set; }
     public int Quantity { get; set; }

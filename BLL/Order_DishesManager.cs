@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using DTO;
+using DAL;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

@@ -49,33 +49,36 @@ namespace BLL
             return OrdersDb.GetOrdersByStaffId(id);
         }
 
-        public void UpdateOrderPrice(Orders order, float price)
+        public void UpdateOrderPrice(int orderId, float price)
         {
-            OrdersDb.UpdateOrderPrice(order, price);
+            OrdersDb.UpdateOrderPrice(orderId, price);
+        }
+
+        public int GetLastID()
+        {
+            return OrdersDb.GetLastID();
         }
         //SQL Befehle bis hier
 
-        public void UpdateTotalPrice(Orders order)
+        public void UpdateTotalPrice(int orderId)
         {
-            int quant = 0;
+            int quantity = 0;
             float preis = 0;
             float gesamt = 0;
 
-            List<Order_Dishes> orderdishes = Order_DishesDb.GetOrderDishesByOrderId(order.idOrders);
-
+            List<Order_Dishes> orderdishes = Order_DishesDb.GetOrderDishesByOrderId(orderId);
 
             foreach (var orderdish in orderdishes)
             {
 
-                quant = orderdish.Quantity;
+                quantity = orderdish.Quantity;
                 Dishes dish = DishesDb.GetDishesById(orderdish.FK_Dishes);
                 preis = dish.price;
-                gesamt = quant * preis;
-
-                UpdateOrderPrice(order, gesamt);
+                gesamt = quantity * preis;
             }
 
-        }
 
+            UpdateOrderPrice(orderId, gesamt);
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace WebApp.Controllers
     {
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("IdEmployee") == null)
+            if (HttpContext.Session.GetInt32("_IdEmployee") == null)
             {
                 return RedirectToAction("index", "Login");
             }

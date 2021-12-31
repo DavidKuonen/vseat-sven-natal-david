@@ -22,7 +22,7 @@ namespace WebApp.Controllers
 
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetInt32("IdCustomer") == null)
+            if(HttpContext.Session.GetInt32("_IdCustomer") == null)
             {
                 return RedirectToAction("index", "Login");
             }

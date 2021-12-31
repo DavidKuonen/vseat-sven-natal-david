@@ -7,6 +7,7 @@ namespace BLL
     {
         Customer AddCustomer(Customer customer);
         List<Customer> GetAllCustomers();
+        Customer GetCustomerById(int idCustomer);
         Customer GetCustomers(string Email, string Password);
     }
 }

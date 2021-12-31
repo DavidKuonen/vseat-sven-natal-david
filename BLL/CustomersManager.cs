@@ -21,6 +21,11 @@ namespace BLL
             return CustomersDB.GetCustomer(Email, Password);
         }
 
+        public Customer GetCustomerById(int idCustomer)
+        {
+            return CustomersDB.GetCustomerById(idCustomer);
+        }
+
         public List<Customer> GetAllCustomers()
         {
             return CustomersDB.GetAllCustomers();

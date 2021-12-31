@@ -18,8 +18,10 @@ namespace WebApp.Controllers
         private IDishesManager DishesManager { get; }
         private ICategoryDishesManager CategoryDishesManager { get; }
         private IOrdersManager OrdersManager { get; }
+        private ICustomersManager CustomersManager { get; }
+        private IOrder_DishesManager Order_DishesManager { get; }
 
-        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager, IOrdersManager OrdersManager)
+        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager)
         {
             this.RestaurantsManager = RestaurantsManager;
             this.VillagesManager = VillagesManager;
@@ -28,13 +30,15 @@ namespace WebApp.Controllers
             this.DishesManager = DishesManager;
             this.CategoryDishesManager = CategoryDishesManager;
             this.OrdersManager = OrdersManager;
+            this.CustomersManager = CustomersManager;
+            this.Order_DishesManager = Order_DishesManager;
         }
 
         public static List<Models.ShoppingCartVM> shoppingCartList = new List<ShoppingCartVM>();
 
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("IdCustomer") == null)
+            if (HttpContext.Session.GetInt32("_IdCustomer") == null)
             {
                 return RedirectToAction("index", "Login");
             }
@@ -58,6 +62,10 @@ namespace WebApp.Controllers
 
         public ActionResult Dishes(int idRestaurant)
         {
+            if (HttpContext.Session.GetInt32("_IdCustomer") == null)
+            {
+                return RedirectToAction("index", "Login");
+            }
 
             List<Models.DishVM> dishVM = new List<Models.DishVM>();
 
@@ -100,32 +108,83 @@ namespace WebApp.Controllers
 
         public ActionResult ShoppingCart()
         {
-            /*if (HttpContext.Session.GetInt32("IdCustomer") == null)
+            if (HttpContext.Session.GetInt32("_IdCustomer") == null)
             {
-                return RedirectToAction("Index", "Login");
-            }*/
-           
+                return RedirectToAction("index", "Login");
+            }
+
             return View(shoppingCartList);
         }
 
         [HttpPost]
-        public ActionResult ShoppingCart(ShoppingCartVM shoppingCartVM)
+        public ActionResult ShoppingCartView()
         {
-            if(ModelState.IsValid)
-            {
-                var order = new DTO.Orders
-                {
-                    OrderTime = DateTime.Now,
-                    FK_OrderStatus = 1,
-                    FK_Customers = (int)HttpContext.Session.GetInt32("IdCustomer")
-                };
-            }
             return RedirectToAction(nameof(Confirmation));
         }
 
         public ActionResult Confirmation()
         {
-            return View();
+
+            CollectionDataModell model = new CollectionDataModell();
+
+            Models.PersonalDetails personalDetails = new()
+            {
+                NameCustomer = CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Firstname + " " + CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Lastname,
+                AddressCustomer = CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Address,
+                CityCustomer = VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdVillage).postalCode + " " + VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdVillage).name,
+                DistrictCustomer = DistrictsManager.GetDistrictsById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdDistrict).name,
+            };
+
+            model.personalDetails = personalDetails;
+            model.shoppingCartVMs = shoppingCartList;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Order()
+        {
+            /*float TotalPrice = 0;
+
+              foreach (ShoppingCartVM sc in shoppingCartList)
+              {
+                  TotalPrice += sc.Price;
+              }*/
+            int orderId;
+
+            if (ModelState.IsValid)
+            {
+                var order = new DTO.Orders
+                {
+                    OrderTime = DateTime.Now,
+                    DeliveryTime = DateTime.Now,
+                    TotalPrice = 0,
+                    FK_OrderStatus = 1,
+                    FK_Staff = 1,
+                    FK_Customers = HttpContext.Session.GetInt32("_IdCustomer").Value
+                };
+
+                OrdersManager.AddOrder(order);
+
+                orderId = OrdersManager.GetLastID();
+
+                for (int i = 0; i < shoppingCartList.Count; i++)
+                {
+                    var orderDish = new DTO.Order_Dishes
+                    {
+                        Quantity = 2,
+                        FK_Dishes = shoppingCartList[i].DishId,
+                        FK_Orders = orderId
+                    };
+                    Order_DishesManager.AddOrderDishes(orderDish);
+                    OrdersManager.UpdateTotalPrice(orderId);
+                }
+            }
+
+
+
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

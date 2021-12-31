@@ -320,7 +320,41 @@ namespace DAL
       return result;
     }
 
-    public void UpdateOrderPrice(Orders order,float price)
+        public int GetLastID()
+        {
+            int result = 0;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select TOP 1 idOrder from Orders ORDER BY idOrder DESC";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+
+                            result = (int)dr["idOrder"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public void UpdateOrderPrice(int orderId,float price)
     {
       int result = 0;
 
@@ -336,7 +370,7 @@ namespace DAL
           SqlCommand cmd = new SqlCommand(query, cn);
 
           cmd.Parameters.AddWithValue("@totalPrice", price);
-          cmd.Parameters.AddWithValue("@idOrder", order.idOrders);
+          cmd.Parameters.AddWithValue("@idOrder", orderId);
 
 
           cn.Open();
@@ -351,39 +385,36 @@ namespace DAL
 
     }
 
-
-    public Orders AddOrder(Orders order)
-    {
-      int result = 0;
-
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
+        public Orders AddOrder(Orders order)
         {
-          string query = "Insert into Orders(orderTime, deliveryTime, totalPrice, idCustomer, idEmployee, idOrderStatus) " +
-            "values(@OrderTime, @DeliveryTime, @totalprice, @FK_Customers, @FK_Staff, @FK_OrderStatus)";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          
-          cmd.Parameters.AddWithValue("@OrderTime", order.OrderTime);
-          cmd.Parameters.AddWithValue("@DeliveryTime", order.DeliveryTime);
-          cmd.Parameters.AddWithValue("@totalprice", order.TotalPrice);
-          cmd.Parameters.AddWithValue("@FK_Customers", order.FK_Customers);
-          cmd.Parameters.AddWithValue("@FK_Staff", order.FK_Staff);
-          cmd.Parameters.AddWithValue("@FK_OrderStatus", order.FK_OrderStatus);
+            int result = 0;
 
-          cn.Open();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-          result = cmd.ExecuteNonQuery();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Orders(orderTime, deliveryTime, totalPrice, idOrderStatus, idEmployee, idCustomer) values (@orderTime, @deliveryTime, @totalPrice, @idOrderStatus, @idEmployee, @idCustomer); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@orderTime", order.OrderTime);
+                    cmd.Parameters.AddWithValue("@deliveryTime", order.DeliveryTime);
+                    cmd.Parameters.AddWithValue("@totalPrice", order.TotalPrice);
+                    cmd.Parameters.AddWithValue("@idOrderStatus", order.FK_OrderStatus);
+                    cmd.Parameters.AddWithValue("@idEmployee", order.FK_Staff);
+                    cmd.Parameters.AddWithValue("@idCustomer", order.FK_Customers);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return order;
         }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
-      return order;
-    }
-
   }
 }

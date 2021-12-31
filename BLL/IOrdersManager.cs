@@ -10,7 +10,7 @@ namespace BLL
         List<Orders> GetOrdersByCustomerId(int id);
         Orders GetOrdersById(int id);
         List<Orders> GetOrdersByStaffId(int id);
-        void UpdateOrderPrice(Orders order, float price);
-        void UpdateTotalPrice(Orders order);
+        void UpdateTotalPrice(int orderId);
+        public int GetLastID();
     }
 }
