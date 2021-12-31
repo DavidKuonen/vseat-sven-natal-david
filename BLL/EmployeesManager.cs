@@ -55,6 +55,7 @@ namespace BLL
         //SQL Befehle bis hier
 
         //Logik über mehrere DB
+        //OrderMEtric sollte eine View sein also im WebApp Controllers und dann daraus View
         public List<OrderMetricForEmployee> GetOrdersCustomers(int idEmployee)
         {
 
@@ -114,10 +115,13 @@ namespace BLL
                     CustomerLastname = CustomersDB.GetCustomerById(idCustomers[i]).Lastname,
                     CustomerAddress = CustomersDB.GetCustomerById(idCustomers[i]).Address,
                     CustomerVillage = VillagesDB.GetVillageById(CustomersDB.GetCustomerById(idCustomers[i]).IdVillage).name,
+                    CustomerPhoneNumber = CustomersDB.GetCustomerById(idCustomers[i]).PhoneNumber,
                     DishName = DishesDB.GetDishesById(idDish[i]).name,
+                    Dishprice = DishesDB.GetDishesById(idDish[i]).price,
                     RestaurantName = RestaurantsDB.GetRestaurantById(idRestaurant[i]).name,
-                    RestaurantVillage = VillagesDB.GetVillageById(RestaurantsDB.GetRestaurantById(idRestaurant[i]).idVillage).name
-
+                    RestaurantAddress = RestaurantsDB.GetRestaurantById(idRestaurant[i]).address,
+                    RestaurantVillage = VillagesDB.GetVillageById(RestaurantsDB.GetRestaurantById(idRestaurant[i]).idVillage).name,
+                    RestaurantPhoneNumber = RestaurantsDB.GetRestaurantById(idRestaurant[i]).phoneNumber
                 };
 
                 getOrder.Add(metric);
