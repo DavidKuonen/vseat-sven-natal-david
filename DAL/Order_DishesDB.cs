@@ -68,54 +68,52 @@ namespace DAL
       return results;
     }
 
-    public List<Order_Dishes> GetOrderDishesByOrderId(int id)
-    {
-      List<Order_Dishes> results = null;
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
+        public List<Order_Dishes> GetOrderDishesByOrderId(int idOrder)
         {
-          string query = "Select * from Orders_Dishes WHERE idOrder=@id";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@id", id);
+            List<Order_Dishes> orders = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-          cn.Open();
-
-          using (SqlDataReader dr = cmd.ExecuteReader())
-          {
-            if (dr.Read())
+            try
             {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT DISTINCT * FROM Orders_Dishes WHERE idOrder = @idOrder";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idOrder", idOrder);
 
-             if (results == null)
-                results = new List<Order_Dishes>();
+                    sqlConn.Open();
 
-              Order_Dishes result = new Order_Dishes();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (orders == null)
+                                orders = new List<Order_Dishes>();
 
-              result.idOrder_Dishes = (int)dr["idOrder_Dish"];
+                            Order_Dishes order = new Order_Dishes();
 
-              result.Quantity = (int)dr["quantity"];
+                            order.idOrder_Dishes = (int)reader["idOrder_Dish"];
 
-              result.FK_Dishes = (int)dr["idDish"];
+                            order.Quantity = (int)reader["quantity"];
 
-              result.FK_Orders = (int)dr["idOrder"];
+                            order.FK_Dishes = (int)reader["idDish"];
 
-              results.Add(result);
+                            order.FK_Orders = (int)reader["idOrder"];
+
+                            orders.Add(order);
+                        }
+                    }
+                }
             }
-          }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return orders;
         }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
 
-      return results;
-    }
-
-    public Order_Dishes GetOrderDishesById(int id)
+        public Order_Dishes GetOrderDishesById(int id)
     {
       Order_Dishes result = null;
       string connectionString = Configuration.GetConnectionString("DefaultConnection");

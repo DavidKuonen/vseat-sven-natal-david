@@ -13,64 +13,148 @@ namespace WebApp.Controllers
 {
     public class EmployeeController : Controller
     {
-    private IEmployeesManager EmployeesManager { get; }
-    private IDishesManager DishesManager { get; }
-    private IRestaurantsManager RestaurantsManager { get; }
-    private IVillagesManager VillagesManager { get; }
-    private IOrdersManager OrdersManager { get; }
-    private ICustomersManager CustomersManager { get; }
-    private IOrder_DishesManager Order_DishesManager { get; }
+        private IEmployeesManager EmployeesManager { get; }
+        private IDishesManager DishesManager { get; }
+        private IRestaurantsManager RestaurantsManager { get; }
+        private IVillagesManager VillagesManager { get; }
+        private IOrdersManager OrdersManager { get; }
+        private ICustomersManager CustomersManager { get; }
+        private IOrder_DishesManager Order_DishesManager { get; }
   
 
 
-    public EmployeeController(IEmployeesManager EmployeesManager)
-    {
-      this.EmployeesManager = EmployeesManager;
-    }
+        public EmployeeController(IEmployeesManager EmployeesManager, IDishesManager DishesManager, IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager)
+        {
+            this.EmployeesManager = EmployeesManager;
+            this.DishesManager = DishesManager;
+            this.RestaurantsManager = RestaurantsManager;
+            this.VillagesManager = VillagesManager;
+            this.OrdersManager = OrdersManager;
+            this.CustomersManager = CustomersManager;
+            this.Order_DishesManager = Order_DishesManager;
+        }
 
-    public ActionResult Index(int idEmployee)
+        public ActionResult Index()
         {
-      try
-      {
-        if (HttpContext.Session.GetInt32("IdEmployee") == null)
+            if (HttpContext.Session.GetInt32("_IdEmployee") == null)
+            {
+                return RedirectToAction("index", "Login");
+            }
+
+            int idEmployee = HttpContext.Session.GetInt32("_IdEmployee").Value;
+
+            List<Models.CollectionOrderEmployee> modelList = new ();
+
+            List<Models.RestaurantVM> restaurants = new ();
+            List<Orders> orders = OrdersManager.GetOpenOrdersEmployee(idEmployee);
+
+            for(int i = 0; i < orders.Count; i++)
+            {
+                int idOrder = orders[i].idOrders;
+
+                foreach(Order_Dishes od in Order_DishesManager.GetOrderDishesByOrderId(idOrder))
+                {
+                    RestaurantVM restaurantVM = new()
+                    {
+                        RestaurantName = RestaurantsManager.GetRestaurantById(DishesManager.GetDishesById(od.FK_Dishes).FK_Restaurant).name,
+                        OrderID = idOrder
+                    };
+                    restaurants.Add(restaurantVM);
+                }
+
+            }
+
+            return View(restaurants);
+        }
+
+        public ActionResult Details(int idOrder)
         {
-          return RedirectToAction("index", "Login");
+
+            CollectionOrderEmployee model = new();
+            
+            int idCustomer = OrdersManager.GetOrderById(idOrder).FK_Customers;
+            List<Models.DishVM> dishes = new();
+
+            List<Order_Dishes> ordersDishes = Order_DishesManager.GetOrderDishesByOrderId(idOrder);
+
+            OrderDetailsEmployee order = new()
+            {
+                OrderId = idOrder,    
+                CustomerLastname = CustomersManager.GetCustomerById(idCustomer).Lastname
+            };
+
+            for(int i = 0; i < ordersDishes.Count; i++)
+            {
+                Models.DishVM dish = new()
+                {
+                    DishName = DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).name,
+                    DishQuantity = ordersDishes[i].Quantity,
+                    DishPrice = DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).price
+                };
+                dishes.Add(dish);
+            }
+
+            model.OrderDetails = order;
+            model.Dishes = dishes;
+       
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delivered(int idOrder)
+        {
+
+            OrdersManager.UpdateOrderStatus(idOrder);
+
+            return RedirectToAction(nameof(Index));
         }
 
 
-
-        /* Mein Versuch gemäss RestaurantController aber gleiche Ausgabe wie andere Variante -> NullpointerException.
-         * Vieleicht etwas falsch?
-         * 
-        List<Models.EmployeeVM> employee = new List<Models.EmployeeVM>();
-        List<Orders> orders = new List<Orders>();
-        orders = OrdersManager.GetAllOrders();
-
-
-        for (int i = 0; i < orders.Count; i++)
-        {
-          if (orders[i].FK_Staff == idEmployee)
+        /*
+        public ActionResult Index(int idEmployee)
+            {
+          try
           {
-            Models.EmployeeVM employei = new();
-            employei.CustomerFirstname = CustomersManager.GetAllCustomers()[i].Firstname;
-            employei.CustomerLastname = CustomersManager.GetAllCustomers()[i].Lastname;
-            employei.CustomerAddress = CustomersManager.GetAllCustomers()[i].Address;
-            employei.CustomerVillage = VillagesManager.GetAllVillages()[CustomersManager.GetAllCustomers()[i].IdVillage].name;
-            employei.CustomerPhoneNumber = CustomersManager.GetAllCustomers()[i].PhoneNumber;
-            employei.DishName = DishesManager.GetAllDishes()[i].name;
-            employei.Dishprice = DishesManager.GetAllDishes()[i].price;
-            employei.RestaurantName = RestaurantsManager.GetAllRestaurants()[i].name;
-            employei.RestaurantAddress = RestaurantsManager.GetAllRestaurants()[i].address;
-            employei.RestaurantVillage = VillagesManager.GetAllVillages()[RestaurantsManager.GetAllRestaurants()[i].idVillage].name;
-            employei.RestaurantPhoneNumber = RestaurantsManager.GetAllRestaurants()[i].phoneNumber;
-            employee.Add(employei);
-          }
-        }
+            if (HttpContext.Session.GetInt32("IdEmployee") == null)
+            {
+              return RedirectToAction("index", "Login");
+            }
 
-        return View(employee); */
+
+
+            /* Mein Versuch gemäss RestaurantController aber gleiche Ausgabe wie andere Variante -> NullpointerException.
+             * Vieleicht etwas falsch?
+             * 
+            List<Models.EmployeeVM> employee = new List<Models.EmployeeVM>();
+            List<Orders> orders = new List<Orders>();
+            orders = OrdersManager.GetAllOrders();
+
+
+            for (int i = 0; i < orders.Count; i++)
+            {
+              if (orders[i].FK_Staff == idEmployee)
+              {
+                Models.EmployeeVM employei = new();
+                employei.CustomerFirstname = CustomersManager.GetAllCustomers()[i].Firstname;
+                employei.CustomerLastname = CustomersManager.GetAllCustomers()[i].Lastname;
+                employei.CustomerAddress = CustomersManager.GetAllCustomers()[i].Address;
+                employei.CustomerVillage = VillagesManager.GetAllVillages()[CustomersManager.GetAllCustomers()[i].IdVillage].name;
+                employei.CustomerPhoneNumber = CustomersManager.GetAllCustomers()[i].PhoneNumber;
+                employei.DishName = DishesManager.GetAllDishes()[i].name;
+                employei.Dishprice = DishesManager.GetAllDishes()[i].price;
+                employei.RestaurantName = RestaurantsManager.GetAllRestaurants()[i].name;
+                employei.RestaurantAddress = RestaurantsManager.GetAllRestaurants()[i].address;
+                employei.RestaurantVillage = VillagesManager.GetAllVillages()[RestaurantsManager.GetAllRestaurants()[i].idVillage].name;
+                employei.RestaurantPhoneNumber = RestaurantsManager.GetAllRestaurants()[i].phoneNumber;
+                employee.Add(employei);
+              }
+            }
+
+            return View(employee); */
 
 
         /*Variante gemäss OrderMetricForEmployee versuch. Leider keine korrekte Ausgabe -> Nullpointerexception */
+        /*
         var orderss = OrdersManager.GetOrdersByStaffId(idEmployee);
 
           List<EmployeeVM> getOrder = new List<EmployeeVM>();
@@ -150,6 +234,6 @@ namespace WebApp.Controllers
       }
       return View(); 
     }
-
-  }
+*/
+    }
 }

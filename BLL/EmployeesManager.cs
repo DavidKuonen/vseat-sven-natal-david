@@ -50,11 +50,40 @@ namespace BLL
 
         public Employee GetEmployeeByDistrictAndIsFree(int idDistrict)
         {
-            return GetEmployeeByDistrictAndIsFree(idDistrict);
+            return EmployeesDB.GetEmployeeByDistrictAndIsFree(idDistrict);
+        }
+
+        public void UpdateOpenOrders(int EmployeeId)
+        {
+            EmployeesDB.UpdateOpenOrders(EmployeeId);
         }
         //SQL Befehle bis hier
 
         //Logik über mehrere DB
+
+        public int GetTheRightEmployee(int idRestaurant, DateTime DeliveryTime)
+        {
+            int districtRestaurant = RestaurantsDB.GetRestaurantById(idRestaurant).idDistrict;
+
+            for (int i = 0; i < GetAllEmployees().Count; i++)
+            {
+
+                if (districtRestaurant == GetAllEmployees()[i].IdDistrict)
+                {
+                    int id = GetAllEmployees()[i].IdEmployee;
+                    int number = OrdersDB.GetOrdersNotDelivered(id, DeliveryTime);
+                    if (number < 5)
+                    {
+                        UpdateOpenOrders(id);
+                        return id;
+                    }
+                }
+
+            }
+
+            return 0;
+        }
+
         //OrderMEtric sollte eine View sein also im WebApp Controllers und dann daraus View
         public List<OrderMetricForEmployee> GetOrdersCustomers(int idEmployee)
         {

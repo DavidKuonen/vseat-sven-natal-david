@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class CollectionDataModell
+    public class CollectionDataModel
     {
         public PersonalDetails personalDetails { get; set; }
         public List<ShoppingCartVM> shoppingCartVMs { get; set; }

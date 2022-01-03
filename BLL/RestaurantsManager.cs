@@ -37,6 +37,11 @@ namespace BLL
             return RestaurantsDb.GetRestaurantsByVillage(idVillage);
         }
 
+        public Restaurants GetRestaurantById(int idRestaurant)
+        {
+            return RestaurantsDb.GetRestaurantById(idRestaurant);
+        }
+
         public Restaurants AddRestaurant(Restaurants restaurant)
         {
             return RestaurantsDb.AddRestaurant(restaurant);

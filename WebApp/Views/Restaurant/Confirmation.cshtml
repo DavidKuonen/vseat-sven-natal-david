@@ -1,4 +1,4 @@
-﻿@model CollectionDataModell
+﻿@model CollectionDataModel
 
 @{
     ViewData["Title"] = "Confirmation";
@@ -80,6 +80,7 @@
 </div>
 <form asp-action="Order">
     <div class="form-group">
+        <input type="time" id="deliveryTime" name="DeliveryTime"/>
         <input type="submit" value="Order" class="btn btn-primary" />
     </div>
 </form>

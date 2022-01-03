@@ -1,4 +1,5 @@
 ﻿using DTO;
+using System;
 using System.Collections.Generic;
 
 namespace BLL
@@ -8,9 +9,12 @@ namespace BLL
         Orders AddOrder(Orders order);
         List<Orders> GetAllOrders();
         List<Orders> GetOrdersByCustomerId(int id);
-        Orders GetOrdersById(int id);
+        Orders GetOrderById(int id);
         List<Orders> GetOrdersByStaffId(int id);
         void UpdateTotalPrice(int orderId);
+        void UpdateOrderStatus(int orderId);
+        int GetOrdersNotDelivered(int idEmployee, DateTime DeliveryTime);
         public int GetLastID();
+        List<Orders> GetOpenOrdersEmployee(int id);
     }
 }

@@ -20,8 +20,9 @@ namespace WebApp.Controllers
         private IOrdersManager OrdersManager { get; }
         private ICustomersManager CustomersManager { get; }
         private IOrder_DishesManager Order_DishesManager { get; }
+        private IEmployeesManager EmployeesManager { get; }
 
-        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager)
+        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager, IEmployeesManager EmployeesManager)
         {
             this.RestaurantsManager = RestaurantsManager;
             this.VillagesManager = VillagesManager;
@@ -32,6 +33,7 @@ namespace WebApp.Controllers
             this.OrdersManager = OrdersManager;
             this.CustomersManager = CustomersManager;
             this.Order_DishesManager = Order_DishesManager;
+            this.EmployeesManager = EmployeesManager;
         }
 
         public static List<Models.ShoppingCartVM> shoppingCartList = new List<ShoppingCartVM>();
@@ -125,7 +127,7 @@ namespace WebApp.Controllers
         public ActionResult Confirmation()
         {
 
-            CollectionDataModell model = new CollectionDataModell();
+            CollectionDataModel model = new CollectionDataModel();
 
             Models.PersonalDetails personalDetails = new()
             {
@@ -142,7 +144,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Order()
+        public ActionResult Order(DateTime DeliveryTime)
         {
             /*float TotalPrice = 0;
 
@@ -151,16 +153,18 @@ namespace WebApp.Controllers
                   TotalPrice += sc.Price;
               }*/
             int orderId;
+            int employeeId = EmployeesManager.GetTheRightEmployee(shoppingCartList[0].RestaurantId, DeliveryTime);
 
             if (ModelState.IsValid)
             {
+
                 var order = new DTO.Orders
                 {
                     OrderTime = DateTime.Now,
-                    DeliveryTime = DateTime.Now,
+                    DeliveryTime = DeliveryTime,
                     TotalPrice = 0,
                     FK_OrderStatus = 1,
-                    FK_Staff = 1,
+                    FK_Staff = employeeId,
                     FK_Customers = HttpContext.Session.GetInt32("_IdCustomer").Value
                 };
 
@@ -172,17 +176,17 @@ namespace WebApp.Controllers
                 {
                     var orderDish = new DTO.Order_Dishes
                     {
-                        Quantity = 2,
+                        Quantity = 1,
                         FK_Dishes = shoppingCartList[i].DishId,
                         FK_Orders = orderId
                     };
                     Order_DishesManager.AddOrderDishes(orderDish);
-                    OrdersManager.UpdateTotalPrice(orderId);
                 }
+
+                OrdersManager.UpdateTotalPrice(orderId);
+
+                shoppingCartList.Clear();
             }
-
-
-
 
             return RedirectToAction(nameof(Index));
         }

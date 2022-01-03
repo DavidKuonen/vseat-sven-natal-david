@@ -15,12 +15,14 @@ namespace BLL
         private IOrdersDB OrdersDb { get; }
         private IOrder_DishesDB Order_DishesDb { get; }
         private IDishesDB DishesDb { get; }
+        private IEmployeesDB EmployeesDb { get; }
 
         public OrdersManager(IConfiguration conf)
         {
             OrdersDb = new OrdersDB(conf);
             Order_DishesDb = new Order_DishesDB(conf);
             DishesDb = new DishesDB(conf);
+            EmployeesDb = new EmployeesDB(conf);
         }
 
         //SQL Befehle der DAL Klasse
@@ -34,9 +36,9 @@ namespace BLL
             return OrdersDb.GetAllOrders();
         }
 
-        public Orders GetOrdersById(int id)
+        public Orders GetOrderById(int id)
         {
-            return OrdersDb.GetOrdersById(id);
+            return OrdersDb.GetOrderById(id);
         }
 
         public List<Orders> GetOrdersByCustomerId(int id)
@@ -54,9 +56,24 @@ namespace BLL
             OrdersDb.UpdateOrderPrice(orderId, price);
         }
 
+        public void UpdateOrderStatus(int orderId)
+        {
+            OrdersDb.UpdateOrderStatus(orderId);
+        }
+
         public int GetLastID()
         {
             return OrdersDb.GetLastID();
+        }
+
+        public int GetOrdersNotDelivered(int idEmployee, DateTime DeliveryTime)
+        {
+            return OrdersDb.GetOrdersNotDelivered(idEmployee, DeliveryTime);
+        }
+
+        public List<Orders> GetOpenOrdersEmployee(int id)
+        {
+            return OrdersDb.GetOpenOrdersEmployee(id);
         }
         //SQL Befehle bis hier
 
@@ -66,17 +83,14 @@ namespace BLL
             float preis = 0;
             float gesamt = 0;
 
-            List<Order_Dishes> orderdishes = Order_DishesDb.GetOrderDishesByOrderId(orderId);
+            var orderdishes = Order_DishesDb.GetOrderDishesByOrderId(orderId);
 
             foreach (var orderdish in orderdishes)
             {
-
                 quantity = orderdish.Quantity;
-                Dishes dish = DishesDb.GetDishesById(orderdish.FK_Dishes);
-                preis = dish.price;
-                gesamt = quantity * preis;
+                preis = DishesDb.GetDishesById(orderdish.FK_Dishes).price;
+                gesamt += quantity * preis;
             }
-
 
             UpdateOrderPrice(orderId, gesamt);
         }

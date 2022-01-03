@@ -11,7 +11,7 @@ namespace DTO
     public int idOrders { get; set; }
     public DateTime OrderTime { get; set; }
     public DateTime DeliveryTime { get; set; }
-    public Double TotalPrice { get; set; }
+    public float TotalPrice { get; set; }
     public int FK_Customers { get; set; }
     public int FK_Staff { get; set; }
     public int FK_OrderStatus { get; set; }

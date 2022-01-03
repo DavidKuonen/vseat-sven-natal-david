@@ -18,6 +18,8 @@ namespace DTO
 
         public string Password { get; set; }
 
+        public int OpenOrders { get; set; }
+
         public int IdVillage { get; set; }
 
         public int IdDistrict { get; set; }

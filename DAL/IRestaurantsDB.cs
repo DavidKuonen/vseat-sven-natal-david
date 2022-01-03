@@ -6,12 +6,11 @@ namespace DAL
     public interface IRestaurantsDB
     {
         List<Restaurants> GetAllRestaurants();
-        public Restaurants GetRestaurantById(int idRestaurant);
+        Restaurants GetRestaurantById(int idRestaurant);
         List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant);
         List<Restaurants> GetRestaurantsByDistrict(int idDistrict);
         List<Restaurants> GetRestaurantsByName(string name);
         List<Restaurants> GetRestaurantsByVillage(int idVillage);
-
         Restaurants AddRestaurant(Restaurants restaurant);
         int DeleteRestaurant(int idRestaurant);
 

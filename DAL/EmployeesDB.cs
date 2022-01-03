@@ -25,7 +25,7 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Employee";
+                    string query = "SELECT * FROM Employees";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
 
                     sqlConn.Open();
@@ -39,7 +39,7 @@ namespace DAL
 
                             Employee employee = new Employee();
 
-                            employee.IdEmployee = (int)reader["idCustomer"];
+                            employee.IdEmployee = (int)reader["idEmployee"];
 
                             employee.Lastname = (string)reader["lastname"];
 
@@ -47,14 +47,18 @@ namespace DAL
 
                             employee.Address = (string)reader["address"];
 
-                            if (reader["phoneNumber"] != null)
-                                employee.PhoneNumber = (string)reader["phoneNumber"];
+                            if (reader["phonenumber"] != null)
+                                employee.PhoneNumber = (string)reader["phonenumber"];
 
                             employee.Email = (string)reader["email"];
 
                             employee.Password = (string)reader["password"];
 
+                            employee.OpenOrders = (int)reader["openOrders"];
+
                             employee.IdVillage = (int)reader["idVillage"];
+
+                            employee.IdDistrict = (int)reader["idDistrict"];
 
                             employee.IdUserRole = (int)reader["idUserRole"];
 
@@ -80,7 +84,7 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Employee WHERE idDistrict = @idDistrict";
+                    string query = "SELECT * FROM Employees WHERE idDistrict = @idDistrict";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
                     cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
 
@@ -92,7 +96,7 @@ namespace DAL
                         {
                             employee = new Employee();
 
-                            employee.IdEmployee = (int)reader["idCustomer"];
+                            employee.IdEmployee = (int)reader["idEmployee"];
 
                             employee.Lastname = (string)reader["lastname"];
 
@@ -133,9 +137,10 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT TOP 1 * FROM Employee WHERE idDistrict = @idDistrict AND openOrders < 5";
+                    string query = "Select TOP 1 idEmployee from Employees WHERE idDistrict=@idDistrict ORDER BY idEmployee ASC";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
                     cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
+                    cmd.Parameters.AddWithValue("@number", 5);
 
                     sqlConn.Open();
 
@@ -145,26 +150,9 @@ namespace DAL
                         {
                             employee = new Employee();
 
-                            employee.IdEmployee = (int)reader["idCustomer"];
+                            employee.IdEmployee = (int)reader["idEmployee"];
 
-                            employee.Lastname = (string)reader["lastname"];
-
-                            employee.Firstname = (string)reader["firstname"];
-
-                            employee.Address = (string)reader["address"];
-
-                            if (reader["phoneNumber"] != null)
-                                employee.PhoneNumber = (string)reader["phoneNumber"];
-
-                            employee.Email = (string)reader["email"];
-
-                            employee.Password = (string)reader["password"];
-
-                            employee.IdVillage = (int)reader["idVillage"];
-
-                            employee.IdDistrict = (int)reader["idDistrict"];
-
-                            employee.IdUserRole = (int)reader["idUserRole"];
+             
                         }
                     }
                 }
@@ -226,6 +214,35 @@ namespace DAL
             }
 
             return employee;
+        }
+
+        public void UpdateOpenOrders(int EmployeeId)
+        {
+            int result = 0;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "UPDATE Employees " +
+                      "SET openOrders = (openOrders+1)" +
+                      "WHERE idEmployee = @idEmployee";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idEmployee", EmployeeId);
+
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         public Employee AddEmployee(Employee employee)

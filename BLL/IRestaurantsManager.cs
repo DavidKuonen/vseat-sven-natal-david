@@ -6,6 +6,7 @@ namespace BLL
     public interface IRestaurantsManager
     {
         Restaurants AddRestaurant(Restaurants restaurant);
+        Restaurants GetRestaurantById(int idRestaurant);
         int DeleteRestaurant(int id);
         List<Restaurants> GetAllRestaurants();
         List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant);

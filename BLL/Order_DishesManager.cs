@@ -33,6 +33,12 @@ namespace BLL
         {
             return Order_DishesDb.GetOrderDishesById(id);
         }
+
+        public List<Order_Dishes> GetOrderDishesByOrderId(int id)
+        {
+            return Order_DishesDb.GetOrderDishesByOrderId(id);
+        }
+
         //SQL Befehle bis hier
     }
 }

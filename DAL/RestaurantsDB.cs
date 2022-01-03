@@ -90,18 +90,20 @@ namespace DAL
 
                             restaurant.idRestaurant = (int)reader["idRestaurant"];
 
-                            restaurant.name = (string)reader["name"];
+                            if (reader["name"] != null)
+                                restaurant.name = (string)reader["name"];
 
-                            restaurant.address = (string)reader["address"];
+                            if (reader["address"] != null)
+                                restaurant.address = (string)reader["address"];
 
-                            restaurant.phoneNumber = (string)reader["phoneNumber"];
+                            if (reader["phoneNumber"] != null)
+                                restaurant.phoneNumber = (string)reader["phoneNumber"];
 
                             restaurant.idVillage = (int)reader["idVillage"];
 
                             restaurant.idDistrict = (int)reader["idDistrict"];
 
                             restaurant.idCategoryRestaurant = (int)reader["idCategoryRestaurant"];
-
                         }
                     }
                 }

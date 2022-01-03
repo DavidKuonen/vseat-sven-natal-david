@@ -107,17 +107,30 @@ namespace DAL
 
                             dish.idDishes = (int)reader["idDish"];
 
-                            dish.name = (string)reader["name"];
+                            if (reader["name"] != null)
+                            {
+                                dish.name = (string)reader["name"];
+                            }
 
-                            //dish.price = (float)reader["price"];
+                            if (reader["price"] != DBNull.Value)
+                            {
+                                dish.price = Convert.ToSingle(reader["price"]);
+                            }
 
-                            //dish.calories = (int)reader["calories"];
+                            if (reader["calories"] != DBNull.Value)
+                            {
+                                dish.calories = (int)reader["calories"];
+                            }
 
-                            //dish.Image = (string)reader["image"];
+                            if (reader["idRestaurant"] != DBNull.Value)
+                            {
+                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                            }
 
-                            dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
-
-                            dish.FK_Restaurant = (int)reader["idRestaurant"];
+                            if (reader["idCategoryDish"] != DBNull.Value)
+                            {
+                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                            }
                         }
                     }
                 }
