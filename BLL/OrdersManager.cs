@@ -75,7 +75,23 @@ namespace BLL
         {
             return OrdersDb.GetOpenOrdersEmployee(id);
         }
+
+        public List<Orders> GetOpenOrdersCustomer(int idCustomer)
+        {
+            return OrdersDb.GetOpenOrdersCustomer(idCustomer);
+        }
+
+        public void DeleteOrder(int orderId)
+        {
+            OrdersDb.DeleteOrder(orderId);
+        }
         //SQL Befehle bis hier
+
+        public void DeleteOrders(int idOrder)
+        {
+            Order_DishesDb.DeleteOrderDish(idOrder);
+            DeleteOrder(idOrder);
+        }
 
         public void UpdateTotalPrice(int orderId)
         {

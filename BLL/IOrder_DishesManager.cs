@@ -10,5 +10,6 @@ namespace BLL
         List<Order_Dishes> GetAllOrder_Dishes();
         Order_Dishes GetOrderDishesById(int id);
         List<Order_Dishes> GetOrderDishesByOrderId(int id);
+        void DeleteOrderDish(int idOrder);
     }
 }

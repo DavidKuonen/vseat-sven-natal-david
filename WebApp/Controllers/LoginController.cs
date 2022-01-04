@@ -53,5 +53,11 @@ namespace WebApp.Controllers
             }
             return View(loginVM);
         }
+
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

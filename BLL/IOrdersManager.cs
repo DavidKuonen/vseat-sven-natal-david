@@ -16,5 +16,7 @@ namespace BLL
         int GetOrdersNotDelivered(int idEmployee, DateTime DeliveryTime);
         public int GetLastID();
         List<Orders> GetOpenOrdersEmployee(int id);
+        List<Orders> GetOpenOrdersCustomer(int idCustomer);
+        void DeleteOrders(int orderId);
     }
 }

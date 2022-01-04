@@ -66,6 +66,10 @@ namespace WebApp.Controllers
 
         public ActionResult Confirmation()
         {
+            if (HttpContext.Session.GetInt32("_IdCustomer") == null)
+            {
+                return RedirectToAction("index", "Login");
+            }
 
             CollectionDataModel model = new CollectionDataModel();
 

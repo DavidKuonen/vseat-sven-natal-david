@@ -39,6 +39,11 @@ namespace BLL
             return Order_DishesDb.GetOrderDishesByOrderId(id);
         }
 
+        public void DeleteOrderDish(int idOrder)
+        {
+            Order_DishesDb.DeleteOrderDish(idOrder);
+        }
+
         //SQL Befehle bis hier
     }
 }

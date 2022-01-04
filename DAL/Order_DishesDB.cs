@@ -113,6 +113,32 @@ namespace DAL
             return orders;
         }
 
+        public void DeleteOrderDish(int idOrder)
+        {
+            int result = 0;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE FROM Orders_Dishes WHERE idOrder = @idOrder";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idOrder", idOrder);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
         public Order_Dishes GetOrderDishesById(int id)
     {
       Order_Dishes result = null;

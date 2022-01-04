@@ -42,8 +42,6 @@ namespace WebApp.Controllers
 
             int idEmployee = HttpContext.Session.GetInt32("_IdEmployee").Value;
 
-            List<Models.CollectionOrderEmployee> modelList = new ();
-
             List<Models.RestaurantVM> restaurants = new ();
             List<Orders> orders = OrdersManager.GetOpenOrdersEmployee(idEmployee);
 

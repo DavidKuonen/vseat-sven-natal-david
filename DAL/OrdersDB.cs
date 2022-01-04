@@ -128,6 +128,58 @@ namespace DAL
             return orders;
         }
 
+        public List<Orders> GetOpenOrdersCustomer(int idCustomer)
+        {
+            List<Orders> orders = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Orders WHERE idCustomer = @idCustomer AND idOrderStatus = @idOrderStatus";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idCustomer", idCustomer);
+                    cmd.Parameters.AddWithValue("@idOrderStatus", 1);
+
+                    sqlConn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (orders == null)
+                                orders = new List<Orders>();
+
+                            Orders order = new Orders();
+
+                            order.idOrders = (int)reader["idOrder"];
+
+                            order.OrderTime = (DateTime)reader["orderTime"];
+
+                            order.DeliveryTime = (DateTime)reader["deliveryTime"];
+
+                            order.TotalPrice = Convert.ToSingle(reader["totalPrice"]);
+
+                            order.FK_Customers = (int)reader["idCustomer"];
+
+                            order.FK_Staff = (int)reader["idEmployee"];
+
+                            order.FK_OrderStatus = (int)reader["idOrderStatus"];
+
+                            orders.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return orders;
+        }
+
         public List<Orders> GetOpenOrdersEmployee(int idEmployee)
         {
             List<Orders> orders = null;
@@ -482,6 +534,34 @@ namespace DAL
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cmd.Parameters.AddWithValue("@idOrder", orderId);
+
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public void DeleteOrder(int idOrder)
+        {
+            int result = 0;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "DELETE FROM Orders WHERE idOrder = @idOrder";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                    cmd.Parameters.AddWithValue("@idOrder", idOrder);
 
 
                     cn.Open();
