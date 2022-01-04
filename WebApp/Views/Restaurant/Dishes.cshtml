@@ -6,9 +6,12 @@
 
 <div class="col-md-12">
     <h1>Dishes</h1>
-    <table class="table table-striped">
+    <table class="table table-striped" id="dishes">
         <thead class="thead-light">
             <tr>
+                <th>
+                    
+                </th>
                 <th scope="col">
                     Dish Name
                 </th>
@@ -28,6 +31,9 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>
+                        <img src="~/images/@Html.DisplayFor(modelItem => item.DishImage)" width="150" />
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DishName)
                     </td>

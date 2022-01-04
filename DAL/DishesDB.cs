@@ -189,6 +189,11 @@ namespace DAL
                                 dish.FK_Restaurant = (int)reader["idRestaurant"];
                             }
 
+                            if (reader["image"] != DBNull.Value)
+                            {
+                                dish.Image = (string)reader["image"];
+                            }
+
                             if (reader["idCategoryDish"] != DBNull.Value)
                             {
                                 dish.FK_CategoryDishes = (int)reader["idCategoryDish"];

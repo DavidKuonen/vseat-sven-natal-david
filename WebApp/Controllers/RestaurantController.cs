@@ -86,6 +86,7 @@ namespace WebApp.Controllers
             for (int i = 0; i < DishesManager.GetDishesByRestaurantId(idRestaurant).Count; i++)
             {
                 Models.DishVM dish = new();
+                dish.DishImage = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].Image;
                 dish.DishId = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].idDishes;
                 dish.DishName = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].name;
                 dish.DishPrice = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].price;

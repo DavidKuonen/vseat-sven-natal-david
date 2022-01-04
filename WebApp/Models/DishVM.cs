@@ -14,5 +14,6 @@ namespace WebApp.Models
         public int DishCalories { get; set; }
         public string DishCategory { get; set; }
         public int RestaurantId { get; set; }
+        public string DishImage { get; set; }
     }
 }

@@ -190,3 +190,7 @@ input.time {
 #btnconfirmation.btn.btn-primary {
     margin-top: 0px;
 }
+
+table#dishes.table td, #dishes.table th {
+    width: 18%;
+}
