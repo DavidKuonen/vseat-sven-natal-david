@@ -1,59 +1,18 @@
 ﻿@model IEnumerable<WebApp.Models.RestaurantVM>
 
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Restaurants";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResaurantAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantCity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantDistrict)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantCategory)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResaurantAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantDistrict)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantCategory)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Dishes", "Dishes", new {  idRestaurant=item.RestaurantId  }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@foreach (var item in Model)
+{
+    <div class="card mb-3">
+        <img class="card-img-top" src="~/images/food.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName) | @Html.DisplayFor(modelItem => item.RestaurantCategory)</h5>
+            <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)<br />@Html.DisplayFor(modelItem => item.RestaurantCity) | @Html.DisplayFor(modelItem => item.RestaurantDistrict)</p>
+            <a class="signup">@Html.ActionLink("Show Dishes", "Dishes", new { idRestaurant = item.RestaurantId })</a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>

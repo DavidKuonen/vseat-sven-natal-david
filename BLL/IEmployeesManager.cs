@@ -12,7 +12,6 @@ namespace BLL
         Employee GetEmployeeByDistrict(int idDistrict);
         int GetTheRightEmployee(int idRestaurant, DateTime DeliveryTime);
         Employee GetEmployeeByDistrictAndIsFree(int idDistrict);
-        List<OrderMetricForEmployee> GetOrdersCustomers(int idEmployee);
         void UpdateOpenOrders(int EmployeeId);
     }
 }

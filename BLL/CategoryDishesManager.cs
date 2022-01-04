@@ -13,9 +13,9 @@ namespace BLL
     {
         private ICategoryDishesDB CategoryDishesDb { get; }
 
-        public CategoryDishesManager(IConfiguration conf)
+        public CategoryDishesManager(ICategoryDishesDB CategoryDishesDb)
         {
-            CategoryDishesDb = new CategoryDishesDB(conf);
+            this.CategoryDishesDb = CategoryDishesDb;
         }
 
 
@@ -34,7 +34,5 @@ namespace BLL
         {
             return CategoryDishesDb.GetCategoryDishesByName(name);
         }
-        //SQL Befehle bis hier
-
     }
 }

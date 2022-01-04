@@ -60,6 +60,47 @@ namespace DAL
             return results;
         }
 
+        public Villages GetVillageByName(string Village)
+        {
+            Villages village = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Villages where name = @village";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@village", Village);
+
+                    cn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            village = new Villages();
+
+                            village.idVillage = (int)reader["idVillage"];
+
+                            village.postalCode = (int)reader["postalCode"];
+
+                            village.name = (string)reader["name"];
+
+                            village.idDistrict = (int)reader["idDistrict"];
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return village;
+        }
+
         public Villages GetVillageById(int idVillage)
         {
             Villages village = null;

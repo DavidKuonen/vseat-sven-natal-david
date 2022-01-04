@@ -9,9 +9,9 @@ namespace BLL
     {
         private IDistrictsDB DistrictsDb { get; }
 
-        public DistrictsManager(IConfiguration conf)
+        public DistrictsManager(IDistrictsDB DistrictsDb)
         {
-            DistrictsDb = new DistrictsDB(conf);
+            this.DistrictsDb = DistrictsDb;
         }
 
         //SQL Befehle der DAL Klasse

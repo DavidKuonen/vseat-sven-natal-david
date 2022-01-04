@@ -13,9 +13,9 @@ namespace BLL
     {
         private IDishesDB DishesDb { get; }
 
-        public DishesManager(IConfiguration conf)
+        public DishesManager(IDishesDB DishesDb)
         {
-            DishesDb = new DishesDB(conf);
+            this.DishesDb = DishesDb;
         }
 
         //SQL Befehle der DAL Klasse werden untenstehend geholt

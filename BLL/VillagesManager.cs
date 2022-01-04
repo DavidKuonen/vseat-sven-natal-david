@@ -9,9 +9,9 @@ namespace BLL
     {
         private IVillagesDB VillagesDb { get; }
 
-        public VillagesManager(IConfiguration conf)
+        public VillagesManager(IVillagesDB VillagesDb)
         {
-            VillagesDb = new VillagesDB(conf);
+            this.VillagesDb = VillagesDb;
         }
 
         //SQL Befehle der DAL Klasse
@@ -23,6 +23,11 @@ namespace BLL
         public Villages GetVillagesById(int id)
         {
             return VillagesDb.GetVillageById(id);
+        }
+
+        public Villages GetVillageByName(string Village)
+        {
+            return VillagesDb.GetVillageByName(Village);
         }
 
         public List<Villages> GetVillagesByDistrict(int idDistrict)

@@ -9,9 +9,9 @@ namespace BLL
     {
         private ICategoryRestaurantsDB CategoryRestaurantsDb { get; }
 
-        public CategoryRestaurantsManager(IConfiguration conf)
+        public CategoryRestaurantsManager(ICategoryRestaurantsDB CategoryRestaurantsDb)
         {
-            CategoryRestaurantsDb = new CategoryRestaurantsDB(conf);
+            this.CategoryRestaurantsDb = CategoryRestaurantsDb;
         }
 
         //SQL Befehle der DAL Klasse

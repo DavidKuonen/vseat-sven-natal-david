@@ -37,7 +37,7 @@ namespace WebApp.Controllers
                     var customer = CustomersManager.GetCustomers(loginVM.Email, loginVM.Password);
                     HttpContext.Session.SetInt32("_IdCustomer", customer.IdCustomer);
                     HttpContext.Session.SetString("_NameCustomer", customer.Lastname);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Restaurant");
                 }
                 else if(EmployeesManager.GetEmployee(loginVM.Email, loginVM.Password) != null)
                 {

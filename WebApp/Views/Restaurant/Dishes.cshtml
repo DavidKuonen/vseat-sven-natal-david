@@ -4,68 +4,60 @@
     ViewData["Title"] = "Dishes";
 }
 
-<h1>Dishes</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DishId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DishName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DishPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DishCalories)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DishCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DishId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DishName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DishPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DishCalories)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DishCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantId)
-            </td>
-            <td>
-                <form asp-action="Dishes">
-                    <input value="@Html.DisplayFor(modelItem => item.DishId)" name="DishId" type="hidden" />
-                    <input value="@Html.DisplayFor(modelItem => item.RestaurantId)" name="RestaurantId" type="hidden" />
-                    <input value="@Html.DisplayFor(modelItem => item.DishName)" name="DishName" type="hidden" />
-                    <input value="@Html.DisplayFor(modelItem => item.DishPrice)" name="DishPrice" type="hidden" />
-                    <div class="form-group">
-                        <input type="submit" value="To Shopping Cart" class="btn btn-primary" />
-                    </div>
-                </form>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="col-md-12">
+    <h1>Dishes</h1>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">
+                    Dish Name
+                </th>
+                <th scope="col">
+                    Price
+                </th>
+                <th scope="col">
+                    Calories
+                </th>
+                <th scope="col">
+                    Category
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishCalories)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishCategory)
+                    </td>
+                    <td>
+                        <form asp-action="Dishes">
+                            <select name="DishQuantity" id="DishQuantity">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <input value="@Html.DisplayFor(modelItem => item.DishId)" name="DishId" type="hidden" />
+                            <input value="@Html.DisplayFor(modelItem => item.RestaurantId)" name="RestaurantId" type="hidden" />
+                            <input value="@Html.DisplayFor(modelItem => item.DishName)" name="DishName" type="hidden" />
+                            <input value="@Html.DisplayFor(modelItem => item.DishPrice)" name="DishPrice" type="hidden" />
+                            <button style="font-size:15px" class="btn btn-primary table"><i class="fa fa-cart-plus"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

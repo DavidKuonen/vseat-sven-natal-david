@@ -1,3 +1,19 @@
-﻿@{
-    Layout = "_Layout";
+﻿
+@{    
+    string CurrentControllerName = ViewContext.RouteData.Values["controller"].ToString();
+    switch (CurrentControllerName)
+    {
+        case "Employee":
+            Layout = "~/Views/Shared/_Layout1.cshtml";
+            break;
+        case "Login":
+            Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+            break;
+        case "Register":
+            Layout = "~/Views/Shared/_LayoutRegister.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
 }

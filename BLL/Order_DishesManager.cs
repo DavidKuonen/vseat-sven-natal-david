@@ -13,9 +13,9 @@ namespace BLL
     {
         private IOrder_DishesDB Order_DishesDb { get; }
 
-        public Order_DishesManager(IConfiguration conf)
+        public Order_DishesManager(IOrder_DishesDB Order_DishesDb)
         {
-            Order_DishesDb = new Order_DishesDB(conf);
+            this.Order_DishesDb = Order_DishesDb;
         }
 
         //SQL Befehle der DAL Klasse

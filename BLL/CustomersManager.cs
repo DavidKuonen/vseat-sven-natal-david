@@ -10,9 +10,9 @@ namespace BLL
     {
         private ICustomersDB CustomersDB { get; }
 
-        public CustomersManager(IConfiguration conf)
+        public CustomersManager(ICustomersDB CustomersDB)
         {
-            CustomersDB = new CustomersDB(conf);
+            this.CustomersDB = CustomersDB;
         }
 
         //SQL Befehle der DAL Klasse

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<WebApp.Models.ShoppingCartVM>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+@if(Model == null)
+{
+<div class="col-md-12">
+    <h1>Shopping Cart</h1>
+
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">
+                    Quantity
+                </th>
+                <th scope="col">
+                    Dish Name
+                </th>
+                <th scope="col">
+                    Price per dish
+                </th>
+                <th scope="col">
+                    Price total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="quantity">
+
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td class="total">
+
+                </td>
+                <td>
+
+                </td>
+             </tr>
+        </tbody>
+        <tfoot class="tfoot-light">
+            <tr>
+                <td>Summe: </td>
+                <td></td>
+                <td></td>
+                <td id="sum"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+}
+else
+{
+<div class="col-md-12">
+    <h1>Shopping Cart</h1>
+
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">
+                    Quantity
+                </th>
+                <th scope="col">
+                    Dish Name
+                </th>
+                <th scope="col">
+                    Price per dish
+                </th>
+                <th scope="col">
+                    Price total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td id="quantity">
+                        @Html.DisplayFor(modelItem => item.DishQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="total">
+                        @Html.DisplayFor(modelItem => item.PriceDishTotal)
+                    </td>
+                    <td>
+                        <form asp-action="DeleteDishesCart">
+                            <input value="@Html.DisplayFor(modelItem => item.DishId)" name="DishId" type="hidden" />
+                            <button style="font-size:15px" class="btn btn-primary table"><i class="fa fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="tfoot-light">
+            <tr>
+                <td>Summe: </td>
+                <td></td>
+                <td></td>
+                <td id="sum"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <form asp-action="ShoppingCartView">
+        <div class="form-group">
+            <input type="submit" value="Go to checkout" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+}
+
+

@@ -6,6 +6,7 @@
 
 //
 //calculate Total
+
 calc_total();
 
 function calc_total() {

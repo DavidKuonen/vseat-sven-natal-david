@@ -239,8 +239,8 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "INSERT INTO Customers (lastname, firstname, address, phoneNumber, email, password, registered, idVillage, idUserRole)" +
-                                   "VALUES (@lastname, @firstname, @address, @phoneNumber, @email, @password, @registered, @idVillage, @idUserRole)";
+                    string query = "INSERT INTO Customers (lastname, firstname, address, phoneNumber, email, password, registered, idVillage, idDistrict, idUserRole)" +
+                                   "VALUES (@lastname, @firstname, @address, @phoneNumber, @email, @password, @registered, @idVillage, @idDistrict, @idUserRole)";
 
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
                     cmd.Parameters.AddWithValue("@lastname", customer.Lastname);
@@ -249,8 +249,9 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@phoneNumber", customer.PhoneNumber);
                     cmd.Parameters.AddWithValue("@email", customer.Email);
                     cmd.Parameters.AddWithValue("@password", customer.Password);
-                    cmd.Parameters.AddWithValue("@registered", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@registered", customer.Registered);
                     cmd.Parameters.AddWithValue("@idVillage", customer.IdVillage);
+                    cmd.Parameters.AddWithValue("@idDistrict", customer.IdDistrict);
                     cmd.Parameters.AddWithValue("@idUserRole", customer.IdUserRole);
 
                     sqlConn.Open();

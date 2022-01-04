@@ -17,12 +17,12 @@ namespace BLL
         private IDishesDB DishesDb { get; }
         private IEmployeesDB EmployeesDb { get; }
 
-        public OrdersManager(IConfiguration conf)
+        public OrdersManager(IOrdersDB OrdersDb, IOrder_DishesDB Order_DishesDb, IDishesDB DishesDb, IEmployeesDB EmployeesDb)
         {
-            OrdersDb = new OrdersDB(conf);
-            Order_DishesDb = new Order_DishesDB(conf);
-            DishesDb = new DishesDB(conf);
-            EmployeesDb = new EmployeesDB(conf);
+            this.OrdersDb = OrdersDb;
+            this.Order_DishesDb = Order_DishesDb;
+            this.DishesDb = DishesDb;
+            this.EmployeesDb = EmployeesDb;
         }
 
         //SQL Befehle der DAL Klasse

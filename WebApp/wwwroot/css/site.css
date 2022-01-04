@@ -2,33 +2,47 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
+
+img.navlogo {
+    height: 50px;
+    margin-right: 185px;
+}
+
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: #ff0000;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    margin-top: 20px;
+    color: #ff0000;
+    background-color: white;
+    border-color: #ff0000;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:visited, .btn-primary::before {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    color: white;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: white;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #ffffff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html, body {
-  height: 100%;
-  font-size: 14px;
+    height: 100%;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
 }
 @media (min-width: 768px) {
   html {
@@ -75,16 +89,104 @@ body {
 -------------------------------------------------- */
 .navbar { 
   height: 80px;
-  margin-right: 100px;
+  border-bottom: 2px solid #EEEEEE;
 }
 
 .nav-item {
   color: white;
 }
 
+a.nav-link {
+    color: #ff0000;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 10px;
+    margin-right: 25px;
+}
 
-/* PICTURE
+a.navbar-cart {
+    
+}
+
+i.fa {
+    background: #ff0000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 500px;
+}
+
+
+/* LOGIN FORM
 -------------------------------------------------- */
-.image {
+#typeEmail.form-control {
+    border: 1px solid #EEEEEE;
+    padding: 20px;
+}
+.card {
+    border-radius: 1rem;
+    box-shadow: none;
+    border: 2px solid #EEEEEE;
+    color: #000000;
+    font-weight: bold;
+}
 
+.form-control {
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    padding: 20px 15px;
+}
+
+img.logo {
+    margin-bottom: 25px;
+    width: 180px;
+}
+
+.mb-md-5.mt-md-4.pb-5 {
+    margin-bottom: 0rem !important;
+}
+
+a.signup {
+    color: #ff0000;
+}
+
+.card.mb-3 {
+    height: 300px;
+    width: 100%;
+}
+
+img.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 50%;
+    object-fit: cover;
+}
+
+.table td{
+    vertical-align: middle
+}
+
+.btn.btn-primary.table{
+    border: none;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    background: none;
+    width: auto;
+}
+
+input.time {
+    width: 50%;
+    border: 1px solid #EEEEEE;
+    padding: 7px;
+    border-radius: 0.25rem;
+}
+
+#confirmation.form-group {
+    margin-top: 50px;
+}
+
+#btnconfirmation.btn.btn-primary {
+    margin-top: 0px;
 }

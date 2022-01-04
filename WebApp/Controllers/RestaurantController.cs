@@ -1,6 +1,7 @@
 ﻿using BLL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,24 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    public static class SessionExtensions
+    {
+        public static T GetComplexData<T>(this ISession session, string key)
+        {
+            var data = session.GetString(key);
+            if (data == null)
+            {
+                return default(T);
+            }
+            return JsonConvert.DeserializeObject<T>(data);
+        }
+
+        public static void SetComplexData(this ISession session, string key, object value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+    }
+
     public class RestaurantController : Controller
     {
         private IRestaurantsManager RestaurantsManager { get; }
@@ -17,12 +36,8 @@ namespace WebApp.Controllers
         private ICategoryRestaurantsManager CategoryRestaurantsManager { get; }
         private IDishesManager DishesManager { get; }
         private ICategoryDishesManager CategoryDishesManager { get; }
-        private IOrdersManager OrdersManager { get; }
-        private ICustomersManager CustomersManager { get; }
-        private IOrder_DishesManager Order_DishesManager { get; }
-        private IEmployeesManager EmployeesManager { get; }
 
-        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager, IEmployeesManager EmployeesManager)
+        public RestaurantController(IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IDistrictsManager DistrictsManager, ICategoryRestaurantsManager CategoryRestaurantsManager, IDishesManager DishesManager, ICategoryDishesManager CategoryDishesManager)
         {
             this.RestaurantsManager = RestaurantsManager;
             this.VillagesManager = VillagesManager;
@@ -30,13 +45,10 @@ namespace WebApp.Controllers
             this.CategoryRestaurantsManager = CategoryRestaurantsManager;
             this.DishesManager = DishesManager;
             this.CategoryDishesManager = CategoryDishesManager;
-            this.OrdersManager = OrdersManager;
-            this.CustomersManager = CustomersManager;
-            this.Order_DishesManager = Order_DishesManager;
-            this.EmployeesManager = EmployeesManager;
         }
 
-        public static List<Models.ShoppingCartVM> shoppingCartList = new List<ShoppingCartVM>();
+        //public static Models.Session SessionExtensions = new();
+        public static List<Models.ShoppingCartVM> shoppingCartList = new();
 
         public ActionResult Index()
         {
@@ -89,106 +101,32 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult Dishes(DishVM dishVM)
         {
+            List<ShoppingCartVM> newList = HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List");
 
-            if (ModelState.IsValid)
+            var cart = new Models.ShoppingCartVM
             {
-                var cart = new Models.ShoppingCartVM
-                {
-                    DishId = dishVM.DishId,
-                    DishName = dishVM.DishName,
-                    Price = dishVM.DishPrice,
-                    CustomerId = 1,
-                    RestaurantId = dishVM.RestaurantId
-                };
-
-                shoppingCartList.Add(cart);
-                return RedirectToAction(nameof(ShoppingCart));
-            }
-
-            return View(dishVM);
-        }
-
-        public ActionResult ShoppingCart()
-        {
-            if (HttpContext.Session.GetInt32("_IdCustomer") == null)
-            {
-                return RedirectToAction("index", "Login");
-            }
-
-            return View(shoppingCartList);
-        }
-
-        [HttpPost]
-        public ActionResult ShoppingCartView()
-        {
-            return RedirectToAction(nameof(Confirmation));
-        }
-
-        public ActionResult Confirmation()
-        {
-
-            CollectionDataModel model = new CollectionDataModel();
-
-            Models.PersonalDetails personalDetails = new()
-            {
-                NameCustomer = CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Firstname + " " + CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Lastname,
-                AddressCustomer = CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).Address,
-                CityCustomer = VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdVillage).postalCode + " " + VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdVillage).name,
-                DistrictCustomer = DistrictsManager.GetDistrictsById(CustomersManager.GetCustomerById(HttpContext.Session.GetInt32("_IdCustomer").Value).IdDistrict).name,
+                DishQuantity = dishVM.DishQuantity,
+                DishId = dishVM.DishId,
+                DishName = dishVM.DishName,
+                Price = dishVM.DishPrice,
+                PriceDishTotal = dishVM.DishQuantity * dishVM.DishPrice,
+                CustomerId = 1,
+                RestaurantId = dishVM.RestaurantId
             };
-
-            model.personalDetails = personalDetails;
-            model.shoppingCartVMs = shoppingCartList;
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Order(DateTime DeliveryTime)
-        {
-            /*float TotalPrice = 0;
-
-              foreach (ShoppingCartVM sc in shoppingCartList)
-              {
-                  TotalPrice += sc.Price;
-              }*/
-            int orderId;
-            int employeeId = EmployeesManager.GetTheRightEmployee(shoppingCartList[0].RestaurantId, DeliveryTime);
-
-            if (ModelState.IsValid)
+            
+            if (newList == null)
             {
-
-                var order = new DTO.Orders
-                {
-                    OrderTime = DateTime.Now,
-                    DeliveryTime = DeliveryTime,
-                    TotalPrice = 0,
-                    FK_OrderStatus = 1,
-                    FK_Staff = employeeId,
-                    FK_Customers = HttpContext.Session.GetInt32("_IdCustomer").Value
-                };
-
-                OrdersManager.AddOrder(order);
-
-                orderId = OrdersManager.GetLastID();
-
-                for (int i = 0; i < shoppingCartList.Count; i++)
-                {
-                    var orderDish = new DTO.Order_Dishes
-                    {
-                        Quantity = 1,
-                        FK_Dishes = shoppingCartList[i].DishId,
-                        FK_Orders = orderId
-                    };
-                    Order_DishesManager.AddOrderDishes(orderDish);
-                }
-
-                OrdersManager.UpdateTotalPrice(orderId);
-
                 shoppingCartList.Clear();
             }
+            else if(newList != shoppingCartList)
+            {
+                shoppingCartList = newList;
+            }
 
-            return RedirectToAction(nameof(Index));
+            shoppingCartList.Add(cart);
+            HttpContext.Session.SetComplexData("_List", shoppingCartList);
+
+            return RedirectToAction("Dishes", new { idRestaurant = dishVM.RestaurantId});
         }
     }
 }
