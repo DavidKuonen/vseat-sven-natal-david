@@ -68,6 +68,7 @@ namespace WebApp.Controllers
                 resti.RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetAllRestaurants()[i].idVillage).name;
                 resti.RestaurantDistrict = DistrictsManager.GetDistrictsById(RestaurantsManager.GetAllRestaurants()[i].idDistrict).name;
                 resti.RestaurantCategory = CategoryRestaurantsManager.GetCategoryRestaurantsById(RestaurantsManager.GetAllRestaurants()[i].idCategoryRestaurant).name;
+                resti.RestaurantImage = RestaurantsManager.GetAllRestaurants()[i].RestaurantImage;
                 restaurants.Add(resti);
             }
 

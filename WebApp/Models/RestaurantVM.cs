@@ -15,6 +15,7 @@ namespace WebApp.Models
         public string RestaurantDistrict { get; set; }
         public string RestaurantCategory { get; set; }
         public int OrderID { get; set; }
+        public string RestaurantImage { get; set; }
 
     }
 }
