@@ -53,6 +53,8 @@ namespace DAL
 
                             Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
 
+                            Restaurant.RestaurantImage = (string)dr["image"];
+
                             results.Add(Restaurant);
                         }
                     }

@@ -7,12 +7,12 @@
 
 @foreach (var item in Model)
 {
-    <div class="card mb-3">
-        <img class="card-img-top" src="~/images/food.jpg" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName) | @Html.DisplayFor(modelItem => item.RestaurantCategory)</h5>
-            <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)<br />@Html.DisplayFor(modelItem => item.RestaurantCity) | @Html.DisplayFor(modelItem => item.RestaurantDistrict)</p>
-            <a class="signup">@Html.ActionLink("Show Dishes", "Dishes", new { idRestaurant = item.RestaurantId })</a>
-        </div>
+<div class="card mb-3">
+    <img class="card-img-top" src="~/images/@Html.DisplayFor(modelItem => item.RestaurantImage)" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName) | @Html.DisplayFor(modelItem => item.RestaurantCategory)</h5>
+        <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)<br />@Html.DisplayFor(modelItem => item.RestaurantCity) </p>
+        <a class="signup">@Html.ActionLink("Show Dishes", "Dishes", new { idRestaurant = item.RestaurantId })</a>
     </div>
+</div>
 }

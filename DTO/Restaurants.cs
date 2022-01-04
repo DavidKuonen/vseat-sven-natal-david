@@ -15,6 +15,8 @@ namespace DTO
         public int idVillage { get; set; }
         public int idDistrict { get; set; }
         public int idCategoryRestaurant { get; set; }
+        public string RestaurantImage { get; set; }
+            
 
 
         public override string ToString()
