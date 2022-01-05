@@ -46,7 +46,7 @@ namespace WebApp.Controllers
             return View(HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List"));
         }
 
-        
+
         [HttpPost]
         public ActionResult DeleteDishesCart(int DishId)
         {
@@ -90,12 +90,11 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult Order(DateTime DeliveryTime)
         {
-            int orderId;
+            int orderId = 0;
             int employeeId = EmployeesManager.GetTheRightEmployee(HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List")[0].RestaurantId, DeliveryTime);
 
             if (ModelState.IsValid)
             {
-
                 var order = new DTO.Orders
                 {
                     OrderTime = DateTime.Now,
@@ -128,7 +127,13 @@ namespace WebApp.Controllers
                 HttpContext.Session.SetComplexData("_List", cart);
             }
 
-            return RedirectToAction("Index", "Restaurant");
+            return RedirectToAction("ThankYou", new { idOrder = orderId });
+        }
+
+        public ActionResult ThankYou(int idOrder)
+        {
+            var order = OrdersManager.GetOrderById(idOrder);
+            return View(order);
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿@model DTO.Orders
+
+@{
+    ViewData["Title"] = "Thank you";
+}
+
+<div class="col-md-12" id="thankyou">
+    <img src="~/images/check.gif" id="thankyou" />
+    <h1 id="thankyou">Thank you for your order</h1>
+
+    <table class="table table-striped" id="thankyou">
+        <tbody>
+            <tr>
+                <td>
+                    <p>Order number:</p>
+                    <b>@Model.idOrders</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Order time:</p>
+                    <b>@Model.OrderTime.ToString("g")</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Total:</p>
+                    <b>@Model.TotalPrice</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Payment Method:</p>
+                    <b>You pay to the driver</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back</a>
+</div>

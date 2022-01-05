@@ -43,14 +43,15 @@ namespace WebApp.Controllers
                 {
                     var employee = EmployeesManager.GetEmployee(loginVM.Email, loginVM.Password);
                     HttpContext.Session.SetInt32("_IdEmployee", employee.IdEmployee);
+                    HttpContext.Session.SetString("_NameEmployee", employee.Lastname + " " + employee.Firstname);
                     return RedirectToAction("Index", "Employee");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid email or password");
                 }
-
             }
+
             return View(loginVM);
         }
 

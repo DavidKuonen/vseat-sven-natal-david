@@ -20,8 +20,6 @@ namespace WebApp.Controllers
         private ICustomersManager CustomersManager { get; }
         private IOrder_DishesManager Order_DishesManager { get; }
   
-
-
         public EmployeeController(IEmployeesManager EmployeesManager, IDishesManager DishesManager, IRestaurantsManager RestaurantsManager, IVillagesManager VillagesManager, IOrdersManager OrdersManager, ICustomersManager CustomersManager, IOrder_DishesManager Order_DishesManager)
         {
             this.EmployeesManager = EmployeesManager;
@@ -45,6 +43,11 @@ namespace WebApp.Controllers
             List<Models.RestaurantVM> restaurants = new ();
             List<Orders> orders = OrdersManager.GetOpenOrdersEmployee(idEmployee);
 
+            if(orders == null)
+            {
+                return View(restaurants);
+            }
+
             for(int i = 0; i < orders.Count; i++)
             {
                 int idOrder = orders[i].idOrders;
@@ -54,6 +57,8 @@ namespace WebApp.Controllers
                     RestaurantVM restaurantVM = new()
                     {
                         RestaurantName = RestaurantsManager.GetRestaurantById(DishesManager.GetDishesById(od.FK_Dishes).FK_Restaurant).name,
+                        ResaurantAddress = RestaurantsManager.GetRestaurantById(DishesManager.GetDishesById(od.FK_Dishes).FK_Restaurant).address,
+                        RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetRestaurantById(DishesManager.GetDishesById(od.FK_Dishes).FK_Restaurant).idVillage).postalCode + " " + VillagesManager.GetVillagesById(RestaurantsManager.GetRestaurantById(DishesManager.GetDishesById(od.FK_Dishes).FK_Restaurant).idVillage).name,
                         OrderID = idOrder
                     };
                     restaurants.Add(restaurantVM);
@@ -77,16 +82,20 @@ namespace WebApp.Controllers
             OrderDetailsEmployee order = new()
             {
                 OrderId = idOrder,    
-                CustomerLastname = CustomersManager.GetCustomerById(idCustomer).Lastname
+                CustomerLastname = CustomersManager.GetCustomerById(idCustomer).Lastname,
+                CustomerFirstname = CustomersManager.GetCustomerById(idCustomer).Firstname,
+                CustomerAddress = CustomersManager.GetCustomerById(idCustomer).Address,
+                CustomerVillage = VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(idCustomer).IdVillage).postalCode + " " + VillagesManager.GetVillagesById(CustomersManager.GetCustomerById(idCustomer).IdVillage).name,
+                CustomerPhoneNumber = CustomersManager.GetCustomerById(idCustomer).PhoneNumber
             };
 
             for(int i = 0; i < ordersDishes.Count; i++)
             {
                 Models.DishVM dish = new()
                 {
-                    DishName = DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).name,
                     DishQuantity = ordersDishes[i].Quantity,
-                    DishPrice = DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).price
+                    DishName = DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).name,
+                    DishPrice = ordersDishes[i].Quantity * DishesManager.GetDishesById(ordersDishes[i].FK_Dishes).price
                 };
                 dishes.Add(dish);
             }
@@ -100,9 +109,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult Delivered(int idOrder)
         {
-
             OrdersManager.UpdateOrderStatus(idOrder);
-
             return RedirectToAction(nameof(Index));
         }
 

@@ -18,9 +18,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-md">
+    <nav class="navbar navbar-expand-md" id="employee">
         <!-- Brand -->
-        <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index"><img src="~/images/vseatlogo.png" class="navlogo" /></a>
+        <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index"><img src="~/images/vseatwhite.png" class="navlogo" /></a>
 
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -30,32 +30,33 @@
 
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            
+
         </div>
         <!-- Navbar links -->
         <!--
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restaurants</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-        </ul>
-    </div>
-    -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restaurants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+        -->
         <div style="margin-top: 20px;">
             <div style="float: right;">
-                <a class="navbar-cart" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart" style="margin-left: 15px;"></i></a>
-                <a class="navbar-cart" asp-area="" asp-controller="Customer" asp-action="Index"><i class="fa fa-user" style="margin-left: 15px;"></i></a>
-                <a class="navbar-cart" asp-area="" asp-controller="Login" asp-action="Logout"><i class="fa fa-sign-out" style="margin-left: 15px;"></i></a>
+                <!--
+                <a class="navbar-cart" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart" id="employee" style="margin-left: 15px;"></i></a>
+                <a class="navbar-cart" asp-area="" asp-controller="Customer" asp-action="Index"><i class="fa fa-user" id="employee" style="margin-left: 15px;"></i></a>-->
+                <a class="navbar-cart" asp-area="" asp-controller="Login" asp-action="Logout"><i class="fa fa-sign-out" id="employee" style="margin-left: 15px;"></i></a>
             </div>
-            <br/>
-            <p style="float: right; margin-top: 5px;">You are logged in as:&nbsp;<b>@HttpContextAccessor.HttpContext.Session.GetString("_NameCustomer")</b></p>
+            <br />
+            <p style="float: right; margin-top: 5px; color: white">Driver:&nbsp;<b>@HttpContextAccessor.HttpContext.Session.GetString("_NameEmployee")</b></p>
         </div>
     </nav>
 

@@ -61,15 +61,17 @@ namespace WebApp.Controllers
 
             for (int i = 0; i < RestaurantsManager.GetAllRestaurants().Count; i++)
             {
-                Models.RestaurantVM resti = new();
-                resti.RestaurantId = RestaurantsManager.GetAllRestaurants()[i].idRestaurant;
-                resti.RestaurantName = RestaurantsManager.GetAllRestaurants()[i].name;
-                resti.ResaurantAddress = RestaurantsManager.GetAllRestaurants()[i].address;
-                resti.RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetAllRestaurants()[i].idVillage).name;
-                resti.RestaurantDistrict = DistrictsManager.GetDistrictsById(RestaurantsManager.GetAllRestaurants()[i].idDistrict).name;
-                resti.RestaurantCategory = CategoryRestaurantsManager.GetCategoryRestaurantsById(RestaurantsManager.GetAllRestaurants()[i].idCategoryRestaurant).name;
-                resti.RestaurantImage = RestaurantsManager.GetAllRestaurants()[i].RestaurantImage;
-                restaurants.Add(resti);
+                Models.RestaurantVM restaurant = new()
+                { 
+                    RestaurantId = RestaurantsManager.GetAllRestaurants()[i].idRestaurant,
+                    RestaurantName = RestaurantsManager.GetAllRestaurants()[i].name,
+                    ResaurantAddress = RestaurantsManager.GetAllRestaurants()[i].address,
+                    RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetAllRestaurants()[i].idVillage).name,
+                    RestaurantDistrict = DistrictsManager.GetDistrictsById(RestaurantsManager.GetAllRestaurants()[i].idDistrict).name,
+                    RestaurantCategory = CategoryRestaurantsManager.GetCategoryRestaurantsById(RestaurantsManager.GetAllRestaurants()[i].idCategoryRestaurant).name,
+                    RestaurantImage = RestaurantsManager.GetAllRestaurants()[i].RestaurantImage
+                };
+                restaurants.Add(restaurant);
             }
 
             return View(restaurants);
@@ -86,14 +88,16 @@ namespace WebApp.Controllers
 
             for (int i = 0; i < DishesManager.GetDishesByRestaurantId(idRestaurant).Count; i++)
             {
-                Models.DishVM dish = new();
-                dish.DishImage = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].Image;
-                dish.DishId = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].idDishes;
-                dish.DishName = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].name;
-                dish.DishPrice = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].price;
-                dish.DishCalories = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].calories;
-                dish.DishCategory = CategoryDishesManager.GetCategoryById(DishesManager.GetDishesByRestaurantId(idRestaurant)[i].FK_CategoryDishes).name;
-                dish.RestaurantId = idRestaurant;
+                Models.DishVM dish = new()
+                {
+                    DishImage = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].Image,
+                    DishId = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].idDishes,
+                    DishName = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].name,
+                    DishPrice = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].price,
+                    DishCalories = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].calories,
+                    DishCategory = CategoryDishesManager.GetCategoryById(DishesManager.GetDishesByRestaurantId(idRestaurant)[i].FK_CategoryDishes).name,
+                    RestaurantId = idRestaurant
+                };
                 dishVM.Add(dish);
             }
 

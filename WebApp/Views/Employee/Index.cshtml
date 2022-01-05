@@ -1,65 +1,34 @@
 ﻿@model IEnumerable<WebApp.Models.RestaurantVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Driver";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResaurantAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantCity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantDistrict)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderID)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResaurantAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantDistrict)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new {  idOrder=item.OrderID  }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@if(Model == null)
+{
+<div class="card mb-3" id="employee">
+    <div class="card-body">
+        <p>no orders open at the moment</p>
+    </div>
+</div>
 }
-    </tbody>
-</table>
+
+@foreach (var item in Model)
+{
+<div class="card mb-3" id="employee">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-11">
+
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName)</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)
+                <br />
+                @Html.DisplayFor(modelItem => item.RestaurantCity) </p>
+            </div>
+            <div class="col-1" style="margin-top: 22px">
+                <a href="@Url.Action("Details", new { idOrder = item.OrderID })"><i class="fa fa-info" style="margin-left: 15px;"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+}
