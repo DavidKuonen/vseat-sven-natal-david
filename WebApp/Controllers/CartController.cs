@@ -93,6 +93,11 @@ namespace WebApp.Controllers
             int orderId = 0;
             int employeeId = EmployeesManager.GetTheRightEmployee(HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List")[0].RestaurantId, DeliveryTime);
 
+            if(employeeId == 0)
+            {
+                return RedirectToAction("NoEmployee");
+            }
+
             if (ModelState.IsValid)
             {
                 var order = new DTO.Orders
@@ -134,6 +139,11 @@ namespace WebApp.Controllers
         {
             var order = OrdersManager.GetOrderById(idOrder);
             return View(order);
+        }
+
+        public ActionResult NoEmployee()
+        {
+            return View();
         }
     }
 }

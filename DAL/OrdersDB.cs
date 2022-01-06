@@ -137,7 +137,7 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Orders WHERE idCustomer = @idCustomer AND idOrderStatus = @idOrderStatus";
+                    string query = "SELECT * FROM Orders WHERE idCustomer = @idCustomer AND idOrderStatus = @idOrderStatus ORDER BY idOrder DESC";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
                     cmd.Parameters.AddWithValue("@idCustomer", idCustomer);
                     cmd.Parameters.AddWithValue("@idOrderStatus", 1);
@@ -189,7 +189,7 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Orders WHERE idEmployee = @idEmployee AND idOrderStatus = @idOrderStatus";
+                    string query = "SELECT * FROM Orders WHERE idEmployee = @idEmployee AND idOrderStatus = @idOrderStatus ORDER BY idOrder DESC";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
                     cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
                     cmd.Parameters.AddWithValue("@idOrderStatus", 1);

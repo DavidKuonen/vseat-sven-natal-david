@@ -30,7 +30,7 @@
 
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            
+
         </div>
         <!-- Navbar links -->
         <!--
@@ -54,7 +54,7 @@
                 <a class="navbar-cart" asp-area="" asp-controller="Customer" asp-action="Index"><i class="fa fa-user" style="margin-left: 15px;"></i></a>
                 <a class="navbar-cart" asp-area="" asp-controller="Login" asp-action="Logout"><i class="fa fa-sign-out" style="margin-left: 15px;"></i></a>
             </div>
-            <br/>
+            <br />
             <p style="float: right; margin-top: 5px;">You are logged in as:&nbsp;<b>@HttpContextAccessor.HttpContext.Session.GetString("_NameCustomer")</b></p>
         </div>
     </nav>

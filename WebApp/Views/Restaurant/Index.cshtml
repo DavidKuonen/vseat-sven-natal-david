@@ -4,14 +4,18 @@
     ViewData["Title"] = "Restaurants";
 }
 
-@foreach (var item in Model)
-{
-<div class="card mb-3">
-    <img class="card-img-top" src="~/images/@Html.DisplayFor(modelItem => item.RestaurantImage)" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName) | @Html.DisplayFor(modelItem => item.RestaurantCategory)</h5>
-        <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)<br />@Html.DisplayFor(modelItem => item.RestaurantCity) </p>
-        <a class="signup">@Html.ActionLink("Show Dishes", "Dishes", new { idRestaurant = item.RestaurantId })</a>
-    </div>
+<div class="col-md-12">
+    <input type="text" id="Search" class="form-control" onkeyup="search()" placeholder="Search for restaurant, villages or categoires">
+
+    @foreach (var item in Model)
+    {
+        <div class="card mb-3" id="myTable">
+            <img class="card-img-top" src="~/images/@Html.DisplayFor(modelItem => item.RestaurantImage)" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName) | @Html.DisplayFor(modelItem => item.RestaurantCategory)</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)<br />@Html.DisplayFor(modelItem => item.RestaurantCity) </p>
+                <a href="@Url.Action("Dishes", new { idRestaurant = item.RestaurantId })" style="background: #ff0000; color: #fff; padding: 10px; text-align: center; text-decoration: none; border-radius: 5px; width: 35px;"><i class="fa fa-bars"></i>Dishes</a>
+            </div>
+        </div>
+        }
 </div>
-}
