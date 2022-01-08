@@ -71,8 +71,8 @@ namespace WebApp.Controllers
                 OrderDetails.Add(OrderDetailsEmployee);
             }
 
-            //Sorting the list with Linq according to the DeliveryTime
-            OrderDetails.OrderBy(x => x.DeliveryTime).ToList();
+            //Sorting the list by the DeliveryTime
+            OrderDetails.Sort((a, b) => a.DeliveryTime.CompareTo(b.DeliveryTime));
 
             return View(OrderDetails);
         }
