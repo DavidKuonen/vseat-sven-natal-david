@@ -41,29 +41,46 @@ namespace BLL
 
 
         //SQL logic across multiple databases and DALs
-        public int GetTheRightEmployee(int idRestaurant, DateTime DeliveryTime)
+        public int GetTheRightEmployee(int IdRestaurant, DateTime DeliveryTime)
         {
             //Get the Restaurant District Id
-            int districtRestaurant = RestaurantsDB.GetRestaurantById(idRestaurant).IdDistrict;
+            int DistrictRestaurant = RestaurantsDB.GetRestaurantById(IdRestaurant).IdDistrict;
 
             //Goes through all employees
             for (int i = 0; i < GetAllEmployees().Count; i++)
             {
                 //See if the employee is in the same district as the restaurant
-                if (districtRestaurant == GetAllEmployees()[i].IdDistrict)
+                if (DistrictRestaurant == GetAllEmployees()[i].IdDistrict)
                 {
-                    int id = GetAllEmployees()[i].IdEmployee;
+                    int IdEmployee = GetAllEmployees()[i].IdEmployee;
+                    int Counter = 0;
 
                     //Looks how many orders the Employees has in the next 30min
-                    int number = OrdersDB.GetOrdersNotDelivered(id, DeliveryTime);
+                    var Order = OrdersDB.GetOpenOrdersEmployee(IdEmployee);
 
-                    //If it's less than with give back the id of the Employee
-                    if (number < 5)
+                    //If there is no order yet then insert a new entry
+                    if (Order == null)
+                    {
+                        UpdateOpenOrders(IdEmployee);
+                        return IdEmployee;
+                    }
+
+                    foreach (Orders or in Order)
+                    {
+                        //Checks if the DeliveryTime is already available in the next 30 minutes
+                        if (or.DeliveryTime < DeliveryTime.AddMinutes(30) && or.DeliveryTime >= DeliveryTime.AddMinutes(-30))
+                        {
+                            Counter++;
+                        }
+                    }
+
+                    if (Counter < 5)
                     {
                         //Update the OpenOrders counter of the employee
-                        UpdateOpenOrders(id);
-                        return id;
+                        UpdateOpenOrders(IdEmployee);
+                        return IdEmployee;
                     }
+                    Counter = 0;
                 }
             }
             return 0;
