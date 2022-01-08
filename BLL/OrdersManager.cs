@@ -54,11 +54,6 @@ namespace BLL
             return OrdersDb.GetOpenOrdersCustomer(idCustomer);
         }
 
-        public List<Orders> GetPastOrdersCustomer(int idCustomer)
-        {
-            return OrdersDb.GetPastOrdersCustomer(idCustomer);
-        }
-
         public void DeleteOrder(int orderId)
         {
             OrdersDb.DeleteOrder(orderId);
