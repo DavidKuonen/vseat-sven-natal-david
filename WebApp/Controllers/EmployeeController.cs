@@ -43,7 +43,6 @@ namespace WebApp.Controllers
 
             //Creates a list that contains all open orders of the logged in employee
             List<Orders> Orders = OrdersManager.GetOpenOrdersEmployee(IdEmployee);
-            Orders.OrderBy(x => x.DeliveryTime).ToList();
 
             //If the employee has no open orders, the empty list is simply transferred
             if (Orders == null)
@@ -71,6 +70,9 @@ namespace WebApp.Controllers
 
                 OrderDetails.Add(OrderDetailsEmployee);
             }
+
+            //Sorting the list with Linq according to the DeliveryTime
+            OrderDetails.OrderBy(x => x.DeliveryTime).ToList();
 
             return View(OrderDetails);
         }
