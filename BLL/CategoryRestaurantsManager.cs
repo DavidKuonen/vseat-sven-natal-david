@@ -1,6 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace BLL
@@ -14,16 +13,10 @@ namespace BLL
             this.CategoryRestaurantsDb = CategoryRestaurantsDb;
         }
 
-        //SQL Befehle der DAL Klasse
-       public CategoryRestaurants GetCategoryRestaurantsById(int id)
+        //SQL queries
+        public CategoryRestaurants GetCategoryRestaurantsById(int id)
         {
             return CategoryRestaurantsDb.GetCategoryRestaurantsById(id);
         }
-
-        public List<CategoryRestaurants> GetAllCateegoryRestautants()
-        {
-            return CategoryRestaurantsDb.GetAllCategoryRestaurants();
-        }
-        //SQL Befehle bis hier
     }
 }

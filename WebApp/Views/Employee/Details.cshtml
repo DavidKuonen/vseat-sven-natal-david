@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    var idOrder = Model.OrderDetails.OrderId;
+    var IdOrder = Model.OrderDetails.OrderId;
 }
 
 <div class="col-md-12">
@@ -86,7 +86,7 @@
     </div>
     <form asp-action="Delivered">
         <div class="form-group">
-            <input value="@idOrder" name="idOrder" type="hidden" />
+            <input value="@IdOrder" name="IdOrder" type="hidden" />
             <input type="submit" value="delivered" class="btn btn-primary" />
         </div>
     </form>

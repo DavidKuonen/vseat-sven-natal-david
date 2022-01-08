@@ -1,7 +1,6 @@
 ﻿using DTO;
-
-using System;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -125,60 +124,6 @@ namespace DAL
             return customer;
         }
 
-        public Customer GetCustomerByDistrict(int idDistrict)
-        {
-            Customer customer = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection sqlConn = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT * FROM Customer WHERE idDistrict = @idDistrict";
-                    SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
-
-                    sqlConn.Open();
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            customer = new Customer();
-
-                            customer.IdCustomer = (int)reader["idCustomer"];
-
-                            customer.Lastname = (string)reader["lastname"];
-
-                            customer.Firstname = (string)reader["firstname"];
-
-                            customer.Address = (string)reader["address"];
-
-                            customer.PhoneNumber = (string)reader["phoneNumber"];
-
-                            customer.Email = (string)reader["email"];
-
-                            customer.Password = (string)reader["password"];
-
-                            customer.Registered = (DateTime)reader["registered"];
-
-                            customer.IdVillage = (int)reader["idVillage"];
-
-                            customer.IdDistrict = (int)reader["idDistrict"];
-
-                            customer.IdUserRole = (int)reader["idUserRole"];
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return customer;
-        }
-
         public Customer GetCustomer(string Email, string Password)
         {
             Customer customer = null;
@@ -230,6 +175,40 @@ namespace DAL
             return customer;
         }
 
+        public void UpdateCustomer(Customer customer)
+        {
+            int result = 0;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "UPDATE Customers SET firstname = @firstname, lastname = @lastname, address = @address, phoneNumber = @phoneNumber, email = @email, password = @password, idVillage = @idVillage, idDistrict = @idDistrict WHERE idCustomer = @idCustomer";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                    cmd.Parameters.AddWithValue("@idCustomer", customer.IdCustomer);
+                    cmd.Parameters.AddWithValue("@lastname", customer.Lastname);
+                    cmd.Parameters.AddWithValue("@firstname", customer.Firstname);
+                    cmd.Parameters.AddWithValue("@address", customer.Address);
+                    cmd.Parameters.AddWithValue("@phoneNumber", customer.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@email", customer.Email);
+                    cmd.Parameters.AddWithValue("@password", customer.Password);
+                    cmd.Parameters.AddWithValue("@idVillage", customer.IdVillage);
+                    cmd.Parameters.AddWithValue("@idDistrict", customer.IdDistrict);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public Customer AddCustomer(Customer customer)
         {
             int result = 0;
@@ -266,8 +245,5 @@ namespace DAL
 
             return customer;
         }
-
-
-
     }
 }

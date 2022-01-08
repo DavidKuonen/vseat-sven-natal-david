@@ -3,22 +3,17 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-  public class DishesDB : IDishesDB
-  {
-    private IConfiguration Configuration { get; }
-
-    public DishesDB(IConfiguration configuration)
+    public class DishesDB : IDishesDB
     {
-      Configuration = configuration;
+        private IConfiguration Configuration { get; }
 
-    }
-
+        public DishesDB(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public List<Dishes> GetAllDishes()
         {
@@ -43,31 +38,31 @@ namespace DAL
 
                             Dishes dish = new Dishes();
 
-                            dish.idDishes = (int)reader["idDish"];
-                            
-                            if(reader["name"] != null)
+                            dish.IdDishes = (int)reader["idDish"];
+
+                            if (reader["name"] != null)
                             {
-                                dish.name = (string)reader["name"];
+                                dish.Name = (string)reader["name"];
                             }
 
                             if (reader["price"] != DBNull.Value)
                             {
-                                dish.price = Convert.ToSingle(reader["price"]);
+                                dish.Price = Convert.ToSingle(reader["price"]);
                             }
 
                             if (reader["calories"] != DBNull.Value)
                             {
-                                dish.calories = (int)reader["calories"];
+                                dish.Calories = (int)reader["calories"];
                             }
 
                             if (reader["idRestaurant"] != DBNull.Value)
                             {
-                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                                dish.IdRestaurant = (int)reader["idRestaurant"];
                             }
 
                             if (reader["idCategoryDish"] != DBNull.Value)
                             {
-                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                                dish.IdCategoryDishes = (int)reader["idCategoryDish"];
                             }
 
                             allDishes.Add(dish);
@@ -105,31 +100,31 @@ namespace DAL
                         {
                             dish = new Dishes();
 
-                            dish.idDishes = (int)reader["idDish"];
+                            dish.IdDishes = (int)reader["idDish"];
 
                             if (reader["name"] != null)
                             {
-                                dish.name = (string)reader["name"];
+                                dish.Name = (string)reader["name"];
                             }
 
                             if (reader["price"] != DBNull.Value)
                             {
-                                dish.price = Convert.ToSingle(reader["price"]);
+                                dish.Price = Convert.ToSingle(reader["price"]);
                             }
 
                             if (reader["calories"] != DBNull.Value)
                             {
-                                dish.calories = (int)reader["calories"];
+                                dish.Calories = (int)reader["calories"];
                             }
 
                             if (reader["idRestaurant"] != DBNull.Value)
                             {
-                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                                dish.IdRestaurant = (int)reader["idRestaurant"];
                             }
 
                             if (reader["idCategoryDish"] != DBNull.Value)
                             {
-                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                                dish.IdCategoryDishes = (int)reader["idCategoryDish"];
                             }
                         }
                     }
@@ -167,26 +162,26 @@ namespace DAL
 
                             Dishes dish = new Dishes();
 
-                            dish.idDishes = (int)reader["idDish"];
+                            dish.IdDishes = (int)reader["idDish"];
 
                             if (reader["name"] != null)
                             {
-                                dish.name = (string)reader["name"];
+                                dish.Name = (string)reader["name"];
                             }
 
                             if (reader["price"] != DBNull.Value)
                             {
-                                dish.price = Convert.ToSingle(reader["price"]);
+                                dish.Price = Convert.ToSingle(reader["price"]);
                             }
 
                             if (reader["calories"] != DBNull.Value)
                             {
-                                dish.calories = (int)reader["calories"];
+                                dish.Calories = (int)reader["calories"];
                             }
 
                             if (reader["idRestaurant"] != DBNull.Value)
                             {
-                                dish.FK_Restaurant = (int)reader["idRestaurant"];
+                                dish.IdRestaurant = (int)reader["idRestaurant"];
                             }
 
                             if (reader["image"] != DBNull.Value)
@@ -196,7 +191,7 @@ namespace DAL
 
                             if (reader["idCategoryDish"] != DBNull.Value)
                             {
-                                dish.FK_CategoryDishes = (int)reader["idCategoryDish"];
+                                dish.IdCategoryDishes = (int)reader["idCategoryDish"];
                             }
 
                             dishesByRestaurantId.Add(dish);
@@ -211,90 +206,5 @@ namespace DAL
 
             return dishesByRestaurantId;
         }
-
-        public Dishes GetDishesByName(string name)
-    {
-      Dishes result = null;
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-      //DefaultConnection wird im JSON-File definiert für Datenbankverbindung
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
-        {
-          string query = "Select * from Dishes WHERE name=@name";
-          SqlCommand cmd = new SqlCommand(query, cn);
-          cmd.Parameters.AddWithValue("@name", name);
-
-          cn.Open();
-
-          using (SqlDataReader dr = cmd.ExecuteReader())
-          {
-            if (dr.Read())
-            {
-
-              result = new Dishes();
-
-              result.idDishes = (int)dr["idDish"];
-
-              result.name = (string)dr["name"];
-
-              result.price = (float)dr["price"];
-
-              result.calories = (int)dr["calories"];
-
-              result.Image = (string)dr["image"];
-
-              result.FK_CategoryDishes = (int)dr["FidCategoryDish"];
-
-              result.FK_Restaurant = (int)dr["idRestaurant"];
-
-            }
-          }
-        }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
-
-      return result;
     }
-
-    public Dishes AddDish(Dishes dish)
-    {
-      int result = 0;
-
-      string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-      try
-      {
-        using (SqlConnection cn = new SqlConnection(connectionString))
-        {
-          string query = "Insert into Dish(name,price,calories,image,idRestaurant,idCategoryDish) " +
-            "values(@name, @price, @calories, @image, @idRestaurant, @idCategoryDish)";
-          SqlCommand cmd = new SqlCommand(query, cn);
-
-          cmd.Parameters.AddWithValue("@name", dish.name);
-          cmd.Parameters.AddWithValue("@price", dish.price);
-          cmd.Parameters.AddWithValue("@calories", dish.calories);
-          cmd.Parameters.AddWithValue("@image", dish.Image);
-          cmd.Parameters.AddWithValue("@idRestaurant", dish.FK_Restaurant);
-          cmd.Parameters.AddWithValue("@idCategoryDish", dish.FK_CategoryDishes);
-
-          cn.Open();
-
-          result = cmd.ExecuteNonQuery();
-        }
-      }
-      catch (Exception)
-      {
-        throw;
-      }
-      return dish;
-    }
-
-  
-
-}
 }

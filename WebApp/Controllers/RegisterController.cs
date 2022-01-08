@@ -1,9 +1,6 @@
 ﻿using BLL;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -23,33 +20,44 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            RegisterVM RegisterVM = new();
+            //Passes all villages to the model. So you can create a dropdown later
+            RegisterVM.Villages = VillagesManager.GetAllVillages();
+            return View(RegisterVM);
         }
 
         [HttpPost]
-        public ActionResult Index(RegisterVM registerVM)
+        public ActionResult Index(RegisterVM RegisterVM)
         {
             if (ModelState.IsValid)
             {
-                DTO.Customer customer = new()
+                if(RegisterVM != null)
                 {
-                    Firstname = registerVM.Firstname,
-                    Lastname = registerVM.Lastname,
-                    Address = registerVM.Address,
-                    PhoneNumber = registerVM.PhoneNumber,
-                    Email = registerVM.Email,
-                    Password = registerVM.Password,
-                    Registered = DateTime.Now,
-                    IdVillage = VillagesManager.GetVillageByName(registerVM.Village).idVillage,
-                    IdDistrict = VillagesManager.GetVillageByName(registerVM.Village).idDistrict,
-                    IdUserRole = 1
-                };
+                    DTO.Customer customer = new()
+                    {
+                        Firstname = RegisterVM.Firstname,
+                        Lastname = RegisterVM.Lastname,
+                        Address = RegisterVM.Address,
+                        PhoneNumber = RegisterVM.PhoneNumber,
+                        Email = RegisterVM.Email,
+                        Password = RegisterVM.Password,
+                        Registered = DateTime.Now,
+                        IdVillage = RegisterVM.Village,
+                        IdDistrict = VillagesManager.GetVillagesById(RegisterVM.Village).IdDistrict,
+                        IdUserRole = 1
+                    };
 
-                CustomersManager.AddCustomer(customer);
-                return RedirectToAction("Index", "Login");
-
+                    //Adds the new customer to the database
+                    CustomersManager.AddCustomer(customer);
+                    return RedirectToAction("Index", "Login");
+                }
+                else
+                {
+                    //For Display the Error Message
+                    ModelState.AddModelError("", "Not all filled correctly");
+                }
             }
-            return View(registerVM);
+            return View(RegisterVM);
         }
     }
 }

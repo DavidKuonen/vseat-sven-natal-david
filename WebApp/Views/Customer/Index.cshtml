@@ -13,43 +13,31 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">
-                        Quantity
+                        Order Time
                     </th>
                     <th scope="col">
-                        Dish Name
+                        Delivery Time
                     </th>
                     <th scope="col">
-                        Price per dish
+                        Total Price
                     </th>
-                    <th scope="col">
-                        Price total
+                    <th>
+
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td id="quantity">
-                    </td>
                     <td>
                     </td>
                     <td>
                     </td>
-                    <td class="total">
+                    <td>
                     </td>
                     <td>
                     </td>
                 </tr>
             </tbody>
-            <tfoot class="tfoot-light">
-                <tr>
-                    <td>Summe: </td>
-                    <td></td>
-                    <td></td>
-                    <td id="sum"></td>
-                    <td></td>
-                </tr>
-            </tfoot>
         </table>
     </div>
 }
@@ -80,17 +68,18 @@ else
             {
                 <tr>
                     <td>
-                        @item.OrderTime.ToString("HH:mm")
+                        @item.OrderTime.ToString("g")
                     </td>
                     <td>
-                        @item.DeliveryTime.ToString("HH:mm")
+                        @item.DeliveryTime.ToString("g")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalPrice)
                     </td>
                     <td>
+                        <!-- You can delete the order only if it is more than three hours away, otherwise the button is not clickable. -->
                         <form asp-action="DeleteOrder">
-                            <input value="@Html.DisplayFor(modelItem => item.idOrders)" name="OrderID" type="hidden" />
+                            <input value="@Html.DisplayFor(modelItem => item.IdOrders)" name="OrderID" type="hidden" />
                             @if (item.DeliveryTime > DateTime.Now.AddHours(3))
                             {
                                 <button style="font-size:15px" class="btn btn-primary table"><i class="fa fa-trash"></i></button>

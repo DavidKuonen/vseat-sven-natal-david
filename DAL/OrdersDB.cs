@@ -43,7 +43,7 @@ namespace DAL
 
               Orders order = new Orders();
 
-              order.idOrders = (int)dr["idOrder"];
+              order.IdOrders = (int)dr["idOrder"];
 
               if (dr["orderTime"] != null)
                 order.OrderTime = (DateTime)dr["orderTime"];
@@ -55,13 +55,13 @@ namespace DAL
                 order.TotalPrice = (float)dr["totalPrice"];
 
               if (dr["idCustomer"] != DBNull.Value)
-                order.FK_Customers = (int)dr["idCustomer"];
+                order.IdCustomers = (int)dr["idCustomer"];
 
               if (dr["idOrderStatus"] != DBNull.Value)
-                order.FK_OrderStatus = (int)dr["idOrderStatus"];
+                order.IdOrderStatus = (int)dr["idOrderStatus"];
 
               if (dr["idEmployee"] != DBNull.Value)
-                order.FK_Staff = (int)dr["idEmployee"];
+                order.IdEmployee = (int)dr["idEmployee"];
 
               results.Add(order);
 
@@ -101,7 +101,7 @@ namespace DAL
 
                             Orders order = new Orders();
 
-                            order.idOrders = (int)reader["idOrder"];
+                            order.IdOrders = (int)reader["idOrder"];
 
                             order.OrderTime = (DateTime)reader["orderTime"];
 
@@ -109,11 +109,63 @@ namespace DAL
 
                             order.TotalPrice = (float)reader["totalPrice"];
 
-                            order.FK_Customers = (int)reader["idCustomer"];
+                            order.IdCustomers = (int)reader["idCustomer"];
 
-                            order.FK_Staff = (int)reader["idEmployee"];
+                            order.IdEmployee = (int)reader["idEmployee"];
 
-                            order.FK_OrderStatus = (int)reader["idOrderStatus"];
+                            order.IdOrderStatus = (int)reader["idOrderStatus"];
+
+                            orders.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return orders;
+        }
+
+        public List<Orders> GetPastOrdersCustomer(int idCustomer)
+        {
+            List<Orders> orders = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection sqlConn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Orders WHERE idCustomer = @idCustomer AND idOrderStatus = @idOrderStatus ORDER BY idOrder DESC";
+                    SqlCommand cmd = new SqlCommand(query, sqlConn);
+                    cmd.Parameters.AddWithValue("@idCustomer", idCustomer);
+                    cmd.Parameters.AddWithValue("@idOrderStatus", 2);
+
+                    sqlConn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (orders == null)
+                                orders = new List<Orders>();
+
+                            Orders order = new Orders();
+
+                            order.IdOrders = (int)reader["idOrder"];
+
+                            order.OrderTime = (DateTime)reader["orderTime"];
+
+                            order.DeliveryTime = (DateTime)reader["deliveryTime"];
+
+                            order.TotalPrice = Convert.ToSingle(reader["totalPrice"]);
+
+                            order.IdCustomers = (int)reader["idCustomer"];
+
+                            order.IdEmployee = (int)reader["idEmployee"];
+
+                            order.IdOrderStatus = (int)reader["idOrderStatus"];
 
                             orders.Add(order);
                         }
@@ -153,7 +205,7 @@ namespace DAL
 
                             Orders order = new Orders();
 
-                            order.idOrders = (int)reader["idOrder"];
+                            order.IdOrders = (int)reader["idOrder"];
 
                             order.OrderTime = (DateTime)reader["orderTime"];
 
@@ -161,11 +213,11 @@ namespace DAL
 
                             order.TotalPrice = Convert.ToSingle(reader["totalPrice"]);
 
-                            order.FK_Customers = (int)reader["idCustomer"];
+                            order.IdCustomers = (int)reader["idCustomer"];
 
-                            order.FK_Staff = (int)reader["idEmployee"];
+                            order.IdEmployee = (int)reader["idEmployee"];
 
-                            order.FK_OrderStatus = (int)reader["idOrderStatus"];
+                            order.IdOrderStatus = (int)reader["idOrderStatus"];
 
                             orders.Add(order);
                         }
@@ -205,7 +257,7 @@ namespace DAL
 
                             Orders order = new Orders();
 
-                            order.idOrders = (int)reader["idOrder"];
+                            order.IdOrders = (int)reader["idOrder"];
 
                             order.OrderTime = (DateTime)reader["orderTime"];
 
@@ -213,11 +265,11 @@ namespace DAL
 
                             order.TotalPrice = Convert.ToSingle(reader["totalPrice"]);
 
-                            order.FK_Customers = (int)reader["idCustomer"];
+                            order.IdCustomers = (int)reader["idCustomer"];
 
-                            order.FK_Staff = (int)reader["idEmployee"];
+                            order.IdEmployee = (int)reader["idEmployee"];
 
-                            order.FK_OrderStatus = (int)reader["idOrderStatus"];
+                            order.IdOrderStatus = (int)reader["idOrderStatus"];
 
                             orders.Add(order);
                         }
@@ -259,7 +311,7 @@ namespace DAL
 
               Orders result = new Orders();
 
-              result.idOrders = (int)dr["idOrder"];
+              result.IdOrders = (int)dr["idOrder"];
 
               result.OrderTime = (DateTime)dr["orderTime"];
 
@@ -267,11 +319,11 @@ namespace DAL
 
               result.TotalPrice = (float)dr["totalPrice"];
 
-              result.FK_Customers = (int)dr["idCustomer"];
+              result.IdCustomers = (int)dr["idCustomer"];
 
-              result.FK_Staff = (int)dr["idEmployee"];
+              result.IdEmployee = (int)dr["idEmployee"];
 
-              result.FK_OrderStatus = (int)dr["idOrderStatus"];
+              result.IdOrderStatus = (int)dr["idOrderStatus"];
 
               results.Add(result);
 
@@ -310,7 +362,7 @@ namespace DAL
 
               Orders result = new Orders();
 
-              result.idOrders = (int)dr["idOrder"];
+              result.IdOrders = (int)dr["idOrder"];
 
               result.OrderTime = (DateTime)dr["orderTime"];
 
@@ -318,11 +370,11 @@ namespace DAL
 
               result.TotalPrice = (float)dr["totalPrice"];
 
-              result.FK_Customers = (int)dr["idCustomer"];
+              result.IdCustomers = (int)dr["idCustomer"];
 
-              result.FK_Staff = (int)dr["idEmployee"];
+              result.IdEmployee = (int)dr["idEmployee"];
 
-              result.FK_OrderStatus = (int)dr["idOrderStatus"];
+              result.IdOrderStatus = (int)dr["idOrderStatus"];
 
               results.Add(result);
             }
@@ -359,7 +411,7 @@ namespace DAL
 
                             result = new Orders();
 
-                            result.idOrders = (int)reader["idOrder"];
+                            result.IdOrders = (int)reader["idOrder"];
 
                             result.OrderTime = (DateTime)reader["orderTime"];
 
@@ -367,11 +419,11 @@ namespace DAL
 
                             result.TotalPrice = Convert.ToSingle(reader["totalPrice"]);
 
-                            result.FK_Customers = (int)reader["idCustomer"];
+                            result.IdCustomers = (int)reader["idCustomer"];
 
-                            result.FK_Staff = (int)reader["idEmployee"];
+                            result.IdEmployee = (int)reader["idEmployee"];
 
-                            result.FK_OrderStatus = (int)reader["idOrderStatus"];
+                            result.IdOrderStatus = (int)reader["idOrderStatus"];
 
                         }
 
@@ -591,9 +643,9 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@orderTime", order.OrderTime);
                     cmd.Parameters.AddWithValue("@deliveryTime", order.DeliveryTime);
                     cmd.Parameters.AddWithValue("@totalPrice", order.TotalPrice);
-                    cmd.Parameters.AddWithValue("@idOrderStatus", order.FK_OrderStatus);
-                    cmd.Parameters.AddWithValue("@idEmployee", order.FK_Staff);
-                    cmd.Parameters.AddWithValue("@idCustomer", order.FK_Customers);
+                    cmd.Parameters.AddWithValue("@idOrderStatus", order.IdOrderStatus);
+                    cmd.Parameters.AddWithValue("@idEmployee", order.IdEmployee);
+                    cmd.Parameters.AddWithValue("@idCustomer", order.IdCustomers);
 
                     cn.Open();
 

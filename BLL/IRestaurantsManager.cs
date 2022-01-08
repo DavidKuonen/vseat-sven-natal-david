@@ -9,9 +9,9 @@ namespace BLL
         Restaurants GetRestaurantById(int idRestaurant);
         int DeleteRestaurant(int id);
         List<Restaurants> GetAllRestaurants();
-        List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant);
-        List<Restaurants> GetRestaurantsByDistrict(int idDistrict);
-        List<Restaurants> GetRestaurantsByName(string name);
-        List<Restaurants> GetRestaurantsByVillage(int idVillage);
+        //List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant);
+        //List<Restaurants> GetRestaurantsByDistrict(int idDistrict);
+        //List<Restaurants> GetRestaurantsByName(string name);
+        //List<Restaurants> GetRestaurantsByVillage(int idVillage);
     }
 }

@@ -1,5 +1,5 @@
-﻿
-@{    
+﻿<!-- Looks up the controller name and then returns the correct layout -->
+@{
     string CurrentControllerName = ViewContext.RouteData.Values["controller"].ToString();
     switch (CurrentControllerName)
     {

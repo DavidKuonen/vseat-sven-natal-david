@@ -1,6 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace BLL
@@ -14,27 +13,10 @@ namespace BLL
             this.RestaurantsDb = RestaurantsDb;
         }
 
-        //SQL Befehle der DAL Klasse
+        //SQL queries
         public List<Restaurants> GetAllRestaurants()
         {
             return RestaurantsDb.GetAllRestaurants();
-        }
-
-        public List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant)
-        {
-            return RestaurantsDb.GetRestaurantsByCategoryRestaurant(idCategoryRestaurant);
-        }
-        public List<Restaurants> GetRestaurantsByDistrict(int idDistrict)
-        {
-            return RestaurantsDb.GetRestaurantsByDistrict(idDistrict);
-        }
-        public List<Restaurants> GetRestaurantsByName(string name)
-        {
-            return RestaurantsDb.GetRestaurantsByName(name);
-        }
-        public List<Restaurants> GetRestaurantsByVillage(int idVillage)
-        {
-            return RestaurantsDb.GetRestaurantsByVillage(idVillage);
         }
 
         public Restaurants GetRestaurantById(int idRestaurant)
@@ -46,10 +28,10 @@ namespace BLL
         {
             return RestaurantsDb.AddRestaurant(restaurant);
         }
+
         public int DeleteRestaurant(int id)
         {
             return RestaurantsDb.DeleteRestaurant(id);
         }
-        //SQL Befehle bis hier
     }
 }

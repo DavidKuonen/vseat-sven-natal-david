@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
     public class OrderDetailsEmployee
     {
+        public int RestaurantId { get; set; }
+        public string RestaurantName { get; set; }
+        public string ResaurantAddress { get; set; }
+        public string RestaurantCity { get; set; }
+
+
         public string CustomerLastname { get; set; }
         public string CustomerFirstname { get; set; }
         public string CustomerAddress { get; set; }

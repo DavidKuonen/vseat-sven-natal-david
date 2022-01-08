@@ -15,6 +15,7 @@ img.navlogo {
 /* Provide sufficient contrast against white background */
 a, a:hover {
     color: #ff0000;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -109,10 +110,42 @@ a.nav-link {
     margin-right: 25px;
 }
 
-a.navbar-cart {
-    
+.btn-secondary {
+    background: none !important;
+    border: none;
 }
 
+.btn.btn-secondary.dropdown-toggle {
+    box-shadow: none;
+    padding: 0;
+}
+
+    .btn.btn-secondary.dropdown-toggle::before {
+        display: none;
+    }
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.btn.btn-secondary.dropdown-toggle:focus {
+    box-shadow: none;
+}
+
+.dropdown-menu {
+    font-size: 13px;
+}
+
+span.badge {
+    background-color: white;
+    color: red;
+    margin-left: -10px;
+    vertical-align: top;
+    border: 1px solid red;
+}
+
+/* ICON/BUTTON-STYLE
+-------------------------------------------------- */
 i.fa {
     background: #ff0000;
     color: #fff;
@@ -121,6 +154,7 @@ i.fa {
     text-decoration: none;
     border-radius: 5px;
     width: 35px;
+    height: 35px;
 }
 
 a#employee.details {
@@ -150,6 +184,7 @@ i#employee.fa {
     border: 1px solid #EEEEEE;
     padding: 20px;
 }
+
 .card {
     border-radius: 1rem;
     box-shadow: none;
@@ -162,7 +197,12 @@ i#employee.fa {
     font-size: 15px;
     font-weight: 500;
     color: black;
-    padding: 20px 15px;
+    padding: 10px 10px;
+    height: 50px;
+}
+
+#dropdown.form-control{
+
 }
 
 img.logo {
@@ -178,6 +218,8 @@ a.signup {
     color: #ff0000;
 }
 
+/* CARDS RESTAURANT/EMPLOYEE PAGE 
+-------------------------------------------------- */
 .card.mb-3 {
     height: 340px;
     width: 100%;
@@ -195,6 +237,8 @@ img.card-img-top {
     object-fit: cover;
 }
 
+/* TABLE STYLE
+-------------------------------------------------- */
 .table td{
     vertical-align: middle
 }
@@ -207,6 +251,8 @@ img.card-img-top {
     width: auto;
 }
 
+/* TIME PICKER
+-------------------------------------------------- */
 input.time {
     width: 50%;
     border: 1px solid #EEEEEE;
@@ -214,6 +260,8 @@ input.time {
     border-radius: 0.25rem;
 }
 
+/* CONFIRMATION PAGE
+-------------------------------------------------- */
 #confirmation.form-group {
     margin-top: 50px;
 }
@@ -226,6 +274,8 @@ table#dishes.table td, #dishes.table th {
     width: 16%;
 }
 
+/* THANK YOU PAGE
+-------------------------------------------------- */
 img#thankyou {
     width: 20%;
 }
@@ -244,6 +294,8 @@ table#thankyou {
     margin-right: auto;
 }
 
-input#Search{
+/* SEARCH BAR
+-------------------------------------------------- */
+input#search{
     margin-bottom: 50px;
 }

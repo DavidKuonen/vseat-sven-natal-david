@@ -5,14 +5,10 @@ namespace DAL
 {
     public interface ICustomersDB
     {
-        Customer AddCustomer(Customer customer);
-        
+        Customer AddCustomer(Customer customer);       
         List<Customer> GetAllCustomers();
-
-        Customer GetCustomerById(int idCustomer);
-
-        Customer GetCustomerByDistrict(int idDistrict);
-
+        Customer GetCustomerById(int idCustomer);  
+        void UpdateCustomer(Customer customer);
         Customer GetCustomer(string Email, string Password);
     }
 }

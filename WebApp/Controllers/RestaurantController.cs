@@ -1,32 +1,11 @@
 ﻿using BLL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public static class SessionExtensions
-    {
-        public static T GetComplexData<T>(this ISession session, string key)
-        {
-            var data = session.GetString(key);
-            if (data == null)
-            {
-                return default(T);
-            }
-            return JsonConvert.DeserializeObject<T>(data);
-        }
-
-        public static void SetComplexData(this ISession session, string key, object value)
-        {
-            session.SetString(key, JsonConvert.SerializeObject(value));
-        }
-    }
 
     public class RestaurantController : Controller
     {
@@ -47,92 +26,108 @@ namespace WebApp.Controllers
             this.CategoryDishesManager = CategoryDishesManager;
         }
 
-        //public static Models.Session SessionExtensions = new();
-        public static List<Models.ShoppingCartVM> shoppingCartList = new();
+        //Creates a static list for the shopping cart
+        public static List<Models.ShoppingCartVM> ShoppingCartList = new();
 
         public ActionResult Index()
         {
+            //Checks if a session exists, if not back to login page
             if (HttpContext.Session.GetInt32("_IdCustomer") == null)
             {
-                return RedirectToAction("index", "Login");
+                return RedirectToAction("Index", "Login");
             }
 
-            List<Models.RestaurantVM> restaurants = new List<Models.RestaurantVM>();
+            //Creates a list from the restaurant view model
+            List<Models.RestaurantVM> Restaurants = new();
 
             for (int i = 0; i < RestaurantsManager.GetAllRestaurants().Count; i++)
             {
-                Models.RestaurantVM restaurant = new()
-                { 
-                    RestaurantId = RestaurantsManager.GetAllRestaurants()[i].idRestaurant,
-                    RestaurantName = RestaurantsManager.GetAllRestaurants()[i].name,
-                    ResaurantAddress = RestaurantsManager.GetAllRestaurants()[i].address,
-                    RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetAllRestaurants()[i].idVillage).name,
-                    RestaurantDistrict = DistrictsManager.GetDistrictsById(RestaurantsManager.GetAllRestaurants()[i].idDistrict).name,
-                    RestaurantCategory = CategoryRestaurantsManager.GetCategoryRestaurantsById(RestaurantsManager.GetAllRestaurants()[i].idCategoryRestaurant).name,
+                //Creates a RestaurantVM object and fills the setters with values. For this it iterates through a list of all restaurants
+                Models.RestaurantVM Restaurant = new()
+                {
+                    RestaurantId = RestaurantsManager.GetAllRestaurants()[i].IdRestaurant,
+                    RestaurantName = RestaurantsManager.GetAllRestaurants()[i].Name,
+                    ResaurantAddress = RestaurantsManager.GetAllRestaurants()[i].Address,
+                    RestaurantCity = VillagesManager.GetVillagesById(RestaurantsManager.GetAllRestaurants()[i].IdVillage).Name,
+                    RestaurantDistrict = DistrictsManager.GetDistrictsById(RestaurantsManager.GetAllRestaurants()[i].IdDistrict).Name,
+                    RestaurantCategory = CategoryRestaurantsManager.GetCategoryRestaurantsById(RestaurantsManager.GetAllRestaurants()[i].IdCategoryRestaurant).Name,
                     RestaurantImage = RestaurantsManager.GetAllRestaurants()[i].RestaurantImage
                 };
-                restaurants.Add(restaurant);
+                Restaurants.Add(Restaurant);
             }
 
-            return View(restaurants);
+            return View(Restaurants);
         }
 
-        public ActionResult Dishes(int idRestaurant)
+        public ActionResult Dishes(int IdRestaurant)
         {
+            //Checks if a session exists, if not back to login page
             if (HttpContext.Session.GetInt32("_IdCustomer") == null)
             {
-                return RedirectToAction("index", "Login");
+                return RedirectToAction("Index", "Login");
             }
 
-            List<Models.DishVM> dishVM = new List<Models.DishVM>();
+            //Creates a list of the dish view model
+            List<Models.DishVM> DishVM = new();
 
-            for (int i = 0; i < DishesManager.GetDishesByRestaurantId(idRestaurant).Count; i++)
+            for (int i = 0; i < DishesManager.GetDishesByRestaurantId(IdRestaurant).Count; i++)
             {
-                Models.DishVM dish = new()
+                Models.DishVM Dish = new()
                 {
-                    DishImage = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].Image,
-                    DishId = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].idDishes,
-                    DishName = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].name,
-                    DishPrice = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].price,
-                    DishCalories = DishesManager.GetDishesByRestaurantId(idRestaurant)[i].calories,
-                    DishCategory = CategoryDishesManager.GetCategoryById(DishesManager.GetDishesByRestaurantId(idRestaurant)[i].FK_CategoryDishes).name,
-                    RestaurantId = idRestaurant
+                    DishImage = DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].Image,
+                    DishId = DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].IdDishes,
+                    DishName = DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].Name,
+                    DishPrice = DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].Price,
+                    DishCalories = DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].Calories,
+                    DishCategory = CategoryDishesManager.GetCategoryById(DishesManager.GetDishesByRestaurantId(IdRestaurant)[i].IdCategoryDishes).Name,
+                    RestaurantId = IdRestaurant
                 };
-                dishVM.Add(dish);
+                DishVM.Add(Dish);
             }
 
-            return View(dishVM);
+            return View(DishVM);
         }
 
         [HttpPost]
-        public ActionResult Dishes(DishVM dishVM)
+        public ActionResult Dishes(DishVM DishVM)
         {
-            List<ShoppingCartVM> newList = HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List");
+            //Get the list from the session
+            List<ShoppingCartVM> NewCartList = HttpContext.Session.GetComplexData<List<ShoppingCartVM>>("_List");
 
-            var cart = new Models.ShoppingCartVM
+            //Saves the passed dishVM parameter into an object of type ShoppingCartViewModel
+            var Cart = new Models.ShoppingCartVM
             {
-                DishQuantity = dishVM.DishQuantity,
-                DishId = dishVM.DishId,
-                DishName = dishVM.DishName,
-                Price = dishVM.DishPrice,
-                PriceDishTotal = dishVM.DishQuantity * dishVM.DishPrice,
-                CustomerId = 1,
-                RestaurantId = dishVM.RestaurantId
+                DishQuantity = DishVM.DishQuantity,
+                DishId = DishVM.DishId,
+                DishName = DishVM.DishName,
+                Price = DishVM.DishPrice,
+                PriceDishTotal = DishVM.DishQuantity * DishVM.DishPrice,
+                CustomerId = (int)HttpContext.Session.GetInt32("_IdCustomer"),
+                RestaurantId = DishVM.RestaurantId
             };
-            
-            if (newList == null)
+
+            //Checks if the Session List is null, if it is, then the contents of the ShoppingCartList are deleted.
+            //This is how an error message does not occur
+            //If the SessionList is not null the shoppingCartList takes over the content of the list of the session
+            //So both lists are on the same level
+            if (NewCartList == null)
             {
-                shoppingCartList.Clear();
+                ShoppingCartList.Clear();
             }
-            else if(newList != shoppingCartList)
+            else if (NewCartList != ShoppingCartList)
             {
-                shoppingCartList = newList;
+                ShoppingCartList = NewCartList;
             }
 
-            shoppingCartList.Add(cart);
-            HttpContext.Session.SetComplexData("_List", shoppingCartList);
+            //Dish is added to the shopping cart
+            ShoppingCartList.Add(Cart);
+            //List is passed to the session
+            HttpContext.Session.SetComplexData("_List", ShoppingCartList);
+            //List number is passed to the session, so that you can see in the navigation how much is in the shopping cart
+            HttpContext.Session.SetInt32("_CountList", ShoppingCartList.Count);
 
-            return RedirectToAction("Dishes", new { idRestaurant = dishVM.RestaurantId});
+            //Redirection to the same page
+            return RedirectToAction("Dishes", new { IdRestaurant = DishVM.RestaurantId });
         }
     }
 }

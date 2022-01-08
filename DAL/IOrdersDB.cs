@@ -17,6 +17,7 @@ namespace DAL
     void DeleteOrder(int idOrder);
     int GetOrderIdByCustomerId(int idCustomer, int idEmployee);
     List<Orders> GetOpenOrdersCustomer(int idCustomer);
+    List<Orders> GetPastOrdersCustomer(int idCustomer);
     int GetOrdersNotDelivered(int idEmployee, DateTime DeliveryTime);
     public int GetLastID();
     List<Orders> GetOpenOrdersEmployee(int id);

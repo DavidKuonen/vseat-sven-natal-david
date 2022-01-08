@@ -16,7 +16,7 @@
                             Name
                         </th>
                         <td>
-                            @Html.DisplayFor(model => model.personalDetails.NameCustomer)
+                            @Html.DisplayFor(model => model.PersonalDetails.NameCustomer)
                         </td>
                     </tr>
                     <tr>
@@ -24,7 +24,7 @@
                             Address
                         </th>
                         <td>
-                            @Html.DisplayFor(model => model.personalDetails.AddressCustomer)
+                            @Html.DisplayFor(model => model.PersonalDetails.AddressCustomer)
                         </td>
                     </tr>
                     <tr>
@@ -32,7 +32,7 @@
                             City
                         </th>
                         <td>
-                            @Html.DisplayFor(model => model.personalDetails.CityCustomer)
+                            @Html.DisplayFor(model => model.PersonalDetails.CityCustomer)
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                             District
                         </th>
                         <td>
-                            @Html.DisplayFor(model => model.personalDetails.DistrictCustomer)
+                            @Html.DisplayFor(model => model.PersonalDetails.DistrictCustomer)
                         </td>
                     </tr>
                 </tbody>
@@ -61,7 +61,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.shoppingCartVMs)
+                    @foreach (var item in Model.ShoppingCartVMs)
                     {
                         <tr>
 
@@ -87,7 +87,7 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group" id="confirmation">
             <label for="time" class="control-label">Choose the delivery time</label><br />
-            <input type="time" id="deliveryTime" name="DeliveryTime" class="time" />
+            <input type="time" id="deliveryTime" name="DeliveryTime" class="time" required oninvalid="this.setCustomValidity('Please Enter a delivery time')" oninput="this.setCustomValidity('')" />
             <input type="submit" value="Order" class="btn btn-primary" id="btnconfirmation" />
         </div>
     </form>

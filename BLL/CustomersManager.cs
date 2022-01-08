@@ -1,7 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 
 namespace BLL
@@ -15,7 +13,7 @@ namespace BLL
             this.CustomersDB = CustomersDB;
         }
 
-        //SQL Befehle der DAL Klasse
+        //SQL queries
         public Customer GetCustomers(string Email, string Password)
         {
             return CustomersDB.GetCustomer(Email, Password);
@@ -35,6 +33,10 @@ namespace BLL
         {
             return CustomersDB.AddCustomer(customer);
         }
-        //SQL Befehle bis hier
+
+        public void UpdateCustomer(Customer customer)
+        {
+            CustomersDB.UpdateCustomer(customer);
+        }
     }
 }

@@ -8,6 +8,6 @@ namespace DAL
         List<Villages> GetAllVillages();
         Villages GetVillageById(int idVillage);
         Villages GetVillageByName(string Village);
-        List<Villages> GetVillagesByDistrict(int idDistrict);
+        //List<Villages> GetVillagesByDistrict(int idDistrict);
     }
 }

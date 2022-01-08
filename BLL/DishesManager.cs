@@ -18,7 +18,7 @@ namespace BLL
             this.DishesDb = DishesDb;
         }
 
-        //SQL Befehle der DAL Klasse werden untenstehend geholt
+        //SQL queries
         public List<Dishes> GetAllDishes()
         {
             return DishesDb.GetAllDishes();
@@ -33,12 +33,5 @@ namespace BLL
         {
             return DishesDb.GetDishesById(idDish);
         }
-
-        public Dishes GetDishesByName(string name)
-        {
-            return DishesDb.GetDishesByName(name);
-        }
-        //SQL Befehle bis hier
-
     }
 }

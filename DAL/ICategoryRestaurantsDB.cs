@@ -5,8 +5,7 @@ namespace DAL
 {
     public interface ICategoryRestaurantsDB
     {
-        List<CategoryRestaurants> GetAllCategoryRestaurants();
-
+        //List<CategoryRestaurants> GetAllCategoryRestaurants();
         CategoryRestaurants GetCategoryRestaurantsById(int id);
     }
 }

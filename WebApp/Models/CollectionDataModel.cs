@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WebApp.Models
 {
     public class CollectionDataModel
     {
-        public PersonalDetails personalDetails { get; set; }
-        public List<ShoppingCartVM> shoppingCartVMs { get; set; }
+        public PersonalDetails PersonalDetails { get; set; }
+        public List<ShoppingCartVM> ShoppingCartVMs { get; set; }
     }
 }

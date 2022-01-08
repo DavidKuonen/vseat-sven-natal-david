@@ -75,7 +75,7 @@ namespace DAL
             return allEmployees;
         }
 
-        public Employee GetEmployeeByDistrict(int idDistrict)
+        public Employee GetEmployeeById(int idEmployee)
         {
             Employee employee = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -84,9 +84,9 @@ namespace DAL
             {
                 using (SqlConnection sqlConn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Employees WHERE idDistrict = @idDistrict";
+                    string query = "SELECT * FROM Employees WHERE idEmployee = @idEmployee";
                     SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
+                    cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
 
                     sqlConn.Open();
 
@@ -116,43 +116,6 @@ namespace DAL
                             employee.IdDistrict = (int)reader["idDistrict"];
 
                             employee.IdUserRole = (int)reader["idUserRole"];
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return employee;
-        }
-
-        public Employee GetEmployeeByDistrictAndIsFree(int idDistrict)
-        {
-            Employee employee = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection sqlConn = new SqlConnection(connectionString))
-                {
-                    string query = "Select TOP 1 idEmployee from Employees WHERE idDistrict=@idDistrict ORDER BY idEmployee ASC";
-                    SqlCommand cmd = new SqlCommand(query, sqlConn);
-                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
-                    cmd.Parameters.AddWithValue("@number", 5);
-
-                    sqlConn.Open();
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            employee = new Employee();
-
-                            employee.IdEmployee = (int)reader["idEmployee"];
-
-             
                         }
                     }
                 }
@@ -242,7 +205,6 @@ namespace DAL
             {
                 throw;
             }
-
         }
 
         public Employee AddEmployee(Employee employee)

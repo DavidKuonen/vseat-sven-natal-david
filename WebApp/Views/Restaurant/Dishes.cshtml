@@ -32,6 +32,7 @@
             {
                 <tr>
                     <td>
+                        <!-- Fetches the image from the database and displays it -->
                         <img src="~/images/@Html.DisplayFor(modelItem => item.DishImage)" width="150" />
                     </td>
                     <td>
@@ -48,6 +49,7 @@
                     </td>
                     <td>
                         <form asp-action="Dishes">
+                            <!-- Dropdown selection for the number of dishes -->
                             <select name="DishQuantity" id="DishQuantity">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -55,10 +57,12 @@
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
+                            <!-- input elements are not displayed -->
                             <input value="@Html.DisplayFor(modelItem => item.DishId)" name="DishId" type="hidden" />
                             <input value="@Html.DisplayFor(modelItem => item.RestaurantId)" name="RestaurantId" type="hidden" />
                             <input value="@Html.DisplayFor(modelItem => item.DishName)" name="DishName" type="hidden" />
                             <input value="@Html.DisplayFor(modelItem => item.DishPrice)" name="DishPrice" type="hidden" />
+                            <!-- Button to add a shopping cart entry -->
                             <button style="font-size:15px" class="btn btn-primary table"><i class="fa fa-cart-plus"></i></button>
                         </form>
                     </td>

@@ -1,11 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
@@ -18,21 +12,10 @@ namespace BLL
             this.CategoryDishesDb = CategoryDishesDb;
         }
 
-
-        //SQL Befehle der DAL Klasse
-        public List<CategoryDishes> GetAllCategoryDishes()
-        {
-            return CategoryDishesDb.GetAllCategoryDishes();
-        }
-
+        //SQL queries
         public CategoryDishes GetCategoryById(int id)
         {
             return CategoryDishesDb.GetCategoryById(id);
-        }
-
-        public CategoryDishes GetCategoryDishesByName(string name)
-        {
-            return CategoryDishesDb.GetCategoryDishesByName(name);
         }
     }
 }

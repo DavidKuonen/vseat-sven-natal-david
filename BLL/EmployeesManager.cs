@@ -1,6 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -10,11 +9,7 @@ namespace BLL
     {
         private IEmployeesDB EmployeesDB { get; }
         private IOrdersDB OrdersDB { get; }
-        private ICustomersDB CustomersDB { get; }
-        private IOrder_DishesDB Order_DishesDB { get; }
-        private IDishesDB DishesDB { get; }
         private IRestaurantsDB RestaurantsDB { get; }
-        private IVillagesDB VillagesDB { get; }
 
         public EmployeesManager(IEmployeesDB EmployeesDB, IOrdersDB OrdersDB, IRestaurantsDB RestaurantsDB)
         {
@@ -23,7 +18,7 @@ namespace BLL
             this.RestaurantsDB = RestaurantsDB;
         }
 
-        //SQL Befehle der DAL Klasse
+        //SQL queries
         public Employee AddEmployee(Employee employee)
         {
             return EmployeesDB.AddEmployee(employee);
@@ -34,19 +29,9 @@ namespace BLL
             return EmployeesDB.GetAllEmployees();
         }
 
-        public Employee GetEmployeeByDistrict(int idDistrict)
-        {
-            return EmployeesDB.GetEmployeeByDistrict(idDistrict);
-        }
-
         public Employee GetEmployee(string email, string password)
         {
             return EmployeesDB.GetEmployee(email, password);
-        }
-
-        public Employee GetEmployeeByDistrictAndIsFree(int idDistrict)
-        {
-            return EmployeesDB.GetEmployeeByDistrictAndIsFree(idDistrict);
         }
 
         public void UpdateOpenOrders(int EmployeeId)
@@ -55,19 +40,27 @@ namespace BLL
         }
 
 
-        //Logik über mehrere DB
+        //SQL logic across multiple databases and DALs
         public int GetTheRightEmployee(int idRestaurant, DateTime DeliveryTime)
         {
-            int districtRestaurant = RestaurantsDB.GetRestaurantById(idRestaurant).idDistrict;
+            //Get the Restaurant District Id
+            int districtRestaurant = RestaurantsDB.GetRestaurantById(idRestaurant).IdDistrict;
 
+            //Goes through all employees
             for (int i = 0; i < GetAllEmployees().Count; i++)
             {
+                //See if the employee is in the same district as the restaurant
                 if (districtRestaurant == GetAllEmployees()[i].IdDistrict)
                 {
                     int id = GetAllEmployees()[i].IdEmployee;
+
+                    //Looks how many orders the Employees has in the next 30min
                     int number = OrdersDB.GetOrdersNotDelivered(id, DeliveryTime);
+
+                    //If it's less than with give back the id of the Employee
                     if (number < 5)
                     {
+                        //Update the OpenOrders counter of the employee
                         UpdateOpenOrders(id);
                         return id;
                     }

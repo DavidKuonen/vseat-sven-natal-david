@@ -14,12 +14,7 @@ namespace BLL
             this.VillagesDb = VillagesDb;
         }
 
-        //SQL Befehle der DAL Klasse
-        public List<Villages> GetAllVillages()
-        {
-            return VillagesDb.GetAllVillages();
-        }
-
+        //SQL queries
         public Villages GetVillagesById(int id)
         {
             return VillagesDb.GetVillageById(id);
@@ -30,10 +25,9 @@ namespace BLL
             return VillagesDb.GetVillageByName(Village);
         }
 
-        public List<Villages> GetVillagesByDistrict(int idDistrict)
+        public List<Villages> GetAllVillages()
         {
-            return VillagesDb.GetVillagesByDistrict(idDistrict);
+            return VillagesDb.GetAllVillages();
         }
-        //SQL Befehle bis hier
     }
 }

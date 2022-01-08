@@ -1,17 +1,9 @@
-﻿@model IEnumerable<WebApp.Models.RestaurantVM>
+﻿@model IEnumerable<WebApp.Models.OrderDetailsEmployee>
 
 @{
     ViewData["Title"] = "Driver";
 }
 
-@if(Model == null)
-{
-<div class="card mb-3" id="employee">
-    <div class="card-body">
-        <p>no orders open at the moment</p>
-    </div>
-</div>
-}
 
 @foreach (var item in Model)
 {
@@ -19,14 +11,17 @@
     <div class="card-body">
         <div class="row">
             <div class="col-11">
-
                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.RestaurantName)</h5>
                 <p class="card-text">@Html.DisplayFor(modelItem => item.ResaurantAddress)
                 <br />
-                @Html.DisplayFor(modelItem => item.RestaurantCity) </p>
+                @Html.DisplayFor(modelItem => item.RestaurantCity)
+                <br />
+                <br />
+                @item.DeliveryTime.ToString("g")
+                </p>
             </div>
-            <div class="col-1" style="margin-top: 22px">
-                <a href="@Url.Action("Details", new { idOrder = item.OrderID })"><i class="fa fa-info" style="margin-left: 15px;"></i></a>
+            <div class="col-1" style="margin-top: 40px">
+                <a href="@Url.Action("Details", new { IdOrder = item.OrderId})"><i class="fa fa-info" style="margin-left: 15px;"></i></a>
             </div>
         </div>
     </div>

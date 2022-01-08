@@ -9,5 +9,6 @@ namespace BLL
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int idCustomer);
         Customer GetCustomers(string Email, string Password);
+        void UpdateCustomer(Customer customer);
     }
 }

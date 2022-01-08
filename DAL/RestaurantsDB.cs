@@ -38,20 +38,20 @@ namespace DAL
 
                             Restaurants Restaurant = new Restaurants();
 
-                            Restaurant.idRestaurant = (int)dr["idRestaurant"];
+                            Restaurant.IdRestaurant = (int)dr["idRestaurant"];
 
-                            Restaurant.name = (string)dr["name"];
+                            Restaurant.Name = (string)dr["name"];
 
-                            Restaurant.address = (string)dr["address"];
+                            Restaurant.Address = (string)dr["address"];
 
                             if (dr["phoneNumber"] != null)
-                                Restaurant.phoneNumber = (string)dr["phoneNumber"];
+                                Restaurant.PhoneNumber = (string)dr["phoneNumber"];
 
-                            Restaurant.idVillage = (int)dr["idVillage"];
+                            Restaurant.IdVillage = (int)dr["idVillage"];
 
-                            Restaurant.idDistrict = (int)dr["idDistrict"];
+                            Restaurant.IdDistrict = (int)dr["idDistrict"];
 
-                            Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
+                            Restaurant.IdCategoryRestaurant = (int)dr["idCategoryRestaurant"];
 
                             Restaurant.RestaurantImage = (string)dr["image"];
 
@@ -90,22 +90,22 @@ namespace DAL
                         {
                             restaurant = new Restaurants();
 
-                            restaurant.idRestaurant = (int)reader["idRestaurant"];
+                            restaurant.IdRestaurant = (int)reader["idRestaurant"];
 
                             if (reader["name"] != null)
-                                restaurant.name = (string)reader["name"];
+                                restaurant.Name = (string)reader["name"];
 
                             if (reader["address"] != null)
-                                restaurant.address = (string)reader["address"];
+                                restaurant.Address = (string)reader["address"];
 
                             if (reader["phoneNumber"] != null)
-                                restaurant.phoneNumber = (string)reader["phoneNumber"];
+                                restaurant.PhoneNumber = (string)reader["phoneNumber"];
 
-                            restaurant.idVillage = (int)reader["idVillage"];
+                            restaurant.IdVillage = (int)reader["idVillage"];
 
-                            restaurant.idDistrict = (int)reader["idDistrict"];
+                            restaurant.IdDistrict = (int)reader["idDistrict"];
 
-                            restaurant.idCategoryRestaurant = (int)reader["idCategoryRestaurant"];
+                            restaurant.IdCategoryRestaurant = (int)reader["idCategoryRestaurant"];
                         }
                     }
                 }
@@ -118,219 +118,11 @@ namespace DAL
             return restaurant;
         }
 
-        public List<Restaurants> GetRestaurantsByName(string name)
-        {
-            List<Restaurants> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Restaurants where name = @name";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@name", name);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (results == null)
-                                results = new List<Restaurants>();
-
-                            Restaurants Restaurant = new Restaurants();
-
-                            Restaurant.idRestaurant = (int)dr["idRestaurant"];
-
-                            Restaurant.name = (string)dr["name"];
-
-                            Restaurant.address = (string)dr["address"];
-
-                            if (dr["phoneNumber"] != null)
-                                Restaurant.phoneNumber = (string)dr["phoneNumber"];
-
-                            Restaurant.idVillage = (int)dr["idVillage"];
-
-                            Restaurant.idDistrict = (int)dr["idDistrict"];
-
-                            Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
-
-                            results.Add(Restaurant);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
-        }
-
-        public List<Restaurants> GetRestaurantsByVillage(int idVillage)
-        {
-            List<Restaurants> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Restaurants where idVillage = @idVillage";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idVillage", idVillage);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (results == null)
-                                results = new List<Restaurants>();
-
-                            Restaurants Restaurant = new Restaurants();
-
-                            Restaurant.idRestaurant = (int)dr["idRestaurant"];
-
-                            Restaurant.name = (string)dr["name"];
-
-                            Restaurant.address = (string)dr["address"];
-
-                            if (dr["phoneNumber"] != null)
-                                Restaurant.phoneNumber = (string)dr["phoneNumber"];
-
-                            Restaurant.idVillage = (int)dr["idVillage"];
-
-                            Restaurant.idDistrict = (int)dr["idDistrict"];
-
-                            Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
-
-                            results.Add(Restaurant);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
-        }
-
-        public List<Restaurants> GetRestaurantsByDistrict(int idDistrict)
-        {
-            List<Restaurants> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Restaurants where idDistrict = @idDistrict";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (results == null)
-                                results = new List<Restaurants>();
-
-                            Restaurants Restaurant = new Restaurants();
-
-                            Restaurant.idRestaurant = (int)dr["idRestaurant"];
-
-                            Restaurant.name = (string)dr["name"];
-
-                            Restaurant.address = (string)dr["address"];
-
-                            if (dr["phoneNumber"] != null)
-                                Restaurant.phoneNumber = (string)dr["phoneNumber"];
-
-                            Restaurant.idVillage = (int)dr["idVillage"];
-
-                            Restaurant.idDistrict = (int)dr["idDistrict"];
-
-                            Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
-
-                            results.Add(Restaurant);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
-        }
-
-        public List<Restaurants> GetRestaurantsByCategoryRestaurant(int idCategoryRestaurant)
-        {
-            List<Restaurants> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Restaurants where idCategoryRestaurant = @idCategoryRestaurant";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idCategoryRestaurant", idCategoryRestaurant);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (results == null)
-                                results = new List<Restaurants>();
-
-                            Restaurants Restaurant = new Restaurants();
-
-                            Restaurant.idRestaurant = (int)dr["idRestaurant"];
-
-                            Restaurant.name = (string)dr["name"];
-
-                            Restaurant.address = (string)dr["address"];
-
-                            if (dr["phoneNumber"] != null)
-                                Restaurant.phoneNumber = (string)dr["phoneNumber"];
-
-                            Restaurant.idVillage = (int)dr["idVillage"];
-
-                            Restaurant.idDistrict = (int)dr["idDistrict"];
-
-                            Restaurant.idCategoryRestaurant = (int)dr["idCategoryRestaurant"];
-
-                            results.Add(Restaurant);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
-        }
-
         public Restaurants AddRestaurant(Restaurants restaurant)
         {
             int results = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            
+
 
             try
             {
@@ -339,13 +131,13 @@ namespace DAL
                     string query = "Insert into Restaurants(name, address, phoneNumber, idVillage, idDistrict, idCategoryRestaurant)" +
                                    "values (@name, @address, @phoneNumber, @idVillage, @idDistrict, @idCategoryRestaurant) ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                 
-                    cmd.Parameters.AddWithValue("@name", restaurant.name);
-                    cmd.Parameters.AddWithValue("@address", restaurant.address);
-                    cmd.Parameters.AddWithValue("@phoneNumber", restaurant.phoneNumber);
-                    cmd.Parameters.AddWithValue("@idVillage", restaurant.idVillage);
-                    cmd.Parameters.AddWithValue("@idDistrict", restaurant.idDistrict);
-                    cmd.Parameters.AddWithValue("@idCategoryRestaurant", restaurant.idCategoryRestaurant);
+
+                    cmd.Parameters.AddWithValue("@name", restaurant.Name);
+                    cmd.Parameters.AddWithValue("@address", restaurant.Address);
+                    cmd.Parameters.AddWithValue("@phoneNumber", restaurant.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@idVillage", restaurant.IdVillage);
+                    cmd.Parameters.AddWithValue("@idDistrict", restaurant.IdDistrict);
+                    cmd.Parameters.AddWithValue("@idCategoryRestaurant", restaurant.IdCategoryRestaurant);
                     cn.Open();
 
                     results = cmd.ExecuteNonQuery();

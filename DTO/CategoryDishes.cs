@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DTO
+﻿namespace DTO
 {
-  public class CategoryDishes
-  {
-    public int idCategorie { get; set; }
-    public string name { get; set; }
-
-    public override string ToString()
+    public class CategoryDishes
     {
-      return "idCategorie " + idCategorie +
-        "name" + name;
+        public int IdCategorie { get; set; }
+        public string Name { get; set; }
     }
-
-  }
 }

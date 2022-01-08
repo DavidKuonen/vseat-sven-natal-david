@@ -1,7 +1,5 @@
 ﻿using DAL;
 using DTO;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 
 namespace BLL
 {
@@ -14,16 +12,10 @@ namespace BLL
             this.DistrictsDb = DistrictsDb;
         }
 
-        //SQL Befehle der DAL Klasse
-        public List<Districts> GetAllDistricts()
-        {
-            return DistrictsDb.GetAllDistricts();
-        }
-
+        //SQL queries
         public Districts GetDistrictsById(int id)
         {
             return DistrictsDb.GetDistrictsById(id);
         }
-        //SQL Befehle bis hier
     }
 }

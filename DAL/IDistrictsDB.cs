@@ -5,7 +5,6 @@ namespace DAL
 {
     public interface IDistrictsDB
     {
-        List<Districts> GetAllDistricts();
         Districts GetDistrictsById(int id);
     }
 }

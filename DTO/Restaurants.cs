@@ -1,33 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DTO
+﻿namespace DTO
 {
     public class Restaurants
     {
-        public int idRestaurant { get; set; }
-        public string name { get; set; }
-        public string address { get; set; }
-        public string phoneNumber { get; set; }
-        public int idVillage { get; set; }
-        public int idDistrict { get; set; }
-        public int idCategoryRestaurant { get; set; }
+        public int IdRestaurant { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public int IdVillage { get; set; }
+        public int IdDistrict { get; set; }
+        public int IdCategoryRestaurant { get; set; }
         public string RestaurantImage { get; set; }
-            
-
-
-        public override string ToString()
-        {
-            return "idRestaurant: " + idRestaurant +
-                   " name: " + name +
-                   " adress: " + address +
-                   " phoneNumber: " + phoneNumber +
-                   " idVillage: " + idVillage +
-                   " idDistrict: " + idDistrict + 
-                   " idCategoryRestaurant: " + idCategoryRestaurant;
-        }
     }
 }

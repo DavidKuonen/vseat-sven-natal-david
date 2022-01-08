@@ -9,9 +9,10 @@ namespace BLL
         Employee AddEmployee(Employee employee);
         List<Employee> GetAllEmployees();
         Employee GetEmployee(string email, string password);
-        Employee GetEmployeeByDistrict(int idDistrict);
+        //Employee GetEmployeeByDistrict(int idDistrict);
+        //Employee GetEmployeeById(int idEmployee);
         int GetTheRightEmployee(int idRestaurant, DateTime DeliveryTime);
-        Employee GetEmployeeByDistrictAndIsFree(int idDistrict);
+        //Employee GetEmployeeByDistrictAndIsFree(int idDistrict);
         void UpdateOpenOrders(int EmployeeId);
     }
 }

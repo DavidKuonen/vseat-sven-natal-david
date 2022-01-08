@@ -39,13 +39,13 @@ namespace DAL
 
                             Villages village = new Villages();
 
-                            village.idVillage = (int)dr["idVillage"];
+                            village.IdVillage = (int)dr["idVillage"];
 
-                            village.postalCode = (int)dr["postalCode"];
+                            village.PostalCode = (int)dr["postalCode"];
 
-                            village.name = (string)dr["name"];
+                            village.Name = (string)dr["name"];
 
-                            village.idDistrict = (int)dr["idDistrict"];
+                            village.IdDistrict = (int)dr["idDistrict"];
 
                             results.Add(village);
                         }
@@ -82,13 +82,13 @@ namespace DAL
                         {
                             village = new Villages();
 
-                            village.idVillage = (int)reader["idVillage"];
+                            village.IdVillage = (int)reader["idVillage"];
 
-                            village.postalCode = (int)reader["postalCode"];
+                            village.PostalCode = (int)reader["postalCode"];
 
-                            village.name = (string)reader["name"];
+                            village.Name = (string)reader["name"];
 
-                            village.idDistrict = (int)reader["idDistrict"];
+                            village.IdDistrict = (int)reader["idDistrict"];
                         }
                     }
                 }
@@ -123,13 +123,13 @@ namespace DAL
                         {
                             village = new Villages();
 
-                            village.idVillage = (int)reader["idVillage"];
+                            village.IdVillage = (int)reader["idVillage"];
 
-                            village.postalCode = (int)reader["postalCode"];
+                            village.PostalCode = (int)reader["postalCode"];
 
-                            village.name = (string)reader["name"];
+                            village.Name = (string)reader["name"];
 
-                            village.idDistrict = (int)reader["idDistrict"];
+                            village.IdDistrict = (int)reader["idDistrict"];
                         }
                     }
                 }
@@ -140,51 +140,6 @@ namespace DAL
             }
 
             return village;
-        }
-
-        public List<Villages> GetVillagesByDistrict(int idDistrict)
-        {
-            List<Villages> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Villages where idDistrict = @idDistrict";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idDistrict", idDistrict);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (results == null)
-                                results = new List<Villages>();
-
-                            Villages village = new Villages();
-
-                            village.idVillage = (int)dr["idVillage"];
-
-                            village.postalCode = (int)dr["postalCode"];
-
-                            village.name = (string)dr["name"];
-
-                            village.idDistrict = (int)dr["idDistrict"];
-
-                            results.Add(village);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
         }
     }
 }
