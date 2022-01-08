@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -42,6 +43,7 @@ namespace WebApp.Controllers
 
             //Creates a list that contains all open orders of the logged in employee
             List<Orders> Orders = OrdersManager.GetOpenOrdersEmployee(IdEmployee);
+            Orders.OrderBy(x => x.DeliveryTime).ToList();
 
             //If the employee has no open orders, the empty list is simply transferred
             if (Orders == null)
